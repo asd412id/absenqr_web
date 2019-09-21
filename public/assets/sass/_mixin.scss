@@ -1,0 +1,60 @@
+@mixin setfont($font:'light') {
+  @if $font == 'bold' {
+    font-family: 'SF UI Display Bold',sans-serif;
+    font-weight: bold;
+  }@else{
+    font-family: 'SF UI Display Light',sans-serif;
+    font-weight: lighter;
+  }
+}
+@mixin mobile {
+    @media screen and (max-width: 950px){
+        @content;
+    }
+}
+@mixin desktop {
+    @media screen and (min-width: 951px){
+        @content;
+    }
+}
+@mixin animate($animate...) {
+    -moz-transition: $animate;
+    -o-transition: $animate;
+    -webkit-transition: $animate;
+    transition: $animate;
+}
+@mixin transform($transform...) {
+    -moz-transform: $transform;
+    -o-transform: $transform;
+    -webkit-transform: $transform;
+    transform: $transform;
+}
+@mixin hover {
+    &:hover,&:focus{
+        @content;
+    }
+}
+@mixin valign {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+@mixin wp_icon ($content:'',$family:dashicons) {
+  & > h3.accordion-section-title:before{
+    content: $content;
+    font-family: $family;
+    position: relative;
+    padding: 3px;
+    @if $family==FontAwesome {
+      font-size: 17px;
+      top: 2px;
+    }@else{
+      font-size: 20px;
+      top: 5px;
+    }
+    @content;
+  }
+}
