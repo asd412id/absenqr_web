@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{ asset('assets/vendor/datetimepicker/css/datetimepicker.min.css') }}">
 @endsection
 @section('head_icon')
-  <i class="ik ik-users bg-green"></i>
+  <i class="fas fa-user-tie bg-green"></i>
 @endsection
 @section('head_title',$title)
 @section('head_desc',($data->nip?$data->nip.' - ':'').$data->nama)
