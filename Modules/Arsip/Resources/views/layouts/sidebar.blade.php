@@ -1,6 +1,6 @@
 <div class="app-sidebar colored">
   <div class="sidebar-header">
-    <a class="header-brand" href="index.html">
+    <a class="header-brand" href="{{ route('arsip.index') }}">
       <div class="logo-img">
         <img src="{{ asset('assets/img/sinjai.png') }}" class="header-brand-img" alt="" style="width: 100%">
       </div>
