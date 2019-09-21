@@ -8,7 +8,7 @@
         <img src="{{ $data->foto?url(\Storage::url($data->foto)):url('assets/img/avatar.png') }}" alt="" class="img-fluid rounded foto">
         <div class="clearfix"></div>
         <div class="mt-2 text-center">
-          <a href="{{ route('pegawai.export.single.pdf',['uuid'=>$data->uuid]) }}" class="btn btn-success" target="_blank"><i class="fas fas-file-pdf"></i> Ekspor PDF</a>
+          <a href="{{ route('pegawai.export.single.pdf',['uuid'=>$data->uuid]) }}" class="btn btn-success" target="_blank"><i class="fas fa-file-pdf"></i> Ekspor PDF</a>
           <a href="{{ route('pegawai.edit',['uuid'=>$data->uuid]) }}" class="btn mt-1 btn-primary"><i class="ik ik-edit"></i> Ubah Data</a>
           <a href="{{ route('pegawai.destroy',['uuid'=>$data->uuid]) }}" class="btn mt-1 btn-danger hapus"><i class="ik ik-trash-2"></i> Hapus Data</a>
         </div>
