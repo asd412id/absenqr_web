@@ -317,7 +317,7 @@ class SiswaController extends Controller
       file_put_contents($file_temp,$res->getBody()->getContents());
 
       return response()->file($file_temp,[
-        'Content-Disposition'=>'filename="'.$data['title'].'"'
+        'Content-Disposition'=>'filename="'.$data['title'].'.pdf"'
       ])->deleteFileAfterSend(true);
     }
     return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
@@ -358,7 +358,7 @@ class SiswaController extends Controller
       file_put_contents($file_temp,$res->getBody()->getContents());
 
       return response()->file($file_temp,[
-        'Content-Disposition'=>'filename="'.$data['title'].'"'
+        'Content-Disposition'=>'filename="'.$data['title'].'.pdf"'
       ])->deleteFileAfterSend(true);
     }
     return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
