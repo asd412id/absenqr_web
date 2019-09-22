@@ -326,7 +326,7 @@ class PegawaiController extends Controller
     ]);
 
     if ($res->getStatusCode() == 200) {
-      $file_temp = storage_path('temp/daftar-pegawai'.uniqid().'.pdf');
+      $file_temp = storage_path('temp/daftar_pegawai_'.uniqid().'.pdf');
 
       file_put_contents($file_temp,$res->getBody()->getContents());
 

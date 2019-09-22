@@ -356,7 +356,7 @@ class SiswaController extends Controller
     ]);
 
     if ($res->getStatusCode() == 200) {
-      $file_temp = storage_path('temp/daftar-siswa'.uniqid().'.pdf');
+      $file_temp = storage_path('temp/daftar_siswa_'.uniqid().'.pdf');
 
       file_put_contents($file_temp,$res->getBody()->getContents());
 
