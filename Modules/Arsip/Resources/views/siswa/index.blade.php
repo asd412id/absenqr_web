@@ -88,20 +88,15 @@
 @endsection
 
 @section('footer')
-<script type="text/javascript">
-$('.file-upload-browse').on('click', function() {
-  var file = $(this).parent().parent().parent().find('.file-upload-default');
-  file.trigger('click');
-});
-$('.file-upload-default').on('change', function() {
-  $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
-});
 @if (session()->has('message'))
+<script type="text/javascript">
   showSuccessToast('{{ session()->get('message') }}')
-@elseif ($errors->any())
-  @foreach ($errors->all() as $key => $err)
-    showDangerToast('{{ $err }}')
-  @endforeach
-@endif
 </script>
+@elseif ($errors->any())
+<script type="text/javascript">
+@foreach ($errors->all() as $key => $err)
+  showDangerToast('{{ $err }}')
+@endforeach
+</script>
+@endif
 @endsection

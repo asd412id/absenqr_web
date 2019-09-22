@@ -146,6 +146,16 @@ $('.pendidikan').repeater({
   isFirstItemUndeletable: true
 });
 
+$('.file-upload-browse').on('click', function(e) {
+  e.stopPropagation();
+  e.stopImmediatePropagation();
+  var file = $(this).parent().parent().parent().find('.file-upload-default');
+  file.trigger('click');
+});
+$('.file-upload-default').on('change', function(e) {
+  $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+});
+
 $("#form-import").submit(function(){
   $(this).find("button[type='submit']").prop('disabled',true);
   $(this).find("button[type='submit']").html('Sedang mengimport ...');
