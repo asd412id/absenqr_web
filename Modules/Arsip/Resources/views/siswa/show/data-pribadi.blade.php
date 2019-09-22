@@ -5,7 +5,7 @@
   <div class="card-body">
     <div class="row">
       <div class="col-md-2">
-        <img src="{{ $data->foto?url(\Storage::url($data->foto)):url('assets/img/avatar.png') }}" alt="" class="img-fluid rounded foto">
+        <img src="{{ $data->foto?asset('uploaded/'.$data->foto):url('assets/img/avatar.png') }}" alt="" class="img-fluid rounded foto">
         <div class="clearfix"></div>
         <div class="mt-2 text-center">
           <a href="{{ route('siswa.export.single.pdf',['uuid'=>$data->uuid]) }}" class="btn btn-success" target="_blank"><i class="fas fa-file-pdf"></i> Ekspor PDF</a>
@@ -40,7 +40,7 @@
               <tr>
                 <td>Jenis Kelamin</td>
                 <td>:</td>
-                <td>{{ $data->jenis_kelamin?'Laki - Laki':'Perempuan' }}</td>
+                <td>{{ $data->jenis_kelamin===1?'Laki - Laki':'Perempuan' }}</td>
               </tr>
               <tr>
                 <td>Tempat, Tanggal Lahir</td>

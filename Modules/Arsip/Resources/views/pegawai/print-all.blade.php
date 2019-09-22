@@ -17,6 +17,9 @@
       .page-break{
         page-break-before: always;
       }
+      table tr{
+        page-break-inside: avoid !important;
+      }
     </style>
   </head>
   <body>
@@ -46,7 +49,7 @@
         </tbody>
       </table>
       <div class="clearfix"></div>
-      <table style="margin-top: 45px;float: right;page-break-inside: avoid !important">
+      <table style="margin-top: 25px;float: right;page-break-inside: avoid !important">
         <tr>
           <td rowspan="5" width="150">
             {!! \QrCode::size('95')->generate('daftar pegawai - '.time().' - by asd412id') !!}

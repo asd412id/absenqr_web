@@ -13,6 +13,8 @@ use Validator;
 use Str;
 use Storage;
 use GuzzleHttp\Client;
+use IOFactory;
+use Carbon\Carbon;
 
 class SiswaController extends Controller
 {
@@ -23,7 +25,7 @@ class SiswaController extends Controller
   public function index()
   {
     if (request()->ajax()) {
-      $data = Siswa::select('uuid','nisn','nis','nama_lengkap','jenis_kelamin','tempat_lahir','tanggal_lahir')->orderBy('id','asc');
+      $data = Siswa::select('uuid','nisn','nis','nama_lengkap','jenis_kelamin','tempat_lahir','tanggal_lahir','asal_sekolah')->orderBy('id','asc');
       return DataTables::of($data)
       ->addColumn('jk',function($row){
         return $row->jenis_kelamin==1?'Laki - Laki':'Perempuan';
@@ -329,11 +331,12 @@ class SiswaController extends Controller
     $rows = request()->rows;
 
     $siswa = Siswa::when(request()->q!='all',function($q) use($role){
-      $q->where('nis','like',$role)
-      ->orWhere('nisn','like',$role)
+      $q->where('nisn','like',$role)
+      ->orWhere('nis','like',$role)
       ->orWhere('nama_lengkap','like',$role)
       ->orWhere('tempat_lahir','like',$role)
-      ->orWhere('tanggal_lahir','like',$role);
+      ->orWhere('tanggal_lahir','like',$role)
+      ->orWhere('asal_sekolah','like',$role);
     })
     ->orderBy('id','asc')->paginate($rows, ['*'], 'page');
 
@@ -362,5 +365,75 @@ class SiswaController extends Controller
       ])->deleteFileAfterSend(true);
     }
     return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
+  }
+
+  public function importExcel(Request $request)
+  {
+    if ($request->file_excel == null) {
+      return redirect()->back()->withErrors('File harus diupload!');
+    }
+    if ($request->file('file_excel')->isValid()) {
+      $ext = ['xlsx','xls','bin','ods'];
+      if (in_array($request->file_excel->getClientOriginalExtension(),$ext)) {
+        $spreadsheet = IOFactory::load($request->file_excel->path());
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $arr = $spreadsheet->getSheet(0)->toArray();
+
+        if ($arr[9][1] != 'NIS') {
+          return redirect()->back()->withErrors('File yang diupload tidak sesuai format!');
+        }
+
+        if ($request->status == 'new') {
+          Siswa::truncate();
+          $fotos = Storage::disk('public')->allFiles('foto_siswa');
+          Storage::disk('public')->delete($fotos);
+        }
+
+        foreach ($arr as $krow => $row) {
+          if ($krow > 10) {
+            if ($arr[$krow][1] == '') {
+              continue;
+            }
+
+            $import = Siswa::where('nis',$row[1])->first();
+
+            if (!$import) {
+              $import = new Siswa;
+              $import->uuid = (string) Str::uuid();
+            }
+
+            $import->nis = $row[1];
+            $import->nama_lengkap = $row[2];
+            $import->jenis_kelamin = $row[3]=='L'?1:2;
+            $import->tempat_lahir = $row[4];
+            $import->tanggal_lahir = $row[5]?Carbon::createFromFormat('Y/m/d',$row[5])->format('Y-m-d'):null;
+            $import->asal_sekolah = $row[6];
+            $import->alamat = $row[7];
+            $import->nama_ayah = $row[11];
+            $import->pekerjaan_ayah = $row[9];
+            $import->nama_ibu = $row[12];
+            $import->pekerjaan_ibu = $row[10];
+
+            $import->save();
+
+          }
+        }
+
+        if ($import) {
+          return redirect()->back()->with('message', 'Data berhasil diimpor.');
+        }else {
+          return redirect()->back()->with('message', 'Kesalahan saat mengimpor data atau format file tidak benar!');
+        }
+
+      }
+
+    }
+    return redirect()->back()->withErrors('File yang diupload tidak sesuai format!');
+  }
+
+  public function downloadTemplateExcel()
+  {
+    return response()->download(public_path('assets/files/template_excel_siswa.xlsx'));
   }
 }

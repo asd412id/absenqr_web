@@ -17,6 +17,9 @@
       .page-break{
         page-break-before: always;
       }
+      table tr{
+        page-break-inside: avoid !important;
+      }
     </style>
   </head>
   <body>
@@ -25,12 +28,14 @@
       <h5 class="text-center font-weight-bold">DAFTAR SISWA</h5>
       <table class="table table-bordered table-striped mt-3">
         <thead>
-          <th>NISN</th>
-          <th>NIS</th>
-          <th>NAMA LENGKAP</th>
-          <th>TEMPAT, TANGGAL LAHIR</th>
-          <th>JENIS KELAMIN</th>
-          <th>ASAL SEKOLAH</th>
+          <tr>
+            <th>NISN</th>
+            <th>NIS</th>
+            <th>NAMA LENGKAP</th>
+            <th>TEMPAT, TANGGAL LAHIR</th>
+            <th>JENIS KELAMIN</th>
+            <th>ASAL SEKOLAH</th>
+          </tr>
         </thead>
         <tbody>
           @foreach ($data as $key => $v)
@@ -46,7 +51,7 @@
         </tbody>
       </table>
       <div class="clearfix"></div>
-      <table style="margin-top: 45px;float: right;page-break-inside: avoid !important">
+      <table style="margin-top: 25px;float: right;page-break-inside: avoid !important">
         <tr>
           <td rowspan="5" width="150">
             {!! \QrCode::size('95')->generate('daftar siswa - '.time().' - by asd412id') !!}

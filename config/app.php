@@ -230,6 +230,7 @@ return [
 
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'IOFactory' => PhpOffice\PhpSpreadsheet\IOFactory::class,
 
     ],
 

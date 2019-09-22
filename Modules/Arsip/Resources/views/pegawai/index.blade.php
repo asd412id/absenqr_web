@@ -15,7 +15,7 @@
     <div class="card">
       <div class="card-header clearfix cd-title">
         <a href="{{ route('pegawai.create') }}" class="btn btn-sm mr-1 btn-primary"><i class="ik ik-user-plus"></i> Tambah Data</a>
-        <a href="javascript:void(0)" class="btn btn-sm btn-success btn-print" target="_blank"><i class="fas fa-file-pdf"></i> Expor PDF</a>
+        <a href="javascript:void(0)" class="btn btn-sm btn-danger btn-print" target="_blank"><i class="fas fa-file-pdf"></i> Expor PDF</a>
       </div>
       <div class="card-body">
         <div class="dt-responsive">

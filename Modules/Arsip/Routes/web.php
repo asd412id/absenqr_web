@@ -18,6 +18,8 @@ Route::prefix('arsip')->middleware('auth')->group(function() {
   Route::prefix('siswa')->group(function(){
     Route::get('/','SiswaController@index')->name('siswa.index');
     Route::get('/tambah','SiswaController@create')->name('siswa.create');
+    Route::post('/impor','SiswaController@importExcel')->name('siswa.import.excel');
+    Route::get('/download-template-excel','SiswaController@downloadTemplateExcel')->name('siswa.download.template.excel');
     Route::get('/ekspor-pdf','SiswaController@exportPDF')->name('siswa.export.pdf');
     Route::get('/{uuid}/ubah','SiswaController@edit')->name('siswa.edit');
     Route::get('/{uuid}','SiswaController@show')->name('siswa.show');

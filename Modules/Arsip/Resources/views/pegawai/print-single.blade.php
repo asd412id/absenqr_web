@@ -17,6 +17,9 @@
       .page-break{
         page-break-before: always;
       }
+      table tr{
+        page-break-inside: avoid !important;
+      }
     </style>
   </head>
   <body>
@@ -27,7 +30,7 @@
         <tr>
           <td colspan="3" class="font-weight-bold">DATA PRIBADI</td>
           <td rowspan="15" width="150" class="text-center">
-            <img src="{{ $data->foto?url(\Storage::url($data->foto)):url('assets/img/avatar.png') }}" alt="" class="img-fluid rounded d-inline" width="150">
+            <img src="{{ $data->foto?asset('uploaded/'.$data->foto):url('assets/img/avatar.png') }}" alt="" class="img-fluid rounded d-inline" width="150">
           </td>
         </tr>
         <tr>
@@ -43,7 +46,7 @@
         <tr>
           <td>Jenis Kelamin</td>
           <td>:</td>
-          <td>{{ $data->jenis_kelamin?'Laki - Laki':'Perempuan' }}</td>
+          <td>{{ $data->jenis_kelamin===1?'Laki - Laki':'Perempuan' }}</td>
         </tr>
         <tr>
           <td>Agama</td>
@@ -175,7 +178,7 @@
         </tbody>
       </table>
       <div class="clearfix"></div>
-      <table style="margin-top: 45px;float: right;page-break-inside: avoid !important">
+      <table style="margin-top: 25px;float: right;page-break-inside: avoid !important">
         <tr>
           <td rowspan="5" width="150">
             {!! \QrCode::size('95')->generate('pegawai - '.$data->uuid.'_'.time().' - by asd412id') !!}

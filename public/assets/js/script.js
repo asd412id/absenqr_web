@@ -146,6 +146,11 @@ $('.pendidikan').repeater({
   isFirstItemUndeletable: true
 });
 
+$("#form-import").submit(function(){
+  $(this).find("button[type='submit']").prop('disabled',true);
+  $(this).find("button[type='submit']").html('Sedang mengimport ...');
+})
+
 if ($("#table-siswa").length>0) {
   var table = $("#table-siswa").DataTable({
     processing: true,
@@ -158,6 +163,7 @@ if ($("#table-siswa").length>0) {
       {data: 'nama_lengkap', name: 'nama_lengkap'},
       {data: 'jk', name: 'jk'},
       {data: 'ttl', name: 'ttl'},
+      {data: 'asal_sekolah', name: 'asal_sekolah'},
       {data: 'action', name: 'action', orderable: false, searchable: false}
     ],
     "language": language,

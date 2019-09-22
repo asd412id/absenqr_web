@@ -166,7 +166,7 @@
       <label>Ubah Foto</label>
       @if ($data->foto)
         <div class="clearfix"></div>
-        <img src="{{ url(\Storage::url($data->foto)) }}" alt="" class="img-fluid rounded" width="150" height="225">
+        <img src="{{ asset('uploaded/'.$data->foto) }}" alt="" class="img-fluid rounded" width="150" height="225">
         <div class="clearfix mb-2"></div>
       @endif
       <input type="file" name="foto" class="file-upload-default" accept=".jpeg,.jpg,.png">
