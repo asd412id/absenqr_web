@@ -22,6 +22,10 @@
   max-height: 190px;
   object-fit: cover;
   object-position: top;
+  @include mobile{
+    width: 70%;
+    max-height: none;
+  }
 }
 .card .card-body .dataTables_wrapper .dataTable {
   margin-left: -20px;

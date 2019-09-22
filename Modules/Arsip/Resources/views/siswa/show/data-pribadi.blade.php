@@ -4,13 +4,13 @@
   </div>
   <div class="card-body">
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-md-2 text-center">
         <img src="{{ $data->foto?asset('uploaded/'.$data->foto):url('assets/img/avatar.png') }}" alt="" class="img-fluid rounded foto">
         <div class="clearfix"></div>
         <div class="mt-2 text-center">
           <a href="{{ route('siswa.export.single.pdf',['uuid'=>$data->uuid]) }}" class="btn btn-success" target="_blank"><i class="fas fa-file-pdf"></i> Ekspor PDF</a>
           <a href="{{ route('siswa.edit',['uuid'=>$data->uuid]) }}" class="btn mt-1 btn-primary"><i class="ik ik-edit"></i> Ubah Data</a>
-          <a href="{{ route('siswa.destroy',['uuid'=>$data->uuid]) }}" class="btn mt-1 btn-danger hapus"><i class="ik ik-trash-2"></i> Hapus Data</a>
+          <a href="{{ route('siswa.destroy',['uuid'=>$data->uuid]) }}" class="btn mt-1 mb-2 btn-danger hapus"><i class="ik ik-trash-2"></i> Hapus Data</a>
         </div>
       </div>
       <div class="col-md-10">
