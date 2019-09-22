@@ -153,6 +153,8 @@ $('.file-upload-browse').on('click', function(e) {
   file.trigger('click');
 });
 $('.file-upload-default').on('change', function(e) {
+  e.stopPropagation();
+  e.stopImmediatePropagation();
   $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
 });
 

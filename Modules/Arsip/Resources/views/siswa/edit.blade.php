@@ -36,18 +36,11 @@
 @endsection
 
 @section('footer')
+@if ($errors->any())
 <script type="text/javascript">
-  $('.file-upload-browse').on('click', function() {
-    var file = $(this).parent().parent().parent().find('.file-upload-default');
-    file.trigger('click');
-  });
-  $('.file-upload-default').on('change', function() {
-    $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
-  });
-  @if ($errors->any())
-    @foreach ($errors->all() as $key => $err)
-      showDangerToast('{{ $err }}')
-    @endforeach
-  @endif
+  @foreach ($errors->all() as $key => $err)
+    showDangerToast('{{ $err }}')
+  @endforeach
 </script>
+@endif
 @endsection
