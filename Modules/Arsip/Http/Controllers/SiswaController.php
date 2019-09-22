@@ -25,7 +25,7 @@ class SiswaController extends Controller
   public function index()
   {
     if (request()->ajax()) {
-      $data = Siswa::select('uuid','nisn','nis','nama_lengkap','jenis_kelamin','tempat_lahir','tanggal_lahir','asal_sekolah')->orderBy('id','asc');
+      $data = Siswa::query();
       return DataTables::of($data)
       ->addColumn('jk',function($row){
         return $row->jenis_kelamin==1?'Laki - Laki':'Perempuan';

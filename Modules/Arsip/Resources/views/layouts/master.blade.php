@@ -71,6 +71,8 @@
 <script src="{{ url('assets/vendor') }}/screenfull/dist/screenfull.js"></script>
 <script src="{{ url('assets/vendor') }}/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="{{ url('assets/vendor') }}/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="{{ url('assets/vendor') }}/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="{{ url('assets/vendor') }}/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 <script src="{{ asset('assets/vendor/moment/moment.js') }}" charset="utf-8"></script>
 <script src="{{ asset('assets/vendor/repeater/jquery.repeater.min.js') }}" charset="utf-8"></script>
 <script src="{{ asset('assets/vendor/datetimepicker/js/datetimepicker.min.js') }}" charset="utf-8"></script>

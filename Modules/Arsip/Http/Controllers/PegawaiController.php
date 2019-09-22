@@ -23,7 +23,7 @@ class PegawaiController extends Controller
   public function index()
   {
     if (request()->ajax()) {
-      $data = Pegawai::select('uuid','nip','nama','jenis_kelamin','status_kepegawaian','jabatan','pangkat_golongan')->orderBy('id','asc');
+      $data = Pegawai::query();
       return DataTables::of($data)
       ->addColumn('jk',function($row){
         return $row->jenis_kelamin==1?'Laki - Laki':'Perempuan';
