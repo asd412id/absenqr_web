@@ -15,7 +15,7 @@
     <div class="card">
       <div class="card-header clearfix cd-title">
         <a href="{{ route('siswa.create') }}" class="btn btn-sm btn-primary mr-1"><i class="ik ik-user-plus"></i> Tambah Data</a>
-        <a href="javascript:void()" data-toggle="modal" data-target="#importModal" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mr-1"><i class="fas fa-file-excel text-white-50"></i> Import Excel</a>
+        <a href="javascript:void()" data-toggle="modal" data-target="#importModal" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mr-1"><i class="fas fa-file-excel text-white-50"></i> Impor Excel</a>
         <a href="javascript:void(0)" class="btn btn-sm btn-danger btn-print" target="_blank"><i class="fas fa-file-pdf"></i> Expor PDF</a>
       </div>
       <div class="card-body">
