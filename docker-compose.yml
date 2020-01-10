@@ -2,7 +2,7 @@ version: '3.7'
 services:
   web:
     image: nginx:alpine
-    restart: always
+    #restart: always
     container_name: nginx_arsip
     ports:
      - "80:80"
@@ -12,11 +12,11 @@ services:
     depends_on:
       - php
   php:
-    image: php:latest
+    image: bitnami/php-fpm
     build:
         context: .
         dockerfile: Dockerfile
-    restart: always
+    #restart: always
     container_name: php_arsip
     volumes:
       - "./:/var/www/html"
@@ -24,11 +24,11 @@ services:
       - "./php-cust.ini:/opt/bitnami/php/etc/conf.d/custom.ini:ro"
     depends_on:
       - db
-      - redis
+    #  - redis
       - pdf
   db:
     image: bitnami/mariadb
-    restart: always
+    #restart: always
     container_name: mysql_arsip
     ports:
         - "3306:3306"
@@ -39,15 +39,15 @@ services:
     environment:
         ALLOW_EMPTY_PASSWORD: 'yes'
         MARIADB_DATABASE: 'arsip_db'
-  redis:
-    image: redis:alpine
-    restart: always
-    container_name: redis_arsip
-    expose:
-      - 6379
+  #redis:
+  #  image: redis:alpine
+  #  restart: always
+  #  container_name: redis_arsip
+  #  expose:
+  #    - 6379
   pdf:
     image: ciricihq/wkhtmltopdf-aas
-    restart: always
+    #restart: always
     container_name: wkhtmltopdf
 volumes:
   mysql:
