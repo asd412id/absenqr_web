@@ -285,6 +285,7 @@ class PegawaiController extends Controller
     ]);
 
     if ($res->getStatusCode() == 200) {
+      $filename = $data['title'].'.pdf';
       return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
     }
     return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
@@ -320,6 +321,7 @@ class PegawaiController extends Controller
     ]);
 
     if ($res->getStatusCode() == 200) {
+      $filename = $data['title'].'.pdf';
       return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
     }
     return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
