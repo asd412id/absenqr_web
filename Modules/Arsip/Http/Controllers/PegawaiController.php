@@ -285,13 +285,7 @@ class PegawaiController extends Controller
     ]);
 
     if ($res->getStatusCode() == 200) {
-      $file_temp = storage_path('temp/'.$pegawai->uuid.'_'.uniqid().'.pdf');
-
-      file_put_contents($file_temp,$res->getBody()->getContents());
-
-      return response()->file($file_temp,[
-        'Content-Disposition'=>'filename="'.$data['title'].'.pdf"'
-      ])->deleteFileAfterSend(true);
+      return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
     }
     return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
   }
@@ -326,13 +320,7 @@ class PegawaiController extends Controller
     ]);
 
     if ($res->getStatusCode() == 200) {
-      $file_temp = storage_path('temp/daftar_pegawai_'.uniqid().'.pdf');
-
-      file_put_contents($file_temp,$res->getBody()->getContents());
-
-      return response()->file($file_temp,[
-        'Content-Disposition'=>'filename="'.$data['title'].'.pdf"'
-      ])->deleteFileAfterSend(true);
+      return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
     }
     return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
   }
