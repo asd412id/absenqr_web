@@ -22,6 +22,7 @@ class CreateTableUser extends Migration
             $table->string('role');
             $table->bigInteger('id_user')->nullable();
             $table->rememberToken();
+            $table->string('api_token',100)->unique()->nullable()->default(null);
             $table->timestamps();
         });
     }

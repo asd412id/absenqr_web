@@ -24,7 +24,7 @@
   </head>
   <body>
     <div class="page">
-      @include('arsip::layouts.kop')
+      @include('layouts.kop')
       <h5 class="text-center font-weight-bold">DETAIL DATA SISWA</h5>
       <table class="table table-bordered mt-2">
         <tr>

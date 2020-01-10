@@ -1,4 +1,4 @@
-@extends('arsip::layouts.master')
+@extends('layouts.master')
 @section('title',$title)
 
 @section('head_icon')

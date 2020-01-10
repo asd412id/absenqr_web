@@ -18,6 +18,7 @@ class UserSeeder extends Seeder
       'name'=>'Administrator',
       'username'=>'admin',
       'password'=>bcrypt('admin123'),
+      'api_token'=>Str::random(100),
       'role'=>'admin',
     ]);
   }

@@ -1,4 +1,4 @@
-@extends('arsip::layouts.master')
+@extends('layouts.master')
 @section('title',$title)
 @section('header')
 <link rel="stylesheet" href="{{ asset('assets/vendor/datetimepicker/css/datetimepicker.min.css') }}">

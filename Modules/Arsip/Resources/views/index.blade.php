@@ -1,4 +1,4 @@
-@extends('arsip::layouts.master')
+@extends('layouts.master')
 @section('title','Beranda')
 @section('head_icon')
   <i class="ik ik-bar-chart-2 bg-blue"></i>

@@ -21,9 +21,9 @@
 </head>
 <body>
   <div class="wrapper">
-    @include('arsip::layouts.header')
+    @include('layouts.header')
     <div class="page-wrap">
-      @include('arsip::layouts.sidebar')
+      @include('layouts.sidebar')
       <div class="main-content">
         <div class="container-fluid">
           <div class="page-header">
