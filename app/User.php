@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'username', 'password', 'role', 'id_user'
+        'name', 'username', 'password', 'role', 'id_user','api_token','activate_key','active','changed_password'
     ];
 
     /**
@@ -25,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token','api_token',
+        'password', 'remember_token','api_token','activate_key',
     ];
 
     /**
@@ -40,5 +40,9 @@ class User extends Authenticatable
     public function pegawai()
     {
       return $this->belongsTo(Pegawai::class,'id_user');
+    }
+    public function siswa()
+    {
+      return $this->belongsTo(Siswa::class,'id_user');
     }
 }

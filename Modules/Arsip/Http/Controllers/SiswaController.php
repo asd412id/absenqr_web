@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
 use Modules\Arsip\Entities\Siswa;
+use App\User;
 
 use DataTables;
 use Validator;
@@ -36,6 +37,10 @@ class SiswaController extends Controller
         $ttl .= $row->tanggal_lahir?date('d-m-Y',strtotime($row->tanggal_lahir)):'-';
         return $ttl;
       })
+      ->addColumn('activate_key',function($row){
+        $data = $row->user->activate_key??'-';
+        return $data;
+      })
       ->addColumn('action', function($row){
 
         $btn = '<div class="table-actions">';
@@ -44,9 +49,13 @@ class SiswaController extends Controller
 
         $btn .= '<a href="'.route('siswa.show',['uuid'=>$row->uuid]).'" class="text-success" title="Detail"><i class="ik ik-info"></i></a>';
 
-        $btn .= ' <a href="'.route('siswa.edit',['uuid'=>$row->uuid]).'" class="text-primary" title="Ubah"><i class="ik ik-edit"></i></a>';
+        if (\Auth::user()->role == 'admin') {
+          $btn .= ' <a href="'.route('siswa.reset.login',['uuid'=>$row->uuid]).'" class="text-warning confirm" data-text="Reset login '.$row->nama_lengkap.'?" title="Reset Login"><i class="ik ik-refresh-cw"></i></a>';
 
-        $btn .= ' <a href="'.route('siswa.destroy',['uuid'=>$row->uuid]).'" class="text-danger hapus" title="Hapus"><i class="ik ik-trash-2"></i></a>';
+          $btn .= ' <a href="'.route('siswa.edit',['uuid'=>$row->uuid]).'" class="text-primary" title="Ubah"><i class="ik ik-edit"></i></a>';
+
+          $btn .= ' <a href="'.route('siswa.destroy',['uuid'=>$row->uuid]).'" class="text-danger confirm" data-text="Hapus data '.$row->nama_lengkap.'?" title="Hapus"><i class="ik ik-trash-2"></i></a>';
+        }
 
         $btn .= '</div>';
 
@@ -151,6 +160,14 @@ class SiswaController extends Controller
     }
 
     if ($insert->save()) {
+      $insert->user()->insert([
+        'uuid'=>Str::uuid(),
+        'name'=>$insert->nama_lengkap,
+        'username'=>$insert->nis,
+        'password'=>bcrypt($insert->nis),
+        'id_user'=>$insert->id,
+        'role'=>'siswa',
+      ]);
       return redirect()->route('siswa.index')->with('message','Data berhasil disimpan!');
     }
     return redirect()->back()->withErrors(['Terjadi kesalahan! Silahkan hubungi operator.'])->withInput();
@@ -275,6 +292,9 @@ class SiswaController extends Controller
     }
 
     if ($insert->save()) {
+      $insert->user->update([
+        'name'=>$insert->nama_lengkap
+      ]);
       return redirect()->route('siswa.index')->with('message','Data berhasil disimpan!');
     }
     return redirect()->back()->withErrors(['Terjadi kesalahan! Silahkan hubungi operator.'])->withInput();
@@ -291,6 +311,7 @@ class SiswaController extends Controller
     if ($siswa->foto) {
       Storage::disk('public')->delete($siswa->foto);
     }
+    $siswa->user->delete();
     if ($siswa->delete()) {
       return redirect()->route('siswa.index')->with('message','Data berhasil dihapus!');
     }
@@ -376,6 +397,7 @@ class SiswaController extends Controller
 
         if ($request->status == 'new') {
           Siswa::truncate();
+          User::where('role','siswa')->delete();
           $fotos = Storage::disk('public')->allFiles('foto_siswa');
           Storage::disk('public')->delete($fotos);
         }
@@ -386,11 +408,13 @@ class SiswaController extends Controller
               continue;
             }
 
+            $new = false;
             $import = Siswa::where('nis',$row[1])->first();
 
             if (!$import) {
               $import = new Siswa;
               $import->uuid = (string) Str::uuid();
+              $new = true;
             }
 
             $import->nis = $row[1];
@@ -406,6 +430,21 @@ class SiswaController extends Controller
             $import->pekerjaan_ibu = $row[10];
 
             $import->save();
+
+            if ($new) {
+              $import->user()->insert([
+                'uuid'=>Str::uuid(),
+                'name'=>$import->nama_lengkap,
+                'username'=>$import->nis,
+                'password'=>bcrypt($import->nis),
+                'id_user'=>$import->id,
+                'role'=>'siswa',
+              ]);
+            }else {
+              $import->user->update([
+                'name'=>$import->nama_lengkap,
+              ]);
+            }
 
           }
         }
@@ -425,5 +464,19 @@ class SiswaController extends Controller
   public function downloadTemplateExcel()
   {
     return response()->download(public_path('assets/files/template_excel_siswa.xlsx'));
+  }
+
+  public function resetLogin($uuid)
+  {
+    $siswa = Siswa::where('uuid',$uuid)->first();
+    $siswa->user->update([
+      'username' => $siswa->nis,
+      'password' => bcrypt($siswa->nis),
+      'api_token' => null,
+      'activate_key' => null,
+      'changed_password' => 0,
+      'active' => 0,
+    ]);
+    return redirect()->back()->with('message', 'Data login berhasil direset');
   }
 }

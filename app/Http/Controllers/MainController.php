@@ -68,16 +68,19 @@ class MainController extends BaseController
   public function profileUpdate(Request $r)
   {
     $roles = [
-      'name' => 'required',
-      'username' => 'required',
       'old_password' => 'required'
     ];
 
     $messages = [
-      'name.required' => 'Nama tidak boleh kosong!',
-      'username.required' => 'Username tidak boleh kosong!',
       'old_password.required' => 'Password tidak boleh kosong!'
     ];
+
+    if (\Auth::user()->role == 'admin') {
+      $roles['name'] = 'required';
+      $roles['username'] = 'required';
+      $messages['name.required'] = 'Nama tidak boleh kosong!';
+      $messages['username.required'] = 'Username tidak boleh kosong!';
+    }
 
     Validator::make($r->all(),$roles,$messages)->validate();
 
@@ -87,8 +90,10 @@ class MainController extends BaseController
     if ($cek) {
       $user = User::where('id',auth()->user()->id)
       ->first();
-      $user->name = $r->name;
-      $user->username = $r->username;
+      if (\Auth::user()->role == 'admin') {
+        $user->name = $r->name;
+        $user->username = $r->username;
+      }
       if ($r->new_password!='') {
         $user->password = bcrypt($r->new_password);
       }

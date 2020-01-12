@@ -19,9 +19,9 @@ class ArsipController extends Controller
   {
     $data = [
       'siswa'=>Siswa::count(),
-      'pegawai'=>Pegawai::count(),
       'pns'=>Pegawai::where('status_kepegawaian','pns')->count(),
       'gtt'=>Pegawai::where('status_kepegawaian','gtt')->count(),
+      'ptt'=>Pegawai::where('status_kepegawaian','ptt')->count(),
     ];
     return view('arsip::index',$data);
   }

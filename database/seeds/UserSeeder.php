@@ -17,8 +17,9 @@ class UserSeeder extends Seeder
       'uuid'=>(string) Str::uuid(),
       'name'=>'Administrator',
       'username'=>'admin',
-      'password'=>bcrypt('admin123'),
+      'password'=>bcrypt('password'),
       'api_token'=>Str::random(100),
+      'active'=>true,
       'role'=>'admin',
     ]);
   }

@@ -29,13 +29,13 @@
             <div class="row form-group">
               <label for="" class="control-label col-sm-12">Nama</label>
               <div class="col-sm-12">
-                <input type="text" name="name" class="form-control" value="{{ $data->name }}" required>
+                <input type="text" name="name" class="form-control" value="{{ $data->name }}" {{ auth()->user()->role == 'admin' ? 'required' : 'disabled readonly' }}>
               </div>
             </div>
             <div class="row form-group">
               <label for="" class="control-label col-sm-12">Username</label>
               <div class="col-sm-12">
-                <input type="text" name="username" class="form-control" value="{{ $data->username }}" required>
+                <input type="text" name="username" class="form-control" value="{{ $data->username }}" {{ auth()->user()->role == 'admin' ? 'required' : 'disabled readonly' }}>
               </div>
             </div>
             <div class="row form-group">

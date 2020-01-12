@@ -31,6 +31,10 @@ class PegawaiController extends Controller
       ->addColumn('skep',function($row){
         return strtoupper($row->status_kepegawaian);
       })
+      ->addColumn('activate_key',function($row){
+        $data = $row->user->activate_key??'-';
+        return $data;
+      })
       ->addColumn('action', function($row){
 
         $btn = '<div class="table-actions">';
@@ -39,9 +43,13 @@ class PegawaiController extends Controller
 
         $btn .= '<a href="'.route('pegawai.show',['uuid'=>$row->uuid]).'" class="text-success" title="Detail"><i class="ik ik-info"></i></a>';
 
-        $btn .= ' <a href="'.route('pegawai.edit',['uuid'=>$row->uuid]).'" class="text-primary" title="Ubah"><i class="ik ik-edit"></i></a>';
+        if (\Auth::user()->role == 'admin') {
+          $btn .= ' <a href="'.route('pegawai.reset.login',['uuid'=>$row->uuid]).'" class="text-warning confirm" data-text="Reset login '.$row->nama.'?" title="Reset Login"><i class="ik ik-refresh-cw"></i></a>';
 
-        $btn .= ' <a href="'.route('pegawai.destroy',['uuid'=>$row->uuid]).'" class="text-danger hapus" title="Hapus"><i class="ik ik-trash-2"></i></a>';
+          $btn .= ' <a href="'.route('pegawai.edit',['uuid'=>$row->uuid]).'" class="text-primary" title="Ubah"><i class="ik ik-edit"></i></a>';
+
+          $btn .= ' <a href="'.route('pegawai.destroy',['uuid'=>$row->uuid]).'" class="text-danger confirm" data-text="Hapus data '.$row->nama.'?" title="Hapus"><i class="ik ik-trash-2"></i></a>';
+        }
 
         $btn .= '</div>';
 
@@ -74,10 +82,14 @@ class PegawaiController extends Controller
   public function store(Request $request)
   {
     $role = [
-      'nama' => 'required'
+      'nama' => 'required',
+      'username' => 'required',
+      'password' => 'required',
     ];
     $msgs = [
-      'nama.required' => 'Nama Lengkap tidak boleh kosong!'
+      'nama.required' => 'Nama Lengkap tidak boleh kosong!',
+      'username.required' => 'Username tidak boleh kosong!',
+      'password.required' => 'Password tidak boleh kosong!'
     ];
 
     if ($request->nip) {
@@ -133,6 +145,14 @@ class PegawaiController extends Controller
     }
 
     if ($insert->save()) {
+      $insert->user()->insert([
+        'uuid'=>Str::uuid(),
+        'name'=>$request->nama,
+        'username'=>$request->username,
+        'password'=>bcrypt($request->password),
+        'id_user'=>$insert->id,
+        'role'=>'pegawai',
+      ]);
       return redirect()->route('pegawai.index')->with('message','Data berhasil disimpan!');
     }
     return redirect()->back()->withErrors(['Terjadi kesalahan! Silahkan hubungi operator.'])->withInput();
@@ -183,10 +203,12 @@ class PegawaiController extends Controller
   public function update(Request $request, $uuid)
   {
     $role = [
-      'nama' => 'required'
+      'nama' => 'required',
+      'username' => 'required',
     ];
     $msgs = [
-      'nama.required' => 'Nama Lengkap tidak boleh kosong!'
+      'nama.required' => 'Nama Lengkap tidak boleh kosong!',
+      'username.required' => 'Username tidak boleh kosong!'
     ];
 
     if ($request->nip) {
@@ -245,6 +267,14 @@ class PegawaiController extends Controller
     }
 
     if ($insert->save()) {
+      $login = [
+        'name'=>$request->nama,
+        'username'=>$request->username,
+      ];
+      if ($request->password) {
+        $login['password'] = bcrypt($request->password);
+      }
+      $insert->user->update($login);
       return redirect()->route('pegawai.index')->with('message','Data berhasil disimpan!');
     }
     return redirect()->back()->withErrors(['Terjadi kesalahan! Silahkan hubungi operator.'])->withInput();
@@ -261,6 +291,7 @@ class PegawaiController extends Controller
     if ($pegawai->foto) {
       Storage::disk('public')->delete($pegawai->foto);
     }
+    $pegawai->user->delete();
     if ($pegawai->delete()) {
       return redirect()->route('pegawai.index')->with('message','Data berhasil dihapus!');
     }
@@ -325,5 +356,17 @@ class PegawaiController extends Controller
       return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
     }
     return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
+  }
+
+  public function resetLogin($uuid)
+  {
+    $pegawai = Pegawai::where('uuid',$uuid)->first();
+    $pegawai->user->update([
+      'api_token' => null,
+      'activate_key' => null,
+      'changed_password' => 0,
+      'active' => 0,
+    ]);
+    return redirect()->back()->with('message', 'Data login berhasil direset');
   }
 }

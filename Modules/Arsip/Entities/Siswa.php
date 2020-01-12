@@ -3,6 +3,7 @@
 namespace Modules\Arsip\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class Siswa extends Model
 {
@@ -48,4 +49,9 @@ class Siswa extends Model
     'pendidikan_lanjut',
     'foto',
   ];
+
+  public function user()
+  {
+    return $this->hasOne(User::class,'id_user');
+  }
 }

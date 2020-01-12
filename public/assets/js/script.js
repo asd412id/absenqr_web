@@ -106,8 +106,9 @@ var language = {
   }
 };
 
-$(".hapus").on('click',function(){
-  if (!confirm('Hapus data ini?')) {
+$(".confirm").on('click',function(){
+  var txt = $(this).data('text');
+  if (!confirm(txt)) {
     return false;
   }
 });
@@ -176,6 +177,7 @@ if ($("#table-siswa").length>0) {
       {data: 'jk', name: 'jk'},
       {data: 'ttl', name: 'ttl'},
       {data: 'asal_sekolah', name: 'asal_sekolah'},
+      {data: 'activate_key', name: 'activate_key'},
       {data: 'action', name: 'action', orderable: false, searchable: false}
     ],
     "language": language,
@@ -188,8 +190,9 @@ if ($("#table-siswa").length>0) {
         uri = encodeURIComponent(dta.trim());
       }
       $(".btn-print").prop('href',location.href+'/ekspor-pdf?q='+uri+'&rows='+rows+'&page='+start);
-      $(".hapus").on('click',function(){
-        if (!confirm('Hapus data ini?')) {
+      $(".confirm").on('click',function(){
+        var txt = $(this).data('text');
+        if (!confirm(txt)) {
           return false;
         }
       });
@@ -208,6 +211,7 @@ if ($("#table-pegawai").length>0) {
       {data: 'jk', name: 'jk'},
       {data: 'skep', name: 'skep'},
       {data: 'jabatan', name: 'jabatan'},
+      {data: 'activate_key', name: 'activate_key'},
       {data: 'action', name: 'action', orderable: false, searchable: false},
       {data: 'pangkat_golongan', name: 'pangkat_golongan', orderable: false, visible: false}
     ],
@@ -221,8 +225,9 @@ if ($("#table-pegawai").length>0) {
         uri = encodeURIComponent(dta.trim());
       }
       $(".btn-print").prop('href',location.href+'/ekspor-pdf?q='+uri+'&rows='+rows+'&page='+start);
-      $(".hapus").on('click',function(){
-        if (!confirm('Hapus data ini?')) {
+      $(".confirm").on('click',function(){
+        var txt = $(this).data('text');
+        if (!confirm(txt)) {
           return false;
         }
       });

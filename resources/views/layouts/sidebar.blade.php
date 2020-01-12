@@ -13,16 +13,19 @@
   <div class="sidebar-content">
     <div class="nav-container">
       <nav id="main-menu-navigation" class="navigation-main">
-        <div class="nav-lavel">DATA ARSIP</div>
-        <div class="nav-item{{ Request::url()==route('arsip.index')?' active':'' }}">
-          <a href="{{ route('arsip.index') }}"><i class="ik ik-bar-chart-2"></i><span>Beranda</span></a>
-        </div>
-        <div class="nav-item{{ strpos(Request::url(),route('siswa.index'))!==false?' active':'' }}">
-          <a href="{{ route('siswa.index') }}"><i class="ik ik-users"></i><span>Siswa</span></a>
-        </div>
-        <div class="nav-item{{ strpos(Request::url(),route('pegawai.index'))!==false?' active':'' }}">
-          <a href="{{ route('pegawai.index') }}"><i class="fas fa-user-tie"></i><span>Guru & Pegawai</span></a>
-        </div>
+        @if (auth()->user()->role == 'admin' || auth()->user()->role == 'pegawai')
+          <div class="nav-lavel">DATA ARSIP</div>
+          <div class="nav-item{{ Request::url()==route('arsip.index')?' active':'' }}">
+            <a href="{{ route('arsip.index') }}"><i class="ik ik-bar-chart-2"></i><span>Status Arsip</span></a>
+          </div>
+          <div class="nav-item{{ strpos(Request::url(),route('siswa.index'))!==false?' active':'' }}">
+            <a href="{{ route('siswa.index') }}"><i class="ik ik-users"></i><span>Siswa</span></a>
+          </div>
+          <div class="nav-item{{ strpos(Request::url(),route('pegawai.index'))!==false?' active':'' }}">
+            <a href="{{ route('pegawai.index') }}"><i class="fas fa-user-tie"></i><span>Guru & Pegawai</span></a>
+          </div>
+          <div class="nav-lavel">DATA ABSENSI</div>
+        @endif
         <div class="nav-lavel">PENGATURAN</div>
         <div class="nav-item{{ Request::url()==route('profile')?' active':'' }}">
           <a href="{{ route('profile') }}"><i class="ik ik-settings"></i><span>Pengaturan Akun</span></a>

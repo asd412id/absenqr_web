@@ -3,6 +3,7 @@
 namespace Modules\Arsip\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class Pegawai extends Model
 {

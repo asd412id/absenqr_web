@@ -13,6 +13,22 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('api')->prefix('v1')->group(function () {
+    Route::get('/check-server','MobileController@checkServer');
+    Route::post('/login','MobileController@login');
+
+    Route::middleware('auth:api')->group(function(){
+      Route::put('/activate','MobileController@activate');
+      Route::put('/change-password','MobileController@changePassword');
+
+      Route::middleware('mobile.auth')->group(function(){
+        Route::get('/user',function(){
+          return response()->json([
+            'status'=>'success',
+            'data'=>auth()->user()
+          ]);
+        });
+        Route::get('/keluar','MobileController@logout');
+      });
+    });
 });
