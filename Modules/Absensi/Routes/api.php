@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/absensi', function (Request $request) {
-    return $request->user();
+Route::middleware('api','auth:api','mobile.auth')->prefix('v1')->group(function() {
+    Route::group(['prefix'=>'absensi'], function(){
+      Route::post('check','MobileAbsenController@absenCheck');
+    });
 });

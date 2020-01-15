@@ -41,7 +41,7 @@
         <tr>
           <td>Tempat, Tanggal Lahir</td>
           <td>:</td>
-          <td>{{ $data->tempat_lahir??'-' }}, {{ $data->tanggal_lahir?date('d-m-Y',strtotime($data->tanggal_lahir)):'-' }}</td>
+          <td>{{ $data->tempat_lahir??'-' }}, {{ $data->tanggal_lahir??'-' }}</td>
         </tr>
         <tr>
           <td>Jenis Kelamin</td>
@@ -96,7 +96,7 @@
         <tr>
           <td>Mulai Masuk</td>
           <td>:</td>
-          <td>{{ $data->mulai_masuk?date('d-m-Y',strtotime($data->mulai_masuk)):'-' }}</td>
+          <td>{{ $data->mulai_masuk??'-' }}</td>
         </tr>
         <tr>
           <td>Kegemaran/Hobi</td>

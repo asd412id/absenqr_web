@@ -9,7 +9,7 @@
     </div>
     <div class="form-group">
       <label for="tanggal_diterima">Tanggal Diterima di Sekolah Ini</label>
-      <input type="date" name="tanggal_diterima" class="form-control" id="tanggal_diterima" value="{{ old('tanggal_diterima') }}" placeholder="Tanggal Diterima">
+      <input type="text" name="tanggal_diterima" class="form-control datepicker" id="tanggal_diterima" value="{{ old('tanggal_diterima') }}" placeholder="Tanggal Diterima">
     </div>
     <div class="form-group">
       <label for="kelas">Kelas</label>
@@ -17,7 +17,7 @@
     </div>
     <div class="form-group">
       <label for="tanggal_tamat">Tanggal Tamat dari Sekolah Ini</label>
-      <input type="date" name="tanggal_tamat" class="form-control" id="tanggal_tamat" value="{{ old('tanggal_tamat') }}" placeholder="Tanggal Tamat">
+      <input type="text" name="tanggal_tamat" class="form-control datepicker" id="tanggal_tamat" value="{{ old('tanggal_tamat') }}" placeholder="Tanggal Tamat">
     </div>
     <div class="form-group">
       <label for="nomor_ijazah">Nomor Ijazah</label>
@@ -25,7 +25,7 @@
     </div>
     <div class="form-group">
       <label for="tanggal_ijazah">Tanggal Ijazah</label>
-      <input type="date" name="tanggal_ijazah" class="form-control" id="tanggal_ijazah" value="{{ old('tanggal_ijazah') }}" placeholder="Tanggal Ijazah">
+      <input type="text" name="tanggal_ijazah" class="form-control datepicker" id="tanggal_ijazah" value="{{ old('tanggal_ijazah') }}" placeholder="Tanggal Ijazah">
     </div>
     <div class="form-group">
       <label for="pendidikan_lanjut">Melanjutkan Pendidikan di</label>

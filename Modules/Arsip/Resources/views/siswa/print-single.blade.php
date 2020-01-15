@@ -61,7 +61,7 @@
         <tr>
           <td>Tempat, Tanggal Lahir</td>
           <td>:</td>
-          <td>{{ $data->tempat_lahir??'-' }}, {{ $data->tanggal_lahir?date('d-m-Y',strtotime($data->tanggal_lahir)):'-' }}</td>
+          <td>{{ $data->tempat_lahir??'-' }}, {{ $data->tanggal_lahir??'-' }}</td>
         </tr>
         <tr>
           <td>Agama</td>
@@ -111,7 +111,7 @@
         <tr>
           <td>Tanggal diterima</td>
           <td>:</td>
-          <td>{{ $data->tanggal_diterima?date('d-m-Y',strtotime($data->tanggal_diterima)):'-' }}</td>
+          <td>{{ $data->tanggal_diterima??'-' }}</td>
         </tr>
         <tr>
           <td>Kelas</td>
@@ -121,7 +121,7 @@
         <tr>
           <td>Tanggal Tamat</td>
           <td>:</td>
-          <td>{{ $data->tanggal_tamat?date('d-m-Y',strtotime($data->tanggal_tamat)):'-' }}</td>
+          <td>{{ $data->tanggal_tamat??'-' }}</td>
         </tr>
         <tr>
           <td>Nomor Ijazah</td>

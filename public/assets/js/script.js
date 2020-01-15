@@ -88,8 +88,8 @@
 var language = {
   "decimal":        "",
   "emptyTable":     "Data tidak tersedia",
-  "info":           "Menampilkan _START_ hingga _END_ dari _TOTAL_ data",
-  "infoEmpty":      "Menampilkan 0 hingga 0 dari 0 data",
+  "info":           "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+  "infoEmpty":      "Menampilkan 0 sampai 0 dari 0 data",
   "infoFiltered":   "(Difilter dari _MAX_ total data)",
   "infoPostFix":    "",
   "thousands":      ",",
@@ -225,6 +225,115 @@ if ($("#table-pegawai").length>0) {
         uri = encodeURIComponent(dta.trim());
       }
       $(".btn-print").prop('href',location.href+'/ekspor-pdf?q='+uri+'&rows='+rows+'&page='+start);
+      $(".confirm").on('click',function(){
+        var txt = $(this).data('text');
+        if (!confirm(txt)) {
+          return false;
+        }
+      });
+    }
+  });
+}
+
+if ($("#table-absensi-ruang").length>0) {
+  var table = $("#table-absensi-ruang").DataTable({
+    processing: true,
+    serverSide: true,
+    responsive: true,
+    ajax: location.href,
+    columns: [
+      {data: 'id'},
+      {data: 'nama_ruang', name: 'nama_ruang'},
+      {data: 'desc', name: 'desc'},
+      {data: 'action', name: 'action', orderable: false, searchable: false},
+    ],
+    "language": language,
+    'drawCallback': function(settings){
+      $(".confirm").on('click',function(){
+        var txt = $(this).data('text');
+        if (!confirm(txt)) {
+          return false;
+        }
+      });
+    }
+  });
+  table.on( 'draw.dt', function () {
+    table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
+      cell.innerHTML = (i+1)+'.';
+    });
+  }).draw();
+}
+
+if ($("#table-absensi-jadwal").length>0) {
+  var table = $("#table-absensi-jadwal").DataTable({
+    processing: true,
+    serverSide: true,
+    responsive: true,
+    ajax: location.href,
+    columns: [
+      {data: 'id'},
+      {data: 'nama_jadwal', name: 'nama_jadwal'},
+      {data: 'get_ruang.nama_ruang', name: 'get_ruang.nama_ruang'},
+      {data: 'cin', name: 'cin'},
+      {data: 'cout', name: 'cout'},
+      {data: 'late', name: 'late'},
+      {data: 'early', name: 'early'},
+      {data: 'nama_hari', name: 'nama_hari'},
+      {data: 'action', name: 'action', orderable: false, searchable: false},
+    ],
+    "language": language,
+    'drawCallback': function(settings){
+      $(".confirm").on('click',function(){
+        var txt = $(this).data('text');
+        if (!confirm(txt)) {
+          return false;
+        }
+      });
+    }
+  });
+  table.on( 'draw.dt', function () {
+    table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
+      cell.innerHTML = (i+1)+'.';
+    });
+  }).draw();
+}
+
+if ($("#table-absensi-jadwal-absen-user").length>0) {
+  var table = $("#table-absensi-jadwal-absen-user").DataTable({
+    processing: true,
+    serverSide: true,
+    responsive: true,
+    ajax: location.href,
+    columns: [
+      {data: 'id'},
+      {data: 'name', name: 'name'},
+      {data: 'role_text', name: 'role_text'},
+      {data: 'jadwal', name: 'jadwal'},
+      {data: 'action', name: 'action', orderable: false, searchable: false},
+      {data: 'role', name: 'role', visible: false, searchable: true, orderable: false},
+    ],
+    "language": language,
+    'drawCallback': function(settings){
+      $(".confirm").on('click',function(){
+        var txt = $(this).data('text');
+        if (!confirm(txt)) {
+          return false;
+        }
+      });
+    }
+  });
+  table.on( 'draw.dt', function () {
+    table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
+      cell.innerHTML = (i+1)+'.';
+    });
+  }).draw();
+}
+
+if ($("#table-absensi-edit-jadwal-user").length>0) {
+  var table = $("#table-absensi-edit-jadwal-user").DataTable({
+    responsive: true,
+    "language": language,
+    'drawCallback': function(settings){
       $(".confirm").on('click',function(){
         var txt = $(this).data('text');
         if (!confirm(txt)) {

@@ -29,7 +29,7 @@
       <div class="col-md-6">
         <div class="form-group">
           <label for="tanggal_lahir">Tanggal Lahir</label>
-          <input type="date" name="tanggal_lahir" class="form-control" id="tanggal_lahir" value="{{ old('tanggal_lahir') }}" placeholder="Tanggal Lahir">
+          <input type="text" name="tanggal_lahir" class="form-control datepicker" id="tanggal_lahir" value="{{ old('tanggal_lahir') }}" placeholder="Tanggal Lahir">
         </div>
       </div>
     </div>

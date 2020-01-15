@@ -6,6 +6,10 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use Modules\Absensi\Entities\Jadwal;
+use Modules\Absensi\Entities\Ruang;
+use Modules\Absensi\Entities\AbsensiLogs;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -44,5 +48,20 @@ class User extends Authenticatable
     public function siswa()
     {
       return $this->belongsTo(Siswa::class,'id_user');
+    }
+
+    public function jadwal()
+    {
+      return $this->belongsToMany(Jadwal::class,'absensi_jadwal_user','user_id','jadwal_id');
+    }
+
+    public function absen()
+    {
+      return  $this->hasMany(AbsensiLogs::class,'user_id');
+    }
+
+    public function absenRuang()
+    {
+      return $this->belongsToMany(Ruang::class,'absensi_log','user_id','ruang_id')->withTimestamps();
     }
 }

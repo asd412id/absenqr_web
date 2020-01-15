@@ -40,7 +40,7 @@
             <tr>
               <td>{{ $v->nip }}</td>
               <td>{{ $v->nama }}</td>
-              <td>{{ $v->tempat_lahir??'-' }}, {{ $v->tanggal_lahir?date('d-m-Y',strtotime($v->tanggal_lahir)):'-' }}</td>
+              <td>{{ $v->tempat_lahir??'-' }}, {{ $v->tanggal_lahir??'-' }}</td>
               <td>{{ $v->jenis_kelamin==1?'Laki - Laki':'Perempuan' }}</td>
               <td>{{ strtoupper($v->status_kepegawaian) }}</td>
               <td>{{ $v->jabatan }}</td>

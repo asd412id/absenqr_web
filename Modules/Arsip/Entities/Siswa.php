@@ -5,6 +5,8 @@ namespace Modules\Arsip\Entities;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 
+use Carbon\Carbon;
+
 class Siswa extends Model
 {
   protected $table = 'siswa';
@@ -49,6 +51,46 @@ class Siswa extends Model
     'pendidikan_lanjut',
     'foto',
   ];
+
+  public function getTanggalLahirAttribute($value)
+  {
+    return $value?date('d-m-Y',strtotime($value)):null;
+  }
+
+  public function getTanggalDiterimaAttribute($value)
+  {
+    return $value?date('d-m-Y',strtotime($value)):null;
+  }
+
+  public function getTanggalTamatAttribute($value)
+  {
+    return $value?date('d-m-Y',strtotime($value)):null;
+  }
+
+  public function getTanggalIjazahAttribute($value)
+  {
+    return $value?date('d-m-Y',strtotime($value)):null;
+  }
+
+  public function setTanggalLahirAttribute($value)
+  {
+    $this->attributes['tanggal_lahir'] = $value?Carbon::createFromFormat('d-m-Y',$value)->format('Y-m-d'):null;
+  }
+
+  public function setTanggalDiterimaAttribute($value)
+  {
+    $this->attributes['tanggal_diterima'] = $value?Carbon::createFromFormat('d-m-Y',$value)->format('Y-m-d'):null;
+  }
+
+  public function setTanggalTamatAttribute($value)
+  {
+    $this->attributes['tanggal_tamat'] = $value?Carbon::createFromFormat('d-m-Y',$value)->format('Y-m-d'):null;
+  }
+
+  public function setTanggalIjazahAttribute($value)
+  {
+    $this->attributes['tanggal_ijazah'] = $value?Carbon::createFromFormat('d-m-Y',$value)->format('Y-m-d'):null;
+  }
 
   public function user()
   {

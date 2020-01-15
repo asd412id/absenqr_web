@@ -25,6 +25,15 @@
             <a href="{{ route('pegawai.index') }}"><i class="fas fa-user-tie"></i><span>Guru & Pegawai</span></a>
           </div>
           <div class="nav-lavel">DATA ABSENSI</div>
+          <div class="nav-item{{ strpos(Request::url(),route('absensi.ruang.index'))!==false?' active':'' }}">
+            <a href="{{ route('absensi.ruang.index') }}"><i class="fas fa-dungeon"></i><span>Ruang Absensi</span></a>
+          </div>
+          <div class="nav-item{{ strpos(Request::url(),route('absensi.jadwal.index'))!==false?' active':'' }}">
+            <a href="{{ route('absensi.jadwal.index') }}"><i class="fas fa-clock"></i><span>Jadwal Absensi</span></a>
+          </div>
+          <div class="nav-item{{ strpos(Request::url(),route('absensi.jadwal.user.index'))!==false?' active':'' }}">
+            <a href="{{ route('absensi.jadwal.user.index') }}"><i class="fas fa-users"></i><span>Jadwal Absen User</span></a>
+          </div>
         @endif
         <div class="nav-lavel">PENGATURAN</div>
         <div class="nav-item{{ Request::url()==route('profile')?' active':'' }}">

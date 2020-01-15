@@ -43,7 +43,7 @@
               <td>{{ $v->nisn }}</td>
               <td>{{ $v->nis }}</td>
               <td>{{ $v->nama_lengkap }}</td>
-              <td>{{ $v->tempat_lahir??'-' }}, {{ $v->tanggal_lahir?date('d-m-Y',strtotime($v->tanggal_lahir)):'-' }}</td>
+              <td>{{ $v->tempat_lahir??'-' }}, {{ $v->tanggal_lahir??'-' }}</td>
               <td>{{ $v->jenis_kelamin==1?'Laki - Laki':'Perempuan' }}</td>
               <td>{{ $v->asal_sekolah }}</td>
             </tr>

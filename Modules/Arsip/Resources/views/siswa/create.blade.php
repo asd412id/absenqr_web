@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('title',$title)
 @section('header')
-<link rel="stylesheet" href="{{ asset('assets/vendor/datetimepicker/css/datetimepicker.min.css') }}">
+  <link rel="stylesheet" href="{{ url('assets/vendor/jquery.datetimepicker/jquery.datetimepicker.min.css') }}">
 @endsection
 @section('head_icon')
   <i class="ik ik-users bg-green"></i>
@@ -36,11 +36,16 @@
 @endsection
 
 @section('footer')
-@if ($errors->any())
+<script src="{{ url('assets/vendor/jquery.datetimepicker/jquery.datetimepicker.full.min.js') }}" charset="utf-8"></script>
 <script type="text/javascript">
-  @foreach ($errors->all() as $key => $err)
-    showDangerToast('{{ $err }}')
-  @endforeach
+  $(".datepicker").datetimepicker({
+    timepicker: false,
+    format:'d-m-Y'
+  });
+  @if ($errors->any())
+    @foreach ($errors->all() as $key => $err)
+      showDangerToast('{{ $err }}')
+    @endforeach
+  @endif
 </script>
-@endif
 @endsection

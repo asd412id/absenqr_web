@@ -34,7 +34,7 @@ class SiswaController extends Controller
       ->addColumn('ttl',function($row){
         $ttl = $row->tempat_lahir??'-';
         $ttl .= ', ';
-        $ttl .= $row->tanggal_lahir?date('d-m-Y',strtotime($row->tanggal_lahir)):'-';
+        $ttl .= $row->tanggal_lahir;
         return $ttl;
       })
       ->addColumn('activate_key',function($row){
@@ -421,7 +421,7 @@ class SiswaController extends Controller
             $import->nama_lengkap = $row[2];
             $import->jenis_kelamin = $row[3]=='L'?1:2;
             $import->tempat_lahir = $row[4];
-            $import->tanggal_lahir = $row[5]?Carbon::createFromFormat('Y/m/d',$row[5])->format('Y-m-d'):null;
+            $import->tanggal_lahir = $row[5]?Carbon::createFromFormat('Y/m/d',$row[5])->format('d-m-Y'):null;
             $import->asal_sekolah = $row[6];
             $import->alamat = $row[7];
             $import->nama_ayah = $row[11];

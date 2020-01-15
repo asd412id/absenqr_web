@@ -17,7 +17,7 @@
       <div class="col-md-6">
         <div class="form-group">
           <label for="tanggal_lahir">Tanggal Lahir</label>
-          <input type="date" name="tanggal_lahir" class="form-control" id="tanggal_lahir" value="{{ $data->tanggal_lahir }}" placeholder="Tanggal Lahir">
+          <input type="text" name="tanggal_lahir" class="form-control datepicker" id="tanggal_lahir" value="{{ $data->tanggal_lahir }}" placeholder="Tanggal Lahir">
         </div>
       </div>
     </div>
@@ -166,7 +166,7 @@
     </div>
     <div class="form-group">
       <label for="mulai_masuk">Mulai Masuk</label>
-      <input type="date" name="mulai_masuk" class="form-control" id="mulai_masuk" value="{{ $data->mulai_masuk }}" placeholder="Mulai Masuk">
+      <input type="text" name="mulai_masuk" class="form-control datepicker" id="mulai_masuk" value="{{ $data->mulai_masuk }}" placeholder="Mulai Masuk">
     </div>
     <div class="form-group">
       <label>Ubah Foto</label>
