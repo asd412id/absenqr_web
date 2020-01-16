@@ -9,6 +9,10 @@ use Illuminate\Notifications\Notifiable;
 use Modules\Absensi\Entities\Jadwal;
 use Modules\Absensi\Entities\Ruang;
 use Modules\Absensi\Entities\AbsensiLogs;
+use Modules\Absensi\Entities\AbsensiDesc;
+
+use Modules\Arsip\Entities\Pegawai;
+use Modules\Arsip\Entities\Siswa;
 
 class User extends Authenticatable
 {
@@ -58,6 +62,11 @@ class User extends Authenticatable
     public function absen()
     {
       return  $this->hasMany(AbsensiLogs::class,'user_id');
+    }
+
+    public function absenDesc()
+    {
+      return  $this->hasMany(AbsensiDesc::class,'user_id');
     }
 
     public function absenRuang()

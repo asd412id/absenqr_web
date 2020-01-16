@@ -178,7 +178,6 @@ class JadwalController extends Controller
     Validator::make($request->all(),$role,$msgs)->validate();
 
     $insert = Jadwal::where('uuid',$uuid)->first();
-    $insert->uuid = (string) Str::uuid();
     $insert->nama_jadwal = $request->nama_jadwal;
     $insert->ruang = $request->ruang;
     $insert->hari = $request->hari;

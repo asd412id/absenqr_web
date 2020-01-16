@@ -25,6 +25,9 @@
             <a href="{{ route('pegawai.index') }}"><i class="fas fa-user-tie"></i><span>Guru & Pegawai</span></a>
           </div>
           <div class="nav-lavel">DATA ABSENSI</div>
+          <div class="nav-item{{ Request::url()==route('absensi.index')?' active':'' }}">
+            <a href="{{ route('absensi.index') }}"><i class="ik ik-bar-chart-2"></i><span>Status Absensi</span></a>
+          </div>
           <div class="nav-item{{ strpos(Request::url(),route('absensi.ruang.index'))!==false?' active':'' }}">
             <a href="{{ route('absensi.ruang.index') }}"><i class="fas fa-dungeon"></i><span>Ruang Absensi</span></a>
           </div>
@@ -33,6 +36,12 @@
           </div>
           <div class="nav-item{{ strpos(Request::url(),route('absensi.jadwal.user.index'))!==false?' active':'' }}">
             <a href="{{ route('absensi.jadwal.user.index') }}"><i class="fas fa-users"></i><span>Jadwal Absen User</span></a>
+          </div>
+          <div class="nav-item{{ strpos(Request::url(),route('absensi.desc.index'))!==false?' active':'' }}">
+            <a href="{{ route('absensi.desc.index') }}"><i class="fas fa-edit"></i><span>Keterangan Absensi</span></a>
+          </div>
+          <div class="nav-item{{ strpos(Request::url(),route('absensi.log.index'))!==false?' active':'' }}">
+            <a href="{{ route('absensi.log.index') }}"><i class="fas fa-clipboard-list"></i><span>Absensi Log</span></a>
           </div>
         @endif
         <div class="nav-lavel">PENGATURAN</div>

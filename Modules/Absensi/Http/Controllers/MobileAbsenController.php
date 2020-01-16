@@ -22,7 +22,7 @@ class MobileAbsenController extends Controller
     if (!$ruang) {
       return response()->json([
         'status'=>'error',
-        'message'=>'QRCode tidak terdaftar!',
+        'message'=>'QR Code tidak terdaftar!',
       ],404);
     }
 

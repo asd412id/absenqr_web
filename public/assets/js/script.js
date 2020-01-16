@@ -328,6 +328,36 @@ if ($("#table-absensi-jadwal-absen-user").length>0) {
     });
   }).draw();
 }
+if ($("#table-absensi-desc").length>0) {
+  var table = $("#table-absensi-desc").DataTable({
+    processing: true,
+    serverSide: true,
+    responsive: true,
+    ajax: location.href,
+    columns: [
+      {data: 'id'},
+      {data: 'user.name', name: 'user.name'},
+      {data: 'get_time', name: 'get_time'},
+      {data: 'desc', name: 'desc'},
+      {data: 'action', name: 'action', orderable: false, searchable: false},
+      {data: 'time', name: 'time',visible: false},
+    ],
+    "language": language,
+    'drawCallback': function(settings){
+      $(".confirm").on('click',function(){
+        var txt = $(this).data('text');
+        if (!confirm(txt)) {
+          return false;
+        }
+      });
+    }
+  });
+  table.on( 'draw.dt', function () {
+    table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
+      cell.innerHTML = (i+1)+'.';
+    });
+  }).draw();
+}
 
 if ($("#table-absensi-edit-jadwal-user").length>0) {
   var table = $("#table-absensi-edit-jadwal-user").DataTable({

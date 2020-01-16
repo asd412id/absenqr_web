@@ -13,7 +13,7 @@
 @section('head_title','Jadwal Absen '.$data->name)
 @section('head_desc','Ubah Data Jadwal Absensi')
 @section('breadcrumb')
-  <li class="breadcrumb-item"><a href="{{ route('absensi.jadwal.index') }}">{{ 'Jadwal Absensi' }}</a></li>
+  <li class="breadcrumb-item"><a href="{{ route('absensi.jadwal.index') }}">{{ 'Jadwal Absen User' }}</a></li>
   <li class="breadcrumb-item active" aria-current="page">{{ $title }}</li>
 @endsection
 

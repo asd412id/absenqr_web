@@ -12,7 +12,7 @@
 */
 
 Route::prefix('absensi')->middleware('web','auth')->group(function() {
-    Route::get('/', 'AbsensiController@index');
+    Route::get('/', 'AbsensiController@index')->name('absensi.index');
 
     Route::group(['prefix'=>'ruang'], function()
     {
@@ -41,5 +41,21 @@ Route::prefix('absensi')->middleware('web','auth')->group(function() {
       Route::get('/{uuid}/ubah', 'JadwalUserController@edit')->name('absensi.jadwal.user.edit');
       Route::post('/{uuid}/ubah', 'JadwalUserController@update')->name('absensi.jadwal.user.update');
       Route::get('/{uuid}/reset', 'JadwalUserController@reset')->name('absensi.jadwal.user.reset');
+    });
+
+    Route::group(['prefix'=>'keterangan'], function()
+    {
+      Route::get('/', 'AbsensiDescController@index')->name('absensi.desc.index');
+      Route::get('/tambah', 'AbsensiDescController@create')->name('absensi.desc.create');
+      Route::post('/tambah', 'AbsensiDescController@store')->name('absensi.desc.store');
+      Route::get('/{uuid}/ubah', 'AbsensiDescController@edit')->name('absensi.desc.edit');
+      Route::post('/{uuid}/ubah', 'AbsensiDescController@update')->name('absensi.desc.update');
+      Route::get('/{uuid}/hapus', 'AbsensiDescController@destroy')->name('absensi.desc.destroy');
+    });
+
+    Route::group(['prefix'=>'log'], function()
+    {
+      Route::get('/', 'AbsensiLogController@index')->name('absensi.log.index');
+      Route::post('/', 'AbsensiLogController@showLogs')->name('absensi.log.show');
     });
 });
