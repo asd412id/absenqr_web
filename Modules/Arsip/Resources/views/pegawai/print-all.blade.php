@@ -54,7 +54,7 @@
           <td rowspan="5" width="150">
             {!! \QrCode::size('95')->generate('daftar pegawai - '.time().' - by asd412id') !!}
           </td>
-          <td style="height: 30px">Sinjai, {{ date('d/m/Y') }}</td>
+          <td style="height: 30px">Sinjai, {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('d F Y') }}</td>
         </tr>
         <tr>
           <td>Mengetahui,</td>

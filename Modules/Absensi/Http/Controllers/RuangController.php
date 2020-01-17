@@ -162,7 +162,7 @@ class RuangController extends Controller
     if ($ruang->foto) {
       Storage::disk('public')->delete($ruang->foto);
     }
-    $ruang->user->delete();
+    $ruang->absenUser()->detach();
     if ($ruang->delete()) {
       return redirect()->route('absensi.ruang.index')->with('message','Data berhasil dihapus!');
     }
@@ -193,15 +193,4 @@ class RuangController extends Controller
     return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
   }
 
-  public function resetLogin($uuid)
-  {
-    $ruang = Ruang::where('uuid',$uuid)->first();
-    $ruang->user->update([
-      'api_token' => null,
-      'activate_key' => null,
-      'changed_password' => 0,
-      'active' => 0,
-    ]);
-    return redirect()->back()->with('message', 'Data login berhasil direset');
-  }
 }

@@ -42,9 +42,10 @@
       }
       tr, td, th, tbody, thead, tfoot {
         page-break-inside: avoid !important;
+        break-inside: avoid-page !important;
+        page-break-before: avoid !important;
+        page-break-after: avoid !important;
       }
-      thead {display: table-header-group !important}
-      tfoot {display: table-row-group !important}
     </style>
   </head>
   <body>
@@ -71,7 +72,7 @@
           <td rowspan="5" width="150">
             {!! \QrCode::size('95')->generate('absen log - _'.time().' - by asd412id') !!}
           </td>
-          <td style="height: 30px">Sinjai, {{ date('d/m/Y') }}</td>
+          <td style="height: 30px">Sinjai, {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('d F Y') }}</td>
         </tr>
         <tr>
           <td>Mengetahui,</td>

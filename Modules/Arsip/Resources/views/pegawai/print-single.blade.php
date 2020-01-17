@@ -17,8 +17,11 @@
       .page-break{
         page-break-before: always;
       }
-      table tr{
+      tr, td, th, tbody, thead, tfoot {
         page-break-inside: avoid !important;
+        break-inside: avoid-page !important;
+        page-break-before: avoid !important;
+        page-break-after: avoid !important;
       }
     </style>
   </head>
@@ -183,7 +186,7 @@
           <td rowspan="5" width="150">
             {!! \QrCode::size('95')->generate('pegawai - '.$data->uuid.'_'.time().' - by asd412id') !!}
           </td>
-          <td style="height: 30px">Sinjai, {{ date('d/m/Y') }}</td>
+          <td style="height: 30px">Sinjai, {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('d F Y') }}</td>
         </tr>
         <tr>
           <td>Mengetahui,</td>
