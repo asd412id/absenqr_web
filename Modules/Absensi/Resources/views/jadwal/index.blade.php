@@ -31,8 +31,8 @@
               <th width="10">#</th>
               <th>Nama Jadwal</th>
               <th>Ruang</th>
-              <th>Masuk</th>
-              <th>Keluar</th>
+              <th>Check In</th>
+              <th>Check Out</th>
               <th>Terlambat (Menit)</th>
               <th>Pulang Cepat (Menit)</th>
               <th>Hari</th>

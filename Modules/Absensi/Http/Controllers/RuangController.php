@@ -173,7 +173,7 @@ class RuangController extends Controller
   {
     $ruang = Ruang::where('uuid',$uuid)->first();
     $data = [
-      'title'=>'Absen Ruang '.$ruang->nama_ruang,
+      'title'=>$ruang->nama_ruang,
       'data'=>$ruang
     ];
     $view = view('absensi::ruang.print',$data)->render();

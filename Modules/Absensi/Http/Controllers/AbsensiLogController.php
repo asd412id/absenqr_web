@@ -151,16 +151,19 @@ class AbsensiLogController extends Controller
           $cin = $cin?$cin->format('H:i'):null;
           $cout = $cout?$cout->format('H:i'):null;
 
-          if ($d->lessThanOrEqualTo(Carbon::now()) || $d->diffInDays(Carbon::now())==0) {
+          if ($cin || $jend_cin->lessThanOrEqualTo(Carbon::now())) {
             $colorCin = $cin?$late?'bg-warning':'':'bg-danger';
+          }
+
+          if ($cout || $jend_cout->lessThanOrEqualTo(Carbon::now())) {
             $colorCout = $cout?$early?'bg-warning':'':'bg-danger';
           }
 
           $data = [
             'acin'=>$cin,
             'acout'=>$cout,
-            'alate'=>$cin&&$cout?$late.' Menit':null,
-            'aearly'=>$cin&&$cout?$early.' Menit':null,
+            'alate'=>$cin?$late.' Menit':null,
+            'aearly'=>$cout?$early.' Menit':null,
             'acount'=>$cin&&$cout?$count.' Jam':null,
             'jadwal'=>$j,
             'colorCin'=>$colorCin,
