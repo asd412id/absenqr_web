@@ -28,7 +28,7 @@ class MobileAuth
         'status'=>'error',
         'error'=>'new_password',
         'message'=>'Password belum diganti'
-      ],400);
+      ],401);
     }
     return $next($request);
   }
