@@ -112,7 +112,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="daftarjadwal-title">Daftar Jadwal</h5>
+          <h5 class="modal-title" id="daftarjadwal-title">Filter Jadwal</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
