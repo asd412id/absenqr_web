@@ -29,6 +29,11 @@
       <div class="text-center">
         {!! \QrCode::size('350')->generate($data->_token) !!}
       </div>
+      @if ($data->desc)
+        <h3 class="text-center" style="margin: 0">
+          {{ $data->desc }}
+        </h3>
+      @endif
     </div>
   </body>
 </html>

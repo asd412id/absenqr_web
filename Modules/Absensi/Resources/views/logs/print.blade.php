@@ -46,6 +46,9 @@
         page-break-before: avoid !important;
         page-break-after: avoid !important;
       }
+      .table{
+        font-size: 0.95em;
+      }
     </style>
   </head>
   <body>

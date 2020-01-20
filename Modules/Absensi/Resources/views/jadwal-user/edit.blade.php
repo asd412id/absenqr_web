@@ -2,7 +2,7 @@
 @section('title',$title)
 @section('header')
   <style media="screen">
-    .table td:nth-child(8){
+    .table td{
       white-space: normal !important;
     }
   </style>
@@ -18,9 +18,17 @@
 @endsection
 
 @section('content')
+@php
+$data_jadwal = $data->jadwal()->select('id')->get()->pluck('id')->toArray();
+@endphp
 <form action="{{ route('absensi.jadwal.user.update',['uuid'=>$data->uuid]) }}" enctype="multipart/form-data" method="post">
   @csrf
   <div class="row">
+    <div id="jadwal-wrapper">
+      @foreach ($data_jadwal as $key => $jd)
+        <input type="hidden" name="jadwal_user[]" value="{{ $jd }}" id="jadwal_{{ $jd}}">
+      @endforeach
+    </div>
     <div class="col-sm-12">
       <div class="card">
         <div class="card-body">
@@ -53,7 +61,7 @@
                   <td>{{ $v->early }}</td>
                   <td>{{ implode(", ",$v->nama_hari) }}</td>
                   <td>
-                    <input type="checkbox" class="check_jadwal" name="jadwal_user[]" value="{{ $v->id }}" {{ in_array($v->id,$data->jadwal()->select('id')->get()->pluck('id')->toArray()) ?'checked':''}}>
+                    <input type="checkbox" class="check_jadwal" data-target="jadwal_{{ $v->id }}" data-id="{{ $v->id }}" {{ in_array($v->id,$data_jadwal) ?'checked':''}}>
                   </td>
                 </tr>
               @endforeach
@@ -81,17 +89,34 @@
       }
       $("#select-all").prop('checked',true);
     })
+
+    $(".check_jadwal").each(function(i,e){
+      let target = $(e).data('target');
+      let v = $(e).data('id');
+      if ($(e).is(":checked")) {
+        let w = '<input type="hidden" name="jadwal_user[]" value="'+v+'" id="'+target+'" />';
+        let isSet = $("#jadwal-wrapper").find("#"+target).length;
+        if (isSet == 0) {
+          $("#jadwal-wrapper").append(w);
+        }
+      }else{
+        $("#jadwal-wrapper").find("#"+target).remove();
+      }
+    })
+
   }
-  $(".check_jadwal").change(function(){
+  $(".check_jadwal").on('change',function(){
     checkBox();
   })
   $("#select-all").change(function(){
     if ($(this).is(":checked")) {
-      $(".check_jadwal").prop('checked',true);
+      $(".check_jadwal").prop('checked',true).change();
     }else{
-      $(".check_jadwal").prop('checked',false);
+      $(".check_jadwal").prop('checked',false).change();
     }
   })
+
+  checkBox();
 
   $(".timepicker").datetimepicker({
     datepicker:false,

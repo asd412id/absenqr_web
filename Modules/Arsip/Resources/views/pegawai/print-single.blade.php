@@ -17,11 +17,8 @@
       .page-break{
         page-break-before: always;
       }
-      tr, td, th, tbody, thead, tfoot {
+      table tr{
         page-break-inside: avoid !important;
-        break-inside: avoid-page !important;
-        page-break-before: avoid !important;
-        page-break-after: avoid !important;
       }
     </style>
   </head>

@@ -83,10 +83,16 @@
               $hari = [7=>'Ahad',1=>'Senin',2=>'Selasa',3=>'Rabu',4=>'Kamis',5=>'Jum\'at',6=>'Sabtu'];
             @endphp
             <div class="row">
+              <div class="col-sm-3">
+                <label>
+                  <input type="checkbox" id="select-all">
+                  <span style="position: relative;top: -2px;">Semua Hari</span>
+                </label>
+              </div>
               @foreach ($hari as $key => $h)
                 <div class="col-sm-3">
                   <label>
-                    <input type="checkbox" name="hari[]" value="{{ $key }}" checked>
+                    <input type="checkbox" class="daftar_hari" name="hari[]" value="{{ $key }}">
                     <span style="position: relative;top: -2px;">{{ $h }}</span>
                   </label>
                 </div>
@@ -107,6 +113,43 @@
 @section('footer')
 <script src="{{ url('assets/vendor/jquery.datetimepicker/jquery.datetimepicker.full.min.js') }}" charset="utf-8"></script>
 <script type="text/javascript">
+  function checkBox() {
+    $(".daftar_hari").each(function(i,v){
+      if (!$(v).is(":checked")) {
+        $("#select-all").prop('checked',false);
+        return false;
+      }
+      $("#select-all").prop('checked',true);
+    })
+
+    $(".daftar_hari").each(function(i,e){
+      let target = $(e).data('target');
+      let v = $(e).data('id');
+      if ($(e).is(":checked")) {
+        let w = '<input type="hidden" name="jadwal_user[]" value="'+v+'" id="'+target+'" />';
+        let isSet = $("#jadwal-wrapper").find("#"+target).length;
+        if (isSet == 0) {
+          $("#jadwal-wrapper").append(w);
+        }
+      }else{
+        $("#jadwal-wrapper").find("#"+target).remove();
+      }
+    })
+
+  }
+  $(".daftar_hari").on('change',function(){
+    checkBox();
+  })
+  $("#select-all").change(function(){
+    if ($(this).is(":checked")) {
+      $(".daftar_hari").prop('checked',true).change();
+    }else{
+      $(".daftar_hari").prop('checked',false).change();
+    }
+  })
+
+  checkBox();
+
   $(".timepicker").datetimepicker({
     datepicker:false,
     format:'H:i',

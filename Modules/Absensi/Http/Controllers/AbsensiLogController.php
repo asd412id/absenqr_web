@@ -17,7 +17,7 @@ class AbsensiLogController extends Controller
   public function index()
   {
     $user = User::where('role','!=','admin')->get();
-    $jadwal = Jadwal::all();
+    $jadwal = Jadwal::has('user')->get();
     $data = [
       'title' => 'Absensi Log',
       'users' => $user,
@@ -54,7 +54,7 @@ class AbsensiLogController extends Controller
     $logs = $this->getLogs($users,$dates,$r);
 
     $user = User::where('role','!=','admin')->get();
-    $jadwal = Jadwal::all();
+    $jadwal = Jadwal::has('user')->get();
     $data = [
       'title' => 'Absensi Log',
       'users' => $user,
@@ -63,6 +63,7 @@ class AbsensiLogController extends Controller
     ];
 
     if ($r->download_pdf) {
+      $data['title'] .= ' ('.Carbon::now()->format('j F Y').').pdf';
       if (!count($logs)) {
         return redirect()->route('absensi.log.index')->withErrors(['Log absen tidak tersedia!']);
       }

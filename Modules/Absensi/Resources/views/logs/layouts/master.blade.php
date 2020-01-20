@@ -58,32 +58,31 @@
               <div class="input-group" id="range">
                 <input type="text" class="form-control" value="{{ request()->start_date??date('Y/m/d') }}" name="start_date" id="start_date">
                 <div class="input-group-append">
-                  <span class="input-group-text">--</span>
+                  <span class="input-group-text">ke</span>
                 </div>
                 <input type="text" class="form-control" value="{{ request()->end_date??date('Y/m/d') }}" name="end_date" id="end_date">
               </div>
             </div>
             <div class="col-sm-3">
+              <button type="button" class="btn btn-success btn-cari" id="btn-filter">Filter</button>
               <button type="submit" class="btn btn-primary btn-cari" onclick="$(this).closest('form').prop('target','_self')">Proses</button>
               @if (@count($data))
                 <input type="submit" name="download_pdf" value="Dowload" class="btn btn-danger" style="position: relative;top: 3px" onclick="$(this).closest('form').prop('target','_blank')">
               @endif
             </div>
           </div>
-          <div class="row">
-            <div class="col-sm-12 text-center">
+          <div class="row" id="filter-jadwal" style="display: none">
+            <div class="col-sm-12">
+              <label class="checkbox-inline" style="margin: 5px;margin-bottom: 15px">
+                <input type="checkbox" id="select-all">
+                <span style="position: relative;top: -2px;">Pilih Semua</span>
+              </label>
               @foreach ($jadwal as $key => $v)
                 <label class="checkbox-inline" style="margin: 5px;margin-bottom: 15px">
-                  <input {{ request()->jadwal&&in_array($v->uuid,request()->jadwal)?'checked':'' }} {{ !request()->jadwal?'checked':'' }} type="checkbox" name="jadwal[]" value="{{ $v->uuid }}">
+                  <input {{ request()->jadwal&&in_array($v->uuid,request()->jadwal)?'checked':'' }} {{ !request()->jadwal?'checked':'' }} type="checkbox" class="daftar_jadwal" name="jadwal[]" value="{{ $v->uuid }}">
                   <span style="position: relative;top: -2px">{{ $v->nama_jadwal.' ('.$v->get_ruang->nama_ruang.')' }}</span>
                 </label>
               @endforeach
-              {{-- <select class="form-control" name="jadwal" id="jadwal">
-                <option {{ !request()->jadwal?'selected':'' }} value="">Semua Jadwal</option>
-                @foreach ($jadwal as $key => $v)
-                  <option {{ $v->uuid==request()->jadwal?'selected':'' }} value="{{ $v->uuid }}">{{ $v->nama_jadwal }}</option>
-                @endforeach
-              </select> --}}
             </div>
           </div>
         </form>
@@ -98,6 +97,48 @@
 @section('footer')
 <script src="{{ url('assets/vendor/jquery.datetimepicker/jquery.datetimepicker.full.min.js') }}" charset="utf-8"></script>
 <script type="text/javascript">
+  function checkBox() {
+    $(".daftar_jadwal").each(function(i,v){
+      if (!$(v).is(":checked")) {
+        $("#select-all").prop('checked',false);
+        return false;
+      }
+      $("#select-all").prop('checked',true);
+    })
+
+    $(".daftar_jadwal").each(function(i,e){
+      let target = $(e).data('target');
+      let v = $(e).data('id');
+      if ($(e).is(":checked")) {
+        let w = '<input type="hidden" name="jadwal_user[]" value="'+v+'" id="'+target+'" />';
+        let isSet = $("#jadwal-wrapper").find("#"+target).length;
+        if (isSet == 0) {
+          $("#jadwal-wrapper").append(w);
+        }
+      }else{
+        $("#jadwal-wrapper").find("#"+target).remove();
+      }
+    })
+
+  }
+  $(".daftar_jadwal").on('change',function(){
+    checkBox();
+  })
+  $("#select-all").change(function(){
+    if ($(this).is(":checked")) {
+      $(".daftar_jadwal").prop('checked',true).change();
+    }else{
+      $(".daftar_jadwal").prop('checked',false).change();
+    }
+  })
+  checkBox();
+  $("#btn-filter").click(function(){
+    $("#filter-jadwal").slideToggle(150,function(){
+      $("#btn-filter").toggleClass('btn-warning');
+    });
+    $(this).blur();
+  })
+
   $(function(){
    $('#start_date').datetimepicker({
     format:'Y/m/d',
