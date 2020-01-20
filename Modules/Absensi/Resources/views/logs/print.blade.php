@@ -21,6 +21,7 @@
         width: 100%;
         border: solid 1px #000;
         border-collapse: collapse;
+        break-inside: auto;
       }
       .table th{
         text-align: center;
@@ -33,6 +34,7 @@
       }
       .table td{
         text-align: center;
+        vertical-align: middle;
       }
       .text-center{
         text-align: center !important;
@@ -43,11 +45,14 @@
       tr, td, th, tbody, thead, tfoot {
         page-break-inside: avoid !important;
         break-inside: avoid-page !important;
-        page-break-before: avoid !important;
-        page-break-after: avoid !important;
+        page-break-before: auto !important;
+        page-break-after: auto !important;
       }
       .table{
         font-size: 0.95em;
+      }
+      .table th{
+        text-transform: uppercase;
       }
       .table th, .table td{
         padding: 3px 7px;
@@ -60,15 +65,16 @@
       @if (count($data))
         @php
           $carbon = new \Carbon\Carbon;
+          $tanggal = request()->start_date==request()->end_date?$carbon->createFromFormat('Y/m/d',request()->start_date)->translatedFormat('d/m/Y'):$carbon->createFromFormat('Y/m/d',request()->start_date)->format('d/m/Y').' - '.$carbon->createFromFormat('Y/m/d',request()->end_date)->format('d/m/Y')
         @endphp
         @if (!request()->user)
           <h3 class="text-center">Rekapitulasi Absensi</h3>
-          <p class="text-center">Tanggal: {{ $carbon->createFromFormat('Y/m/d',request()->start_date)->format('d/m/Y').' - '.$carbon->createFromFormat('Y/m/d',request()->end_date)->format('d/m/Y') }}</p>
+          <p class="text-center">Tanggal: {{ $tanggal }}</p>
           @include('absensi::logs.layouts.table')
         @else
           <h3 class="text-center">Rekapitulasi Absensi</h3>
           <p class="text-center" style="margin-bottom: 0;padding-bottom: 0">Nama: {{ \App\User::where('uuid',request()->user)->first()->name }}</p>
-          <p class="text-center">Tanggal: {{ $carbon->createFromFormat('Y/m/d',request()->start_date)->format('d/m/Y').' - '.$carbon->createFromFormat('Y/m/d',request()->end_date)->format('d/m/Y') }}</p>
+          <p class="text-center">Tanggal: {{ $tanggal }}</p>
           @include('absensi::logs.layouts.table-single')
         @endif
       @endif
