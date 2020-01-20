@@ -55,19 +55,20 @@ class AbsensiLogController extends Controller
 
     $jadwal = Jadwal::has('user')->get();
     $data = [
-      'title' => 'Absensi Log ('.Carbon::now()->locale('id')->translatedFormat('j F Y').')',
+      'title' => 'Absensi Log',
       'users' => $users,
       'jadwal' => $jadwal,
       'data' => $logs,
     ];
 
-    if (request()->user) {
-      $data['title'] = 'Abseni Log - '.$users[0]->name.' ('.Carbon::now()->locale('id')->translatedFormat('j F Y').').pdf';
-    }
-
     if ($r->download_pdf) {
       if (!count($logs)) {
         return redirect()->route('absensi.log.index')->withErrors(['Log absen tidak tersedia!']);
+      }
+      if (request()->user) {
+        $data['title'] = 'Abseni Log - '.$users[0]->name.' ('.Carbon::now()->locale('id')->translatedFormat('j F Y').')';
+      }else{
+        $data['title'] = 'Abseni Log ('.Carbon::now()->locale('id')->translatedFormat('j F Y').')';
       }
       $view = view('absensi::logs.print',$data)->render();
       $client = new Client;
