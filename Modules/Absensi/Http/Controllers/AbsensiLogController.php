@@ -53,17 +53,19 @@ class AbsensiLogController extends Controller
 
     $logs = $this->getLogs($users,$dates,$r);
 
-    $user = User::where('role','!=','admin')->get();
     $jadwal = Jadwal::has('user')->get();
     $data = [
-      'title' => 'Absensi Log',
-      'users' => $user,
+      'title' => 'Absensi Log ('.Carbon::now()->locale('id')->translatedFormat('j F Y').')',
+      'users' => $users,
       'jadwal' => $jadwal,
       'data' => $logs,
     ];
 
+    if (request()->user) {
+      $data['title'] = 'Abseni Log - '.$users[0]->name.' ('.Carbon::now()->locale('id')->translatedFormat('j F Y').').pdf';
+    }
+
     if ($r->download_pdf) {
-      $data['title'] .= ' ('.Carbon::now()->format('j F Y').').pdf';
       if (!count($logs)) {
         return redirect()->route('absensi.log.index')->withErrors(['Log absen tidak tersedia!']);
       }
@@ -101,7 +103,9 @@ class AbsensiLogController extends Controller
         ->when($r->jadwal,function($q,$role){
           $q->whereIn('uuid',$role);
         })
-        ->where('hari','like','%'.$nday.'%')->get();
+        ->where('hari','like','%'.$nday.'%')
+        ->orderBy('cin','asc')
+        ->get();
         if (!$jadwal) {
           continue;
         }

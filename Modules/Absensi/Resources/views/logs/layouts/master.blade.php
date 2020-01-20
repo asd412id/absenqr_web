@@ -13,6 +13,9 @@
     .table thead th{
       vertical-align: middle;
     }
+    .table th, .table td{
+      padding: 3px 7px;
+    }
   </style>
 @endsection
 @section('head_icon')
@@ -64,7 +67,7 @@
               </div>
             </div>
             <div class="col-sm-3">
-              <button type="button" class="btn btn-success btn-cari" id="btn-filter">Filter</button>
+              <button type="button" class="btn btn-success btn-cari" id="btn-filter">Jadwal</button>
               <button type="submit" class="btn btn-primary btn-cari" onclick="$(this).closest('form').prop('target','_self')">Proses</button>
               @if (@count($data))
                 <input type="submit" name="download_pdf" value="Dowload" class="btn btn-danger" style="position: relative;top: 3px" onclick="$(this).closest('form').prop('target','_blank')">

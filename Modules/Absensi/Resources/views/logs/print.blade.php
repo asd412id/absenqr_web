@@ -49,6 +49,9 @@
       .table{
         font-size: 0.95em;
       }
+      .table th, .table td{
+        padding: 3px 7px;
+      }
     </style>
   </head>
   <body>

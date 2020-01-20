@@ -31,7 +31,7 @@
               $ddone = [];
               $h = \Carbon\Carbon::createFromFormat('d/m/Y',$key1)->format('N');
             @endphp
-            <td class="nowrap" rowspan="{{ count($day) }}">{{ $hari[$h].', '.$key1 }}</td>
+            <td class="nowrap" style="vertical-align: top" rowspan="{{ count($day) }}">{{ $hari[$h].', '.$key1 }}</td>
             @foreach ($day as $key2 => $d)
               @php
                 array_push($ddone,$key2)
@@ -69,7 +69,7 @@
               $h = \Carbon\Carbon::createFromFormat('d/m/Y',$key1)->format('N');
             @endphp
             <tr>
-              <td class="nowrap" rowspan="{{ count($day) }}">{{ $hari[$h].', '.$key1 }}</td>
+              <td class="nowrap" style="vertical-align: top" rowspan="{{ count($day) }}">{{ $hari[$h].', '.$key1 }}</td>
               @foreach ($day as $key2 => $d)
                 @php
                 array_push($ddone,$key2)
