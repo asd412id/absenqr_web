@@ -13,8 +13,24 @@
     .table thead th{
       vertical-align: middle;
     }
-    .table th, .table td{
+    .table-absen th, .table-absen td{
       padding: 3px 7px;
+    }
+    .modal .card{
+      box-shadow: none !important;
+      margin-bottom: 0;
+    }
+    .modal .card .card-body{
+      padding: 0 20px;
+    }
+    .modal-dialog{
+      max-width: 50%;
+    }
+    .modal table td{
+      white-space: normal !important;
+    }
+    label{
+      margin-bottom: 0;
     }
   </style>
 @endsection
@@ -67,26 +83,20 @@
               </div>
             </div>
             <div class="col-sm-3">
-              <button type="button" class="btn btn-success btn-cari" id="btn-filter">Jadwal</button>
+              <a href="javascript:void()" data-toggle="modal" data-target="#showjadwal" class="btn btn-success btn-cari"> Jadwal</a>
               <button type="submit" class="btn btn-primary btn-cari" onclick="$(this).closest('form').prop('target','_self')">Proses</button>
               @if (@count($data))
                 <input type="submit" name="download_pdf" value="Dowload" class="btn btn-danger" style="position: relative;top: 3px" onclick="$(this).closest('form').prop('target','_blank')">
               @endif
             </div>
           </div>
-          <div class="row" id="filter-jadwal" style="display: none">
-            <div class="col-sm-12">
-              <label class="checkbox-inline" style="margin: 5px;margin-bottom: 15px">
-                <input type="checkbox" id="select-all">
-                <span style="position: relative;top: -2px;">Pilih Semua</span>
-              </label>
-              @foreach ($jadwal as $key => $v)
-                <label class="checkbox-inline" style="margin: 5px;margin-bottom: 15px">
-                  <input {{ request()->jadwal&&in_array($v->uuid,request()->jadwal)?'checked':'' }} {{ !request()->jadwal?'checked':'' }} type="checkbox" class="daftar_jadwal" name="jadwal[]" value="{{ $v->uuid }}">
-                  <span style="position: relative;top: -2px">{{ $v->nama_jadwal.' ('.$v->get_ruang->nama_ruang.')' }}</span>
-                </label>
-              @endforeach
-            </div>
+          <div class="row" id="jadwal-wrapper" style="display: none">
+            @php
+              $list_jadwal = request()->jadwal??$jadwal;
+            @endphp
+            @foreach ($list_jadwal as $key => $jd)
+              <input type="hidden" name="jadwal[]" value="{{ $jd->uuid??$jd }}" id="jadwal_{{ $jd->uuid??$jd}}">
+            @endforeach
           </div>
         </form>
         <div class="row">
@@ -96,6 +106,58 @@
     </div>
   </div>
 </div>
+@endsection
+@section('modals')
+  <div class="modal fade" id="showjadwal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="daftarjadwal-title">Daftar Jadwal</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="card">
+              <div class="card-body">
+                <table class="table table-hover table-striped nowrap" id="table-absensi-edit-jadwal-user">
+                  <thead>
+                    <th width="10">#</th>
+                    <th>Nama Jadwal</th>
+                    <th>Ruang</th>
+                    <th>Hari</th>
+                    <th width="10">
+                      <label class="checkbox-inline">
+                        <input type="checkbox" id="select-all">
+                        <span style="position: relative;top: -2px;">Pilih</span>
+                      </label>
+                    </th>
+                  </thead>
+                  <tbody>
+                    @foreach ($jadwal as $key => $v)
+                      <tr>
+                        <td>{{ $key+1 }}</td>
+                        <td>{{ $v->nama_jadwal }}</td>
+                        <td>{{ $v->get_ruang->nama_ruang }}</td>
+                        <td>{{ implode(", ",$v->nama_hari) }}</td>
+                        <td>
+                          <input type="checkbox" class="daftar_jadwal" data-target="jadwal_{{ $v->uuid }}" data-id="{{ $v->uuid }}" {{ request()->jadwal&&in_array($v->uuid,request()->jadwal)?'checked':'' }} {{ !request()->jadwal?'checked':'' }}>
+                        </td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+                <div class="text-right mt-10">
+                  <button class="btn btn-outline-success" type="button" data-dismiss="modal">Simpan Pilihan</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection
 @section('footer')
 <script src="{{ url('assets/vendor/jquery.datetimepicker/jquery.datetimepicker.full.min.js') }}" charset="utf-8"></script>
@@ -113,7 +175,7 @@
       let target = $(e).data('target');
       let v = $(e).data('id');
       if ($(e).is(":checked")) {
-        let w = '<input type="hidden" name="jadwal_user[]" value="'+v+'" id="'+target+'" />';
+        let w = '<input type="hidden" name="jadwal[]" value="'+v+'" id="'+target+'" />';
         let isSet = $("#jadwal-wrapper").find("#"+target).length;
         if (isSet == 0) {
           $("#jadwal-wrapper").append(w);
@@ -135,12 +197,6 @@
     }
   })
   checkBox();
-  $("#btn-filter").click(function(){
-    $("#filter-jadwal").slideToggle(150,function(){
-      $("#btn-filter").toggleClass('btn-warning');
-    });
-    $(this).blur();
-  })
 
   $(function(){
    $('#start_date').datetimepicker({

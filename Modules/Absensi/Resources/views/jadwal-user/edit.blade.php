@@ -5,6 +5,9 @@
     .table td{
       white-space: normal !important;
     }
+    label{
+      margin-bottom: 0;
+    }
   </style>
 @endsection
 @section('head_icon')
@@ -45,7 +48,7 @@ $data_jadwal = $data->jadwal()->select('id')->get()->pluck('id')->toArray();
               <th width="10">
                 <label class="checkbox-inline">
                   <input type="checkbox" id="select-all">
-                  Pilih
+                  <span style="position: relative;top: -2px;">Pilih</span>
                 </label>
               </th>
             </thead>
