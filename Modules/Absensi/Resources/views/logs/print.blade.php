@@ -60,6 +60,9 @@
       .desc{
         max-width: 225px;
       }
+      .table .badge-primary{
+        margin-bottom: 3px;
+      }
     </style>
   </head>
   <body>
