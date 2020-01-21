@@ -106,6 +106,7 @@ class AbsensiLogController extends Controller
         })
         ->where('hari','like','%'.$nday.'%')
         ->orderBy('cin','asc')
+        ->orderBy('start_cin','asc')
         ->get();
         if (!$jadwal) {
           continue;
