@@ -60,7 +60,7 @@
       .desc{
         max-width: 225px;
       }
-      .table .badge-primary{
+      .table .badge-dark{
         margin-bottom: 3px;
       }
     </style>

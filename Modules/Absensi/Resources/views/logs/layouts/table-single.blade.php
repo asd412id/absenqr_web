@@ -34,7 +34,7 @@
               @php
                 array_push($ddone,$key2)
               @endphp
-              <td class="text-left"><span class="font-weight-bold badge badge-primary p0" style="font-size: 1em;padding: 3px 7px !important">{{ $d['jadwal']->nama_jadwal }}</span><br><em class="font-weight-bold badge badge-warning p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->get_ruang->nama_ruang }}</em><br><em class="font-weight-bold badge badge-danger p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->cin.' - '.$d['jadwal']->cout }}</em></td>
+              <td class="text-left"><span class="font-weight-bold badge badge-dark p0" style="font-size: 1em;padding: 3px 7px !important">{{ $d['jadwal']->nama_jadwal }}</span><br><em class="font-weight-bold badge badge-primary p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->get_ruang->nama_ruang }}</em><br><em class="font-weight-bold badge badge-success p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->cin.' - '.$d['jadwal']->cout }}</em></td>
               <td class="{{ $d['colorCin'] }}">{{ $d['acin'] }}</td>
               <td class="{{ $d['colorCout'] }}">{{ $d['acout'] }}</td>
               <td>{{ $d['alate'] }}</td>
@@ -47,7 +47,7 @@
               @foreach ($day as $key2 => $d)
                 @continue(in_array($key2,$ddone))
                 <tr>
-                  <td class="text-left"><span class="font-weight-bold badge badge-primary p0" style="font-size: 1em;padding: 3px 7px !important">{{ $d['jadwal']->nama_jadwal }}</span><br><em class="font-weight-bold badge badge-warning p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->get_ruang->nama_ruang }}</em><br><em class="font-weight-bold badge badge-danger p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->cin.' - '.$d['jadwal']->cout }}</em></td>
+                  <td class="text-left"><span class="font-weight-bold badge badge-dark p0" style="font-size: 1em;padding: 3px 7px !important">{{ $d['jadwal']->nama_jadwal }}</span><br><em class="font-weight-bold badge badge-primary p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->get_ruang->nama_ruang }}</em><br><em class="font-weight-bold badge badge-success p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->cin.' - '.$d['jadwal']->cout }}</em></td>
                   <td class="{{ $d['colorCin'] }}">{{ $d['acin'] }}</td>
                   <td class="{{ $d['colorCout'] }}">{{ $d['acout'] }}</td>
                   <td>{{ $d['alate'] }}</td>
@@ -72,7 +72,7 @@
                 @php
                 array_push($ddone,$key2)
                 @endphp
-                <td class="text-left"><span class="font-weight-bold badge badge-primary p0" style="font-size: 1em;padding: 3px 7px !important">{{ $d['jadwal']->nama_jadwal }}</span><br><em class="font-weight-bold badge badge-warning p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->get_ruang->nama_ruang }}</em><br><em class="font-weight-bold badge badge-danger p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->cin.' - '.$d['jadwal']->cout }}</em></td>
+                <td class="text-left"><span class="font-weight-bold badge badge-dark p0" style="font-size: 1em;padding: 3px 7px !important">{{ $d['jadwal']->nama_jadwal }}</span><br><em class="font-weight-bold badge badge-primary p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->get_ruang->nama_ruang }}</em><br><em class="font-weight-bold badge badge-success p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->cin.' - '.$d['jadwal']->cout }}</em></td>
                 <td class="{{ $d['colorCin'] }}">{{ $d['acin'] }}</td>
                 <td class="{{ $d['colorCout'] }}">{{ $d['acout'] }}</td>
                 <td>{{ $d['alate'] }}</td>
@@ -86,7 +86,7 @@
               @foreach ($day as $key2 => $d)
                 @continue(in_array($key2,$ddone))
                 <tr>
-                  <td class="text-left"><span class="font-weight-bold badge badge-primary p0" style="font-size: 1em;padding: 3px 7px !important">{{ $d['jadwal']->nama_jadwal }}</span><br><em class="font-weight-bold badge badge-warning p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->get_ruang->nama_ruang }}</em><br><em class="font-weight-bold badge badge-danger p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->cin.' - '.$d['jadwal']->cout }}</em></td>
+                  <td class="text-left"><span class="font-weight-bold badge badge-dark p0" style="font-size: 1em;padding: 3px 7px !important">{{ $d['jadwal']->nama_jadwal }}</span><br><em class="font-weight-bold badge badge-primary p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->get_ruang->nama_ruang }}</em><br><em class="font-weight-bold badge badge-success p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->cin.' - '.$d['jadwal']->cout }}</em></td>
                   <td class="{{ $d['colorCin'] }}">{{ $d['acin'] }}</td>
                   <td class="{{ $d['colorCout'] }}">{{ $d['acout'] }}</td>
                   <td>{{ $d['alate'] }}</td>
