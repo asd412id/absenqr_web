@@ -189,16 +189,19 @@
     })
 
   }
-  $(".daftar_jadwal").on('change',function(){
-    checkBox();
-  })
-  $("#select-all").change(function(){
-    if ($(this).is(":checked")) {
-      $(".daftar_jadwal").prop('checked',true).change();
-    }else{
-      $(".daftar_jadwal").prop('checked',false).change();
-    }
-  })
+  function initProcess() {
+    $(".daftar_jadwal").on('change',function(){
+      checkBox();
+    })
+    $("#select-all").change(function(){
+      if ($(this).is(":checked")) {
+        $(".daftar_jadwal").prop('checked',true).change();
+      }else{
+        $(".daftar_jadwal").prop('checked',false).change();
+      }
+    })
+  }
+  initProcess();
   checkBox();
 
   $(function(){

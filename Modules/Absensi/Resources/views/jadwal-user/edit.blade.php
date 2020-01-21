@@ -108,17 +108,20 @@ $data_jadwal = $data->jadwal()->select('id')->get()->pluck('id')->toArray();
     })
 
   }
-  $(".check_jadwal").on('change',function(){
-    checkBox();
-  })
-  $("#select-all").change(function(){
-    if ($(this).is(":checked")) {
-      $(".check_jadwal").prop('checked',true).change();
-    }else{
-      $(".check_jadwal").prop('checked',false).change();
-    }
-  })
+  function initProcess() {
+    $(".check_jadwal").on('change',function(){
+      checkBox();
+    })
+    $("#select-all").change(function(){
+      if ($(this).is(":checked")) {
+        $(".check_jadwal").prop('checked',true).change();
+      }else{
+        $(".check_jadwal").prop('checked',false).change();
+      }
+    })
+  }
 
+  initProcess();
   checkBox();
 
   $(".timepicker").datetimepicker({

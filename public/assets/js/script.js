@@ -365,7 +365,12 @@ if ($("#table-absensi-edit-jadwal-user").length>0) {
     var table = $("#table-absensi-edit-jadwal-user").DataTable({
       responsive: true,
       "language": language,
+      columnDefs: [{
+        orderable: false,
+        targets: -1
+      }],
       'drawCallback': function (settings) {
+        initProcess();
         checkBox();
         $(".confirm").on('click', function () {
           var txt = $(this).data('text');
