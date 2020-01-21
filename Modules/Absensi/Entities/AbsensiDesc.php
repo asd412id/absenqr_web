@@ -23,4 +23,5 @@ class AbsensiDesc extends Model
     {
       $this->attributes['time'] = $value?Carbon::createFromFormat('d-m-Y',$value)->format('Y-m-d'):null;
     }
+
 }

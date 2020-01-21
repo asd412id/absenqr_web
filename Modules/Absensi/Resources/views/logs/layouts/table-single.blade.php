@@ -34,26 +34,26 @@
               @php
                 array_push($ddone,$key2)
               @endphp
-              <td class="text-left">{{ $d['jadwal']->nama_jadwal }}<br><em class="font-weight-bold badge badge-danger p0" style="font-size: 0.9em;padding: 3px 7px !important">{{ $d['jadwal']->cin.' - '.$d['jadwal']->cout }}</em></td>
+              <td class="text-left">{{ $d['jadwal']->nama_jadwal }}<br><em class="font-weight-bold badge badge-danger p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->cin.' - '.$d['jadwal']->cout }}</em></td>
               <td class="{{ $d['colorCin'] }}">{{ $d['acin'] }}</td>
               <td class="{{ $d['colorCout'] }}">{{ $d['acout'] }}</td>
               <td>{{ $d['alate'] }}</td>
               <td>{{ $d['aearly'] }}</td>
               <td>{{ $d['acount'] }}</td>
-              <td>{{ $d['desc'] }}</td>
+              <td class="text-left desc">{!! nl2br($d['desc']) !!}</td>
               @break(count($day)>1)
             @endforeach
             @if (count($day)>1)
               @foreach ($day as $key2 => $d)
                 @continue(in_array($key2,$ddone))
                 <tr>
-                  <td class="text-left">{{ $d['jadwal']->nama_jadwal }}<br><em class="font-weight-bold badge badge-danger p0" style="font-size: 0.9em;padding: 3px 7px !important">{{ $d['jadwal']->cin.' - '.$d['jadwal']->cout }}</em></td>
+                  <td class="text-left">{{ $d['jadwal']->nama_jadwal }}<br><em class="font-weight-bold badge badge-danger p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->cin.' - '.$d['jadwal']->cout }}</em></td>
                   <td class="{{ $d['colorCin'] }}">{{ $d['acin'] }}</td>
                   <td class="{{ $d['colorCout'] }}">{{ $d['acout'] }}</td>
                   <td>{{ $d['alate'] }}</td>
                   <td>{{ $d['aearly'] }}</td>
                   <td>{{ $d['acount'] }}</td>
-                  <td>{{ $d['desc'] }}</td>
+                  <td class="text-left desc">{!! nl2br($d['desc']) !!}</td>
                 </tr>
               @endforeach
             @endif
@@ -72,13 +72,13 @@
                 @php
                 array_push($ddone,$key2)
                 @endphp
-                <td class="text-left">{{ $d['jadwal']->nama_jadwal }}<br><em class="font-weight-bold badge badge-danger p0" style="font-size: 0.9em;padding: 3px 7px !important">{{ $d['jadwal']->cin.' - '.$d['jadwal']->cout }}</em></td>
+                <td class="text-left">{{ $d['jadwal']->nama_jadwal }}<br><em class="font-weight-bold badge badge-danger p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->cin.' - '.$d['jadwal']->cout }}</em></td>
                 <td class="{{ $d['colorCin'] }}">{{ $d['acin'] }}</td>
                 <td class="{{ $d['colorCout'] }}">{{ $d['acout'] }}</td>
                 <td>{{ $d['alate'] }}</td>
                 <td>{{ $d['aearly'] }}</td>
                 <td>{{ $d['acount'] }}</td>
-                <td>{{ $d['desc'] }}</td>
+                <td class="text-left desc">{!! nl2br($d['desc']) !!}</td>
                 @break(count($day)>1)
               @endforeach
             </tr>
@@ -86,13 +86,13 @@
               @foreach ($day as $key2 => $d)
                 @continue(in_array($key2,$ddone))
                 <tr>
-                  <td class="text-left">{{ $d['jadwal']->nama_jadwal }}<br><em class="font-weight-bold badge badge-danger p0" style="font-size: 0.9em;padding: 3px 7px !important">{{ $d['jadwal']->cin.' - '.$d['jadwal']->cout }}</em></td>
+                  <td class="text-left">{{ $d['jadwal']->nama_jadwal }}<br><em class="font-weight-bold badge badge-danger p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $d['jadwal']->cin.' - '.$d['jadwal']->cout }}</em></td>
                   <td class="{{ $d['colorCin'] }}">{{ $d['acin'] }}</td>
                   <td class="{{ $d['colorCout'] }}">{{ $d['acout'] }}</td>
                   <td>{{ $d['alate'] }}</td>
                   <td>{{ $d['aearly'] }}</td>
                   <td>{{ $d['acount'] }}</td>
-                  <td>{{ $d['desc'] }}</td>
+                  <td class="text-left desc">{!! nl2br($d['desc']) !!}</td>
                 </tr>
               @endforeach
             @endif

@@ -39,7 +39,7 @@
             <div class="logo-centered">
               <a href="{{ route('login') }}"><img src="{{ url('assets/img/sinjai.png') }}" alt="" style="width: 100%"></a>
             </div>
-            <h3 class="text-center">Aplikasi Sistem Pengarsipan<br>Data Siswa & Guru</h3>
+            <h3 class="text-center">Aplikasi Sistem Pengarsipan<br>Data Sekolah</h3>
             <p class="text-center">Masuk Halaman Administrator</p>
             @if ($errors->any())
               <div class="alert alert-danger">{{ $errors->all()[0] }}</div>

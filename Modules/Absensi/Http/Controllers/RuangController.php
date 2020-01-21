@@ -41,7 +41,7 @@ class RuangController extends Controller
 
         return $btn;
       })
-      ->rawColumns(['action'])
+      ->rawColumns(['action','desc'])
       ->make(true);
     }
 

@@ -29,6 +29,9 @@ class AbsensiDescController extends Controller
       ->addColumn('get_time',function($row){
         return $row->time->format('d-m-Y');
       })
+      ->addColumn('get_desc',function($row){
+        return nl2br($row->desc);
+      })
       ->addColumn('action', function($row){
 
         $btn = '<div class="table-actions">';
@@ -43,7 +46,7 @@ class AbsensiDescController extends Controller
 
         return $btn;
       })
-      ->rawColumns(['action'])
+      ->rawColumns(['action','get_desc'])
       ->make(true);
     }
 
@@ -125,12 +128,10 @@ class AbsensiDescController extends Controller
   public function update(Request $request, $uuid)
   {
     $role = [
-      'user' => 'required',
       'time' => 'required',
       'desc' => 'required',
     ];
     $msgs = [
-      'user.required' => 'User tidak boleh kosong!',
       'time.required' => 'Waktu tidak boleh kosong!',
       'desc.required' => 'Keterangan tidak boleh kosong!',
     ];

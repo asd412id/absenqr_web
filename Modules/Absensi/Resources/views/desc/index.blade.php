@@ -2,8 +2,11 @@
 @section('title',$title)
 @section('header')
   <style media="screen">
-    .table td:nth-child(8){
+    .table td{
       white-space: normal !important;
+    }
+    .table td:nth-child(5){
+      white-space: nowrap !important;
     }
   </style>
 @endsection

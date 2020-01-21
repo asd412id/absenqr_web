@@ -34,7 +34,7 @@
       }
       .table td{
         text-align: center;
-        vertical-align: middle;
+        vertical-align: top;
       }
       .text-center{
         text-align: center !important;
@@ -56,6 +56,9 @@
       }
       .table th, .table td{
         padding: 3px 7px;
+      }
+      .desc{
+        max-width: 225px;
       }
     </style>
   </head>

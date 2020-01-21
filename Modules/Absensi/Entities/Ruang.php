@@ -15,6 +15,11 @@ class Ruang extends Model
   protected $fillable = ['uuid','nama_ruang','desc'];
   protected $hidden = ['_token'];
 
+  public function getDescAttribute($value)
+  {
+    return nl2br($value);
+  }
+
   public function jadwal()
   {
     return $this->hasMany(Jadwal::class,'ruang');

@@ -4,7 +4,7 @@
       <div class="logo-img">
         <img src="{{ asset('assets/img/sinjai.png') }}" class="header-brand-img" alt="" style="width: 100%">
       </div>
-      <span class="text" style="font-size: 0.87em">SMPN 39 Sinjai</span>
+      <span class="text" style="font-size: 0.87em">Aplikasi Sekolah</span>
     </a>
     <button type="button" class="nav-toggle"><i data-toggle="expanded" class="ik ik-toggle-right toggle-icon"></i></button>
     <button id="sidebarClose" class="nav-close"><i class="ik ik-x"></i></button>

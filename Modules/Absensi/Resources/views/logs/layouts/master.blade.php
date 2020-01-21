@@ -32,6 +32,9 @@
     label{
       margin-bottom: 0;
     }
+    .desc{
+      max-width: 225px;
+    }
   </style>
 @endsection
 @section('head_icon')
@@ -82,7 +85,7 @@
                 <input type="text" class="form-control" value="{{ request()->end_date??date('Y/m/d') }}" name="end_date" id="end_date">
               </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-3 p0">
               <a href="javascript:void()" data-toggle="modal" data-target="#showjadwal" class="btn btn-success btn-cari"> Jadwal</a>
               <button type="submit" class="btn btn-primary btn-cari" onclick="$(this).closest('form').prop('target','_self')">Proses</button>
               @if (@count($data))
