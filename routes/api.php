@@ -23,9 +23,12 @@ Route::middleware('api')->prefix('v1')->group(function () {
 
       Route::middleware('mobile.auth')->group(function(){
         Route::get('/user',function(){
+          $datetime = \Carbon\Carbon::now();
           return response()->json([
             'status'=>'success',
-            'data'=>auth()->user()
+            'data'=>auth()->user(),
+            'date'=>$datetime->format('d/m/Y'),
+            'time'=>$datetime->format('H:i')
           ]);
         });
         Route::get('/keluar','MobileController@logout');
