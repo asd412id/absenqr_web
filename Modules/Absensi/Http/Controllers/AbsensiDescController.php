@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
 use Modules\Absensi\Entities\AbsensiDesc;
+use Modules\Absensi\Entities\Jadwal;
 use App\User;
 
 use DataTables;
@@ -14,6 +15,7 @@ use Validator;
 use Str;
 use Storage;
 use GuzzleHttp\Client;
+use Carbon\Carbon;
 
 class AbsensiDescController extends Controller
 {
@@ -24,13 +26,24 @@ class AbsensiDescController extends Controller
   public function index()
   {
     if (request()->ajax()) {
-      $data = AbsensiDesc::with('user');
+      $data = AbsensiDesc::with('user')
+      ->orderBy('time','desc');
       return DataTables::of($data)
       ->addColumn('get_time',function($row){
         return $row->time->format('d-m-Y');
       })
       ->addColumn('get_desc',function($row){
         return nl2br($row->desc);
+      })
+      ->addColumn('get_jadwal',function($row){
+        $jadwal = [];
+        $getJadwal = Jadwal::whereIn('id',$row->jadwal??[])->get();
+        if ($getJadwal) {
+          foreach ($getJadwal as $key => $jd) {
+            array_push($jadwal,'<em class="badge badge-primary">'.$jd->nama_jadwal.' ('.$jd->get_ruang->nama_ruang.')</em>');
+          }
+        }
+        return is_array($jadwal)&&count($jadwal)?implode(" ",$jadwal):'-';
       })
       ->addColumn('action', function($row){
 
@@ -46,7 +59,7 @@ class AbsensiDescController extends Controller
 
         return $btn;
       })
-      ->rawColumns(['action','get_desc'])
+      ->rawColumns(['action','get_desc','get_jadwal'])
       ->make(true);
     }
 
@@ -59,11 +72,22 @@ class AbsensiDescController extends Controller
   * Show the form for creating a new resource.
   * @return Response
   */
-  public function create()
+  public function create(Request $r)
   {
+    if (request()->ajax()) {
+      $time = Carbon::createFromFormat('d-m-Y',$r->date);
+      $jadwal = Jadwal::whereHas('user',function($q) use($r){
+        $q->where('id',$r->user);
+      })
+      ->where('hari','like','%'.$time->format('N').'%')
+      ->with('get_ruang')
+      ->get();
+      return response()->json($jadwal);
+    }
+    $users = User::where('role','!=','admin')->get();
     $data = [
       'title'=>'Tambah Keterangan Absensi',
-      'user'=>User::where('role','!=','admin')->get(),
+      'user'=>$users,
     ];
     return view('absensi::desc.create',$data);
   }
@@ -79,20 +103,31 @@ class AbsensiDescController extends Controller
       'user' => 'required',
       'time' => 'required',
       'desc' => 'required',
+      'jadwal' => 'required',
     ];
     $msgs = [
       'user.required' => 'User tidak boleh kosong!',
       'time.required' => 'Waktu tidak boleh kosong!',
       'desc.required' => 'Keterangan tidak boleh kosong!',
+      'jadwal.required' => 'Jadwal harus dipilih!',
     ];
 
     Validator::make($request->all(),$role,$msgs)->validate();
 
-    $insert = new AbsensiDesc;
-    $insert->uuid = (string) Str::uuid();
+    $insert = AbsensiDesc::where('user_id',$request->user)
+    ->where('time',$request->time)
+    ->where('jadwal',json_encode($request->jadwal))
+    ->first();
+
+    if (!$insert) {
+      $insert = new AbsensiDesc;
+      $insert->uuid = (string) Str::uuid();
+    }
+
     $insert->user_id = $request->user;
     $insert->time = $request->time;
     $insert->desc = $request->desc;
+    $insert->jadwal = $request->jadwal;
 
     if ($insert->save()) {
       return redirect()->route('absensi.desc.index')->with('message','Data berhasil disimpan!');
@@ -110,6 +145,16 @@ class AbsensiDescController extends Controller
     $desc = AbsensiDesc::where('uuid',$uuid)->first();
     if (!$desc) {
       return redirect()->route('absensi.desc.index');
+    }
+    if (request()->ajax()) {
+      $time = Carbon::createFromFormat('d-m-Y',$r->date);
+      $jadwal = Jadwal::whereHas('user',function($q) use($r){
+        $q->where('id',$r->user);
+      })
+      ->where('hari','like','%'.$time->format('N').'%')
+      ->with('get_ruang')
+      ->get();
+      return response()->json($jadwal);
     }
     $data = [
       'title'=>'Ubah Keterangan Absensi',
@@ -130,10 +175,12 @@ class AbsensiDescController extends Controller
     $role = [
       'time' => 'required',
       'desc' => 'required',
+      'jadwal' => 'required',
     ];
     $msgs = [
       'time.required' => 'Waktu tidak boleh kosong!',
       'desc.required' => 'Keterangan tidak boleh kosong!',
+      'jadwal.required' => 'Jadwal tidak boleh kosong!',
     ];
 
     Validator::make($request->all(),$role,$msgs)->validate();
@@ -141,6 +188,7 @@ class AbsensiDescController extends Controller
     $insert = AbsensiDesc::where('uuid',$uuid)->first();
     $insert->time = $request->time;
     $insert->desc = $request->desc;
+    $insert->jadwal = $request->jadwal;
 
     if ($insert->save()) {
       return redirect()->route('absensi.desc.index')->with('message','Data berhasil disimpan!');

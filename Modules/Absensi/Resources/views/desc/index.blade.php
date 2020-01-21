@@ -5,8 +5,11 @@
     .table td{
       white-space: normal !important;
     }
-    .table td:nth-child(5){
+    .table td:nth-child(6){
       white-space: nowrap !important;
+    }
+    .table td .badge{
+      margin: 1px 0;
     }
   </style>
 @endsection
@@ -35,6 +38,7 @@
               <th>Nama User</th>
               <th>Tanggal</th>
               <th>Keterangan</th>
+              <th width="115">Jadwal</th>
               <th width="10"></th>
             </thead>
             <tbody></tbody>

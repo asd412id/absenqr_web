@@ -339,9 +339,9 @@ if ($("#table-absensi-desc").length>0) {
       {data: 'user.name', name: 'user.name'},
       {data: 'get_time', name: 'get_time'},
       {data: 'get_desc', name: 'get_desc'},
+      {data: 'get_jadwal', name: 'get_jadwal'},
       {data: 'action', name: 'action', orderable: false, searchable: false},
       {data: 'time', name: 'time',visible: false},
-      {data: 'desc', name: 'desc',visible: false},
     ],
     "language": language,
     'drawCallback': function(settings){

@@ -14,6 +14,10 @@ class AbsensiDesc extends Model
       'time'
     ];
 
+    protected $casts = [
+      'jadwal' => 'array'
+    ];
+
     public function user()
     {
       return $this->belongsTo(User::class,'user_id');

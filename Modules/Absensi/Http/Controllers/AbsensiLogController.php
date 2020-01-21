@@ -112,11 +112,6 @@ class AbsensiLogController extends Controller
           continue;
         }
 
-        $desc = $u->absenDesc()
-        ->where('time',$d->startOfDay()->format('Y-m-d H:i:s'))
-        ->orderBy('created_at','asc')
-        ->first();
-
         $absen = $u->absen()
         ->where('created_at','>=',$d->startOfDay()->format('Y-m-d H:i:s'))
         ->where('created_at','<=',$d->endOfDay()->format('Y-m-d H:i:s'))
@@ -124,6 +119,13 @@ class AbsensiLogController extends Controller
         ->get();
 
         foreach ($jadwal as $key => $j) {
+
+          $desc = $u->absenDesc()
+          ->where('time',$d->startOfDay()->format('Y-m-d H:i:s'))
+          ->where('jadwal','like','%'.$j->id.'%')
+          ->orderBy('created_at','asc')
+          ->first();
+
           $jstart_cin = Carbon::createFromFormat('Y-m-d H:i',$d->format('Y-m-d').' '.$j->start_cin);
           $jend_cin = Carbon::createFromFormat('Y-m-d H:i',$d->format('Y-m-d').' '.$j->end_cin);
           $jstart_cout = Carbon::createFromFormat('Y-m-d H:i',$d->format('Y-m-d').' '.$j->start_cout);
