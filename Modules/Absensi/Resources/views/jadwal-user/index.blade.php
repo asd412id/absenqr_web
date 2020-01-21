@@ -2,8 +2,11 @@
 @section('title',$title)
 @section('header')
   <style media="screen">
-    .table td:nth-child(8){
+    .table td:nth-child(4){
       white-space: normal !important;
+    }
+    .table td .badge{
+      margin: 1px 0;
     }
   </style>
 @endsection
@@ -26,7 +29,7 @@
               <th width="10">#</th>
               <th>Nama</th>
               <th>Status</th>
-              <th>Jadwal Absen</th>
+              <th width="450">Jadwal Absen</th>
               <th width="10"></th>
             </thead>
             <tbody></tbody>

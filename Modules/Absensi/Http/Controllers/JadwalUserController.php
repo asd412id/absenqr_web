@@ -26,7 +26,7 @@ class JadwalUserController extends Controller
         $jd = [];
         if (count($row->jadwal)) {
           foreach ($row->jadwal as $key => $j) {
-            array_push($jd,'<span class="badge badge-danger">'.$j->nama_jadwal.'</span>');
+            array_push($jd,'<span class="badge badge-primary">'.$j->nama_jadwal.' ('.$j->get_ruang->nama_ruang.')</span>');
           }
         }
         return count($jd)?implode(" ",$jd):'-';
