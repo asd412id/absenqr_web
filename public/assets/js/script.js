@@ -361,16 +361,19 @@ if ($("#table-absensi-desc").length>0) {
 }
 
 if ($("#table-absensi-edit-jadwal-user").length>0) {
-  var table = $("#table-absensi-edit-jadwal-user").DataTable({
-    responsive: true,
-    "language": language,
-    'drawCallback': function(settings){
-      $(".confirm").on('click',function(){
-        var txt = $(this).data('text');
-        if (!confirm(txt)) {
-          return false;
-        }
-      });
-    }
-  });
+  setTimeout(() => {
+    var table = $("#table-absensi-edit-jadwal-user").DataTable({
+      responsive: true,
+      "language": language,
+      'drawCallback': function (settings) {
+        checkBox();
+        $(".confirm").on('click', function () {
+          var txt = $(this).data('text');
+          if (!confirm(txt)) {
+            return false;
+          }
+        });
+      }
+    });
+  }, 500);
 }
