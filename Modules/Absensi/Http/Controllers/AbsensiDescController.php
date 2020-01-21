@@ -27,7 +27,8 @@ class AbsensiDescController extends Controller
   {
     if (request()->ajax()) {
       $data = AbsensiDesc::with('user')
-      ->orderBy('time','desc');
+      ->orderBy('time','desc')
+      ->orderBy('updated_at','desc');
       return DataTables::of($data)
       ->addColumn('get_time',function($row){
         return $row->time->format('d-m-Y');
