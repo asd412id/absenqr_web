@@ -5,7 +5,7 @@
   <div class="card-body">
     <div class="form-group">
       <label for="username">Username</label>
-      <input type="text" name="username" class="form-control" id="username" value="{{ $data->user->username }}" placeholder="Username" required>
+      <input type="text" name="username" class="form-control" id="username" value="{{ $data->user?$data->user->username:'' }}" placeholder="Username" required>
     </div>
     <div class="form-group">
       <label for="password">Password</label>
