@@ -24,7 +24,7 @@
       padding: 0 20px;
     }
     .modal-dialog{
-      max-width: 50%;
+      max-width: 60%;
     }
     .modal table td{
       white-space: normal !important;
