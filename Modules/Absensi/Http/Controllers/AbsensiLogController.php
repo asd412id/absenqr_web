@@ -53,10 +53,11 @@ class AbsensiLogController extends Controller
 
     $logs = $this->getLogs($users,$dates,$r);
 
+    $user = User::where('role','!=','admin')->get();
     $jadwal = Jadwal::has('user')->get();
     $data = [
       'title' => 'Absensi Log',
-      'users' => $users,
+      'users' => $user,
       'jadwal' => $jadwal,
       'data' => $logs,
     ];
