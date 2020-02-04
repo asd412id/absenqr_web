@@ -11,14 +11,24 @@ use Illuminate\Routing\Controller as BaseController;
 use App\User;
 use Auth;
 use Str;
+use App\Configs;
 
 class MobileController extends BaseController
 {
   use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+  public function __construct()
+  {
+    $this->configs = Configs::getAll();
+  }
+
   public function checkServer(Request $r)
   {
-    return response()->json(['status'=>'connected'],302);
+    $data = [
+      'status'=>'connected',
+      'nama_instansi'=>@$this->configs->nama_instansi??'UPTD SMP NEGERI 39 SINJAI',
+    ];
+    return response()->json($data,302);
   }
 
   public function login(Request $r)
@@ -38,10 +48,9 @@ class MobileController extends BaseController
           'message'=>'Username atau password tidak benar'
         ],401);
       }
-      $user->activate_key = mt_rand(100000,999999);
+      $user->activate_key = @$this->configs->act_key??mt_rand(100000,999999);
       $user->api_token = Str::random(100);
       $user->active = false;
-      $user->changed_password = false;
       $user->save();
       return response()->json([
         'status'=>'success',
@@ -110,7 +119,7 @@ class MobileController extends BaseController
 
   public function absenCheck(Request $r)
   {
-    
+
   }
 
 }

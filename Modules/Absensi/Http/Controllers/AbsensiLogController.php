@@ -10,13 +10,21 @@ use App\User;
 use Modules\Absensi\Entities\Jadwal;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use GuzzleHttp\Client;
+use App\Configs;
+use PDF;
 
 class AbsensiLogController extends Controller
 {
+  public function __construct()
+  {
+    $this->configs = Configs::getAll();
+  }
+
   public function index()
   {
-    $user = User::where('role','!=','admin')->get();
+    $user = User::where('role','!=','admin')->orderBy('name','asc')->get();
     $jadwal = Jadwal::has('user')->get();
     $data = [
       'title' => 'Absensi Log',
@@ -53,12 +61,13 @@ class AbsensiLogController extends Controller
 
     $logs = $this->getLogs($users,$dates,$r);
 
-    $user = User::where('role','!=','admin')->get();
+    $user = User::where('role','!=','admin')->orderBy('name','asc')->get();
     $jadwal = Jadwal::has('user')->get();
     $data = [
       'title' => 'Absensi Log',
       'users' => $user,
       'jadwal' => $jadwal,
+      'config' => $this->configs,
       'data' => $logs,
     ];
 
@@ -71,24 +80,39 @@ class AbsensiLogController extends Controller
       }else{
         $data['title'] = 'Absensi Log ('.Carbon::now()->locale('id')->translatedFormat('j F Y').')';
       }
-      $view = view('absensi::logs.print',$data)->render();
-      $client = new Client;
+
       $params = [
-        'html'=>str_replace(url('/'),'http://nginx_arsip/',$view),
-        'options[page-width]'=>'21.5cm',
-        'options[page-height]'=>'33cm',
+        'page-width'=>'21.5cm',
+        'page-height'=>'33cm',
       ];
       if (!request()->user) {
-        $params['options[orientation]'] = 'landscape';
+        $params['orientation'] = 'landscape';
       }
-      $res = $client->request('POST','http://pdf/pdf',[
-        'form_params'=>$params
-      ]);
 
-      if ($res->getStatusCode() == 200) {
-        $filename = $data['title'].'.pdf';
-        return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
-      }
+      $filename = $data['title'].'.pdf';
+
+      $pdf = PDF::loadView('absensi::logs.print',$data)
+      ->setOptions($params);
+      return $pdf->stream($filename);
+
+      // $view = view('absensi::logs.print',$data)->render();
+      // $client = new Client;
+      // $params = [
+      //   'html'=>str_replace(url('/'),'http://nginx_arsip/',$view),
+      //   'options[page-width]'=>'21.5cm',
+      //   'options[page-height]'=>'33cm',
+      // ];
+      // if (!request()->user) {
+      //   $params['options[orientation]'] = 'landscape';
+      // }
+      // $res = $client->request('POST','http://pdf/pdf',[
+      //   'form_params'=>$params
+      // ]);
+      //
+      // if ($res->getStatusCode() == 200) {
+      //   $filename = $data['title'].'.pdf';
+      //   return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
+      // }
     }
 
     return view('absensi::logs.show',$data);
@@ -156,7 +180,15 @@ class AbsensiLogController extends Controller
 
           $late = $cin&&$cin->greaterThan($jcin->addMinutes($j->late))?$cin->diffInMinutes($jcin):0;
           $early = $cout&&$cout->lessThan($jcout->subMinutes($j->early))?$jcout->diffInMinutes($cout):0;
-          $count = $cin&&$cout?$cout->diffInHours($cin):0;
+          $realMinutes = $cin&&$cout?$cout->diffInMinutes($cin):0;
+
+          $minutesInHour = @$this->configs->menit_per_jam??60;
+          $hour = (int) floor($realMinutes / $minutesInHour);
+          $minute = $realMinutes % $minutesInHour;
+
+          $str = CarbonInterval::fromString("$hour hours $minute minutes")->locale('id')->forHumans();
+          $strArr = explode(' ',$str);
+          $count = $strArr[0].' '.(@$this->configs->satuan_jam??' Jam').(isset($strArr[2])?"<br>".$strArr[2].' Menit':null);
 
           $cin = $cin?$cin->format('H:i'):null;
           $cout = $cout?$cout->format('H:i'):null;
@@ -174,7 +206,7 @@ class AbsensiLogController extends Controller
             'acout'=>$cout,
             'alate'=>$cin?$late.' Menit':null,
             'aearly'=>$cout?$early.' Menit':null,
-            'acount'=>$cin&&$cout?$count.' Jam':null,
+            'acount'=>$cin&&$cout?$count:null,
             'jadwal'=>$j,
             'colorCin'=>$colorCin,
             'colorCout'=>$colorCout,

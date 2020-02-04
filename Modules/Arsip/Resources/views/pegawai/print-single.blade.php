@@ -8,7 +8,7 @@
     <style media="screen">
       html,body{
         width: 100%;height: 100%;margin: 0;padding: 0;
-        font-size: 9pt !important;
+        /* font-size: 9pt !important; */
         font-family: Arial !important;
       }
       .page{
@@ -177,30 +177,7 @@
           @endif
         </tbody>
       </table>
-      <div class="clearfix"></div>
-      <table style="margin-top: 25px;float: right;page-break-inside: avoid !important">
-        <tr>
-          <td rowspan="5" width="150">
-            {!! \QrCode::size('95')->generate('pegawai - '.$data->uuid.'_'.time().' - by asd412id') !!}
-          </td>
-          <td style="height: 30px">Sinjai, {{ date('d/m/Y') }}</td>
-        </tr>
-        <tr>
-          <td>Mengetahui,</td>
-        </tr>
-        <tr>
-          <td class="font-weight-bold">Kepala UPTD SMP Negeri 39 Sinjai</td>
-        </tr>
-        <tr>
-          <td style="height: 75px"></td>
-        </tr>
-        <tr>
-          <td style="line-height: 1em">
-            <span class="font-weight-bold">SITTI SAIDAH SUYUTI, S.Pd.,M.Pd.</span><br>
-            NIP. 19710626 199702 2 005
-          </td>
-        </tr>
-      </table>
+      @include('layouts.ttd',['qr'=>'pegawai - '.$data->uuid.'_'.time().' - by asd412id'])
     </div>
   </body>
 </html>

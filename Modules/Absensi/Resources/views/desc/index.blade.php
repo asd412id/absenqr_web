@@ -37,7 +37,7 @@
               <th width="10">#</th>
               <th>Nama User</th>
               <th>Tanggal</th>
-              <th>Keterangan</th>
+              <th width="300">Keterangan</th>
               <th width="115">Jadwal</th>
               <th width="10"></th>
             </thead>

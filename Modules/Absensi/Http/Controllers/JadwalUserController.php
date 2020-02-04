@@ -20,7 +20,7 @@ class JadwalUserController extends Controller
   public function index()
   {
     if (request()->ajax()) {
-      $data = User::with('jadwal')->where('role','!=','admin');
+      $data = User::with('jadwal')->where('role','!=','admin')->orderBy('name','asc');
       return DataTables::of($data)
       ->addColumn('jadwal',function($row){
         $jd = [];

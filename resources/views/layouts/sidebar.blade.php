@@ -45,8 +45,8 @@
           </div>
         @endif
         <div class="nav-lavel">PENGATURAN</div>
-        <div class="nav-item{{ Request::url()==route('profile')?' active':'' }}">
-          <a href="{{ route('profile') }}"><i class="ik ik-settings"></i><span>Pengaturan Akun</span></a>
+        <div class="nav-item{{ Request::url()==route('configs')?' active':'' }}">
+          <a href="{{ route('configs') }}"><i class="ik ik-settings"></i><span>Pengaturan Sistem</span></a>
         </div>
         <div class="nav-item">
           <a href="{{ route('logout') }}"><i class="ik ik-power"></i><span>Keluar</span></a>

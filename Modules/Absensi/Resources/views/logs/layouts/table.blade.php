@@ -8,7 +8,7 @@
       <th>Check Out</th>
       <th>Terlambat</th>
       <th>Pulang Cepat</th>
-      <th>Jumlah Jam</th>
+      <th style="white-space: nowrap">Jumlah Jam<br>({{ @$config->menit_per_jam??60 }} Menit)</th>
       <th>Keterangan</th>
     </thead>
     <tbody>
@@ -41,7 +41,7 @@
               <td class="{{ $d['colorCout'] }}">{{ $d['acout'] }}</td>
               <td>{{ $d['alate'] }}</td>
               <td>{{ $d['aearly'] }}</td>
-              <td>{{ $d['acount'] }}</td>
+              <td>{!! $d['acount'] !!}</td>
               <td class="text-left desc">{!! nl2br($d['desc']) !!}</td>
               @break(count($day)>1)
             @endforeach
@@ -54,7 +54,7 @@
                   <td class="{{ $d['colorCout'] }}">{{ $d['acout'] }}</td>
                   <td>{{ $d['alate'] }}</td>
                   <td>{{ $d['aearly'] }}</td>
-                  <td>{{ $d['acount'] }}</td>
+                  <td>{!! $d['acount'] !!}</td>
                   <td class="text-left desc">{!! nl2br($d['desc']) !!}</td>
                 </tr>
               @endforeach
@@ -79,7 +79,7 @@
                 <td class="{{ $d['colorCout'] }}">{{ $d['acout'] }}</td>
                 <td>{{ $d['alate'] }}</td>
                 <td>{{ $d['aearly'] }}</td>
-                <td>{{ $d['acount'] }}</td>
+                <td>{!! $d['acount'] !!}</td>
                 <td class="text-left desc">{!! nl2br($d['desc']) !!}</td>
                 @break(count($day)>1)
               @endforeach
@@ -93,7 +93,7 @@
                   <td class="{{ $d['colorCout'] }}">{{ $d['acout'] }}</td>
                   <td>{{ $d['alate'] }}</td>
                   <td>{{ $d['aearly'] }}</td>
-                  <td>{{ $d['acount'] }}</td>
+                  <td>{!! $d['acount'] !!}</td>
                   <td class="text-left desc">{!! nl2br($d['desc']) !!}</td>
                 </tr>
               @endforeach

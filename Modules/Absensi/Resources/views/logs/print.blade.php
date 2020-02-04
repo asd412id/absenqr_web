@@ -8,7 +8,7 @@
     <style media="screen">
       html,body{
         width: 100%;height: 100%;margin: 0;padding: 0;
-        font-size: 9pt !important;
+        /* font-size: 9pt !important; */
         font-family: Arial !important;
       }
       .page{
@@ -71,7 +71,8 @@
       @if (count($data))
         @php
           $carbon = new \Carbon\Carbon;
-          $tanggal = request()->start_date==request()->end_date?$carbon->createFromFormat('Y/m/d',request()->start_date)->translatedFormat('d/m/Y'):$carbon->createFromFormat('Y/m/d',request()->start_date)->format('d/m/Y').' - '.$carbon->createFromFormat('Y/m/d',request()->end_date)->format('d/m/Y')
+          $tanggal = request()->start_date==request()->end_date?$carbon->createFromFormat('Y/m/d',request()->start_date)->translatedFormat('d/m/Y'):$carbon->createFromFormat('Y/m/d',request()->start_date)->format('d/m/Y').' - '.$carbon->createFromFormat('Y/m/d',request()->end_date)->format('d/m/Y');
+          $qr = 'Absensi Logs - '.time().' - by asd412id';
         @endphp
         @if (!request()->user)
           <h3 class="text-center">Rekapitulasi Absensi</h3>
@@ -84,30 +85,7 @@
           @include('absensi::logs.layouts.table-single')
         @endif
       @endif
-      <div class="clearfix"></div>
-      <table class="" style="margin-top: 25px;float: right;page-break-inside: avoid !important">
-        <tr>
-          <td rowspan="5" width="150">
-            {!! \QrCode::size('95')->generate('absen log - _'.time().' - by asd412id') !!}
-          </td>
-          <td style="height: 30px">Sinjai, {{ \Carbon\Carbon::now()->locale('id')->translatedFormat('d F Y') }}</td>
-        </tr>
-        <tr>
-          <td>Mengetahui,</td>
-        </tr>
-        <tr>
-          <td class="font-weight-bold">Kepala UPTD SMP Negeri 39 Sinjai</td>
-        </tr>
-        <tr>
-          <td style="height: 75px"></td>
-        </tr>
-        <tr>
-          <td style="line-height: 1em">
-            <span class="font-weight-bold">SITTI SAIDAH SUYUTI, S.Pd.,M.Pd.</span><br>
-            NIP. 19710626 199702 2 005
-          </td>
-        </tr>
-      </table>
+      @include('layouts.ttd')
     </div>
   </body>
 </html>

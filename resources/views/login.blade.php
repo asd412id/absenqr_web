@@ -30,16 +30,16 @@
     <div class="container-fluid h-100">
       <div class="row flex-row h-100 bg-white">
         <div class="col-xl-8 col-lg-6 col-md-5 p-0 d-md-block d-lg-block d-sm-none d-none">
-          <div class="lavalite-bg" style="background-image: url('{{ url('assets/img/bg.jpeg') }}')">
+          <div class="lavalite-bg" style="background-image: url('{{ @$config->login_bg?asset('uploaded/'.@$config->login_bg):url('assets/img/bg.jpeg') }}')">
             <div class="lavalite-overlay"></div>
           </div>
         </div>
         <div class="col-xl-4 col-lg-6 col-md-7 my-auto p-0">
           <div class="authentication-form mx-auto">
             <div class="logo-centered">
-              <a href="{{ route('login') }}"><img src="{{ url('assets/img/sinjai.png') }}" alt="" style="width: 100%"></a>
+              <a href="{{ route('login') }}"><img src="{{ @$config->logo2?asset('uploaded/'.@$config->logo2):url('assets/img/sinjai.png') }}" alt="" style="width: 100%"></a>
             </div>
-            <h3 class="text-center">Aplikasi Sistem Pengarsipan<br>Data Sekolah</h3>
+            <h3 class="text-center">Aplikasi Sistem Manajemen Data <br>{{ @$config->nama_instansi??'UPTD SMP NEGERI 39 SINJAI' }}</h3>
             <p class="text-center">Masuk Halaman Administrator</p>
             @if ($errors->any())
               <div class="alert alert-danger">{{ $errors->all()[0] }}</div>

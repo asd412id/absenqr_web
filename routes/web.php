@@ -21,7 +21,12 @@ Route::middleware('web')->group(function(){
   Route::group(['middleware'=>'auth'], function()
   {
     Route::get('keluar', 'MainController@logout')->name('logout');
-    Route::get('pengaturan', 'MainController@profile')->name('profile');
-    Route::post('pengaturan', 'MainController@profileUpdate')->name('profile.update');
+
+    Route::get('pengaturan', 'MainController@sysConf')->name('configs');
+    Route::post('pengaturan', 'MainController@sysConfUpdate')->name('configs.update');
+
+
+    Route::get('pengaturan/akun', 'MainController@profile')->name('profile');
+    Route::post('pengaturan/akun', 'MainController@profileUpdate')->name('profile.update');
   });
 });

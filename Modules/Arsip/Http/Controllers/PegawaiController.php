@@ -14,6 +14,7 @@ use Str;
 use Storage;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
+use PDF;
 
 class PegawaiController extends Controller
 {
@@ -24,7 +25,7 @@ class PegawaiController extends Controller
   public function index()
   {
     if (request()->ajax()) {
-      $data = Pegawai::query();
+      $data = Pegawai::orderBy('nama','asc');
       return DataTables::of($data)
       ->addColumn('jk',function($row){
         return $row->jenis_kelamin==1?'Laki - Laki':'Perempuan';
@@ -307,21 +308,32 @@ class PegawaiController extends Controller
       'title'=>($pegawai->nip?$pegawai->nip.' - ':'').$pegawai->nama,
       'data'=>$pegawai
     ];
-    $view = view('arsip::pegawai.print-single',$data)->render();
-    $client = new Client;
-    $res = $client->request('POST','http://pdf/pdf',[
-      'form_params'=>[
-        'html'=>str_replace(url('/'),'http://nginx_arsip/',$view),
-        'options[page-width]'=>'21.5cm',
-        'options[page-height]'=>'33cm',
-      ]
-    ]);
+    $params = [
+      'page-width'=>'21.5cm',
+      'page-height'=>'33cm',
+    ];
 
-    if ($res->getStatusCode() == 200) {
-      $filename = $data['title'].'.pdf';
-      return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
-    }
-    return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
+    $filename = $data['title'].'.pdf';
+
+    $pdf = PDF::loadView('arsip::pegawai.print-single',$data)
+    ->setOptions($params);
+    return $pdf->stream($filename);
+
+    // $view = view('arsip::pegawai.print-single',$data)->render();
+    // $client = new Client;
+    // $res = $client->request('POST','http://pdf/pdf',[
+    //   'form_params'=>[
+    //     'html'=>str_replace(url('/'),'http://nginx_arsip/',$view),
+    //     'options[page-width]'=>'21.5cm',
+    //     'options[page-height]'=>'33cm',
+    //   ]
+    // ]);
+    //
+    // if ($res->getStatusCode() == 200) {
+    //   $filename = $data['title'].'.pdf';
+    //   return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
+    // }
+    // return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
   }
 
   public function exportPDF(Request $request)
@@ -342,22 +354,34 @@ class PegawaiController extends Controller
       'title'=>'Daftar Pegawai UPTD SMPN 39 Sinjai',
       'data'=>$pegawai
     ];
-    $view = view('arsip::pegawai.print-all',$data)->render();
-    $client = new Client;
-    $res = $client->request('POST','http://pdf/pdf',[
-      'form_params'=>[
-        'html'=>str_replace(url('/'),'http://nginx_arsip/',$view),
-        'options[page-width]'=>'21.5cm',
-        'options[page-height]'=>'33cm',
-        'options[orientation]'=>'Landscape',
-      ]
-    ]);
+    $params = [
+      'page-width'=>'21.5cm',
+      'page-height'=>'33cm',
+      'orientation'=>'landscape',
+    ];
 
-    if ($res->getStatusCode() == 200) {
-      $filename = $data['title'].'.pdf';
-      return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
-    }
-    return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
+    $filename = $data['title'].'.pdf';
+
+    $pdf = PDF::loadView('arsip::pegawai.print-all',$data)
+    ->setOptions($params);
+    return $pdf->stream($filename);
+
+    // $view = view('arsip::pegawai.print-all',$data)->render();
+    // $client = new Client;
+    // $res = $client->request('POST','http://pdf/pdf',[
+    //   'form_params'=>[
+    //     'html'=>str_replace(url('/'),'http://nginx_arsip/',$view),
+    //     'options[page-width]'=>'21.5cm',
+    //     'options[page-height]'=>'33cm',
+    //     'options[orientation]'=>'Landscape',
+    //   ]
+    // ]);
+    //
+    // if ($res->getStatusCode() == 200) {
+    //   $filename = $data['title'].'.pdf';
+    //   return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
+    // }
+    // return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
   }
 
   public function resetLogin($uuid)

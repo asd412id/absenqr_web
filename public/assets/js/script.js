@@ -85,6 +85,14 @@
   }
 })(jQuery);
 
+if ($(".toggle").length>0) {
+  var elemsingle = document.querySelector('.toggle');
+  var switchery = new Switchery(elemsingle, {
+      color: '#4099ff',
+      jackColor: '#fff',
+  });
+}
+
 var language = {
   "decimal":        "",
   "emptyTable":     "Data tidak tersedia",

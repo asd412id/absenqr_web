@@ -16,6 +16,7 @@ use Storage;
 use GuzzleHttp\Client;
 use IOFactory;
 use Carbon\Carbon;
+use PDF;
 
 class SiswaController extends Controller
 {
@@ -26,7 +27,7 @@ class SiswaController extends Controller
   public function index()
   {
     if (request()->ajax()) {
-      $data = Siswa::query();
+      $data = Siswa::orderBy('nama_lengkap','asc');
       return DataTables::of($data)
       ->addColumn('jk',function($row){
         return $row->jenis_kelamin==1?'Laki - Laki':'Perempuan';
@@ -325,21 +326,32 @@ class SiswaController extends Controller
       'title'=>$siswa->nis.' - '.$siswa->nama_lengkap,
       'data'=>$siswa
     ];
-    $view = view('arsip::siswa.print-single',$data)->render();
-    $client = new Client;
-    $res = $client->request('POST','http://pdf/pdf',[
-      'form_params'=>[
-        'html'=>str_replace(url('/'),'http://nginx_arsip/',$view),
-        'options[page-width]'=>'21.5cm',
-        'options[page-height]'=>'33cm',
-      ]
-    ]);
+    $params = [
+      'page-width'=>'21.5cm',
+      'page-height'=>'33cm',
+    ];
 
-    if ($res->getStatusCode() == 200) {
-      $filename = $data['title'].'.pdf';
-      return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
-    }
-    return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
+    $filename = $data['title'].'.pdf';
+
+    $pdf = PDF::loadView('arsip::siswa.print-single',$data)
+    ->setOptions($params);
+    return $pdf->stream($filename);
+
+    // $view = view('arsip::siswa.print-single',$data)->render();
+    // $client = new Client;
+    // $res = $client->request('POST','http://pdf/pdf',[
+    //   'form_params'=>[
+    //     'html'=>str_replace(url('/'),'http://nginx_arsip/',$view),
+    //     'options[page-width]'=>'21.5cm',
+    //     'options[page-height]'=>'33cm',
+    //   ]
+    // ]);
+    //
+    // if ($res->getStatusCode() == 200) {
+    //   $filename = $data['title'].'.pdf';
+    //   return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
+    // }
+    // return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
   }
 
   public function exportPDF(Request $request)
@@ -361,22 +373,34 @@ class SiswaController extends Controller
       'title'=>'Daftar Siswa UPTD SMPN 39 Sinjai',
       'data'=>$siswa
     ];
-    $view = view('arsip::siswa.print-all',$data)->render();
-    $client = new Client;
-    $res = $client->request('POST','http://pdf/pdf',[
-      'form_params'=>[
-        'html'=>str_replace(url('/'),'http://nginx_arsip/',$view),
-        'options[page-width]'=>'21.5cm',
-        'options[page-height]'=>'33cm',
-        'options[orientation]'=>'Landscape',
-      ]
-    ]);
+    $params = [
+      'page-width'=>'21.5cm',
+      'page-height'=>'33cm',
+      'orientation'=>'landscape',
+    ];
 
-    if ($res->getStatusCode() == 200) {
-      $filename = $data['title'].'.pdf';
-      return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
-    }
-    return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
+    $filename = $data['title'].'.pdf';
+
+    $pdf = PDF::loadView('arsip::siswa.print-all',$data)
+    ->setOptions($params);
+    return $pdf->stream($filename);
+
+    // $view = view('arsip::siswa.print-all',$data)->render();
+    // $client = new Client;
+    // $res = $client->request('POST','http://pdf/pdf',[
+    //   'form_params'=>[
+    //     'html'=>str_replace(url('/'),'http://nginx_arsip/',$view),
+    //     'options[page-width]'=>'21.5cm',
+    //     'options[page-height]'=>'33cm',
+    //     'options[orientation]'=>'Landscape',
+    //   ]
+    // ]);
+    //
+    // if ($res->getStatusCode() == 200) {
+    //   $filename = $data['title'].'.pdf';
+    //   return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
+    // }
+    // return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
   }
 
   public function importExcel(Request $request)

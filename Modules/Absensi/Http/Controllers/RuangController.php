@@ -13,6 +13,7 @@ use Validator;
 use Str;
 use Storage;
 use GuzzleHttp\Client;
+use PDF;
 
 class RuangController extends Controller
 {
@@ -23,7 +24,7 @@ class RuangController extends Controller
   public function index()
   {
     if (request()->ajax()) {
-      $data = Ruang::query();
+      $data = Ruang::orderBy('nama_ruang','asc');
       return DataTables::of($data)
       ->addColumn('action', function($row){
 
@@ -176,21 +177,32 @@ class RuangController extends Controller
       'title'=>$ruang->nama_ruang,
       'data'=>$ruang
     ];
-    $view = view('absensi::ruang.print',$data)->render();
-    $client = new Client;
-    $res = $client->request('POST','http://pdf/pdf',[
-      'form_params'=>[
-        'html'=>str_replace(url('/'),'http://nginx_arsip/',$view),
-        'options[page-width]'=>'21cm',
-        'options[page-height]'=>'29.7cm',
-      ]
-    ]);
+    $params = [
+      'page-width'=>'21.5cm',
+      'page-height'=>'33cm',
+    ];
 
-    if ($res->getStatusCode() == 200) {
-      $filename = $data['title'].'.pdf';
-      return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
-    }
-    return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
+    $filename = $data['title'].'.pdf';
+
+    $pdf = PDF::loadView('absensi::ruang.print',$data)
+    ->setOptions($params);
+    return $pdf->stream($filename);
+
+    // $view = view('absensi::ruang.print',$data)->render();
+    // $client = new Client;
+    // $res = $client->request('POST','http://pdf/pdf',[
+    //   'form_params'=>[
+    //     'html'=>str_replace(url('/'),'http://nginx_arsip/',$view),
+    //     'options[page-width]'=>'21cm',
+    //     'options[page-height]'=>'29.7cm',
+    //   ]
+    // ]);
+    //
+    // if ($res->getStatusCode() == 200) {
+    //   $filename = $data['title'].'.pdf';
+    //   return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
+    // }
+    // return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
   }
 
 }

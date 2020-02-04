@@ -233,7 +233,7 @@ return [
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'IOFactory' => PhpOffice\PhpSpreadsheet\IOFactory::class,
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
-        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+        'IMG' => Barryvdh\Snappy\Facades\SnappyImage::class,
 
     ],
 
