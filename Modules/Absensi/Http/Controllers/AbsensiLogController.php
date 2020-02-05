@@ -51,6 +51,7 @@ class AbsensiLogController extends Controller
     ->when($r->role,function($q,$role){
       $q->where('role',$role);
     })
+    ->orderBy('name','asc')
     ->get();
 
     if (!count($users)) {
