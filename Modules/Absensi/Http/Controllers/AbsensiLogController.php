@@ -182,13 +182,13 @@ class AbsensiLogController extends Controller
           $early = $cout&&$cout->lessThan($jcout->subMinutes($j->early))?$jcout->diffInMinutes($cout):0;
           $realMinutes = $cin&&$cout?$cout->diffInMinutes($cin):0;
 
-          $minutesInHour = @$this->configs->menit_per_jam??60;
+          $minutesInHour = $j->menit_per_jam??60;
           $hour = (int) floor($realMinutes / $minutesInHour);
           $minute = $realMinutes % $minutesInHour;
 
           $str = CarbonInterval::fromString("$hour hours $minute minutes")->locale('id')->forHumans();
           $strArr = explode(' ',$str);
-          $count = $strArr[0].' '.(@$this->configs->satuan_jam??' Jam').(isset($strArr[2])?"<br>".$strArr[2].' Menit':null);
+          $count = $strArr[0].' '.($j->satuan_jam??' Jam').(isset($strArr[2])?"<br>".$strArr[2].' Menit':null);
 
           $cin = $cin?$cin->format('H:i'):null;
           $cout = $cout?$cout->format('H:i'):null;

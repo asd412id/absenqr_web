@@ -3,10 +3,6 @@
 @section('header')
   <link rel="stylesheet" href="{{ url('assets/vendor/jquery.datetimepicker/jquery.datetimepicker.min.css') }}">
   <style media="screen">
-    .btn-cari{
-      position: relative;
-      top: 3px;
-    }
     .nowrap{
       white-space: nowrap;
     }
@@ -53,6 +49,9 @@
         <form action="{{ route('absensi.log.show') }}" method="post">
           @csrf
           <div class="row">
+            <div class="col-sm-3">
+              <input type="text" class="form-control" value="{{ request()->title??'Rekapitulasi Absen' }}" name="title" id="title" title="Title Log Absensi">
+            </div>
             <div class="col-sm-2">
               <select class="form-control" name="user" id="user">
                 <option {{ !request()->user?'selected':'' }} value="">Semua User</option>
@@ -85,11 +84,11 @@
                 <input type="text" class="form-control" value="{{ request()->end_date??date('Y/m/d') }}" name="end_date" id="end_date">
               </div>
             </div>
-            <div class="col-sm-3 p0">
+            <div class="col-sm-12 pb-10 text-center">
               <a href="javascript:void()" data-toggle="modal" data-target="#showjadwal" class="btn btn-success btn-cari"> Jadwal</a>
               <button type="submit" class="btn btn-primary btn-cari" onclick="$(this).closest('form').prop('target','_self')">Proses</button>
               @if (@count($data))
-                <input type="submit" name="download_pdf" value="Dowload" class="btn btn-danger" style="position: relative;top: 3px" onclick="$(this).closest('form').prop('target','_blank')">
+                <input type="submit" name="download_pdf" value="Dowload" class="btn btn-danger" style="position: relative" onclick="$(this).closest('form').prop('target','_blank')">
               @endif
             </div>
           </div>

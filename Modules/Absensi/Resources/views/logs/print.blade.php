@@ -75,11 +75,11 @@
           $qr = 'Absensi Logs - '.time().' - by asd412id';
         @endphp
         @if (!request()->user)
-          <h3 class="text-center">Rekapitulasi Absensi</h3>
+          <h3 class="text-center">{{ request()->title??'Rekapitulasi Absensi' }}</h3>
           <p class="text-center">Tanggal: {{ $tanggal }}</p>
           @include('absensi::logs.layouts.table')
         @else
-          <h3 class="text-center">Rekapitulasi Absensi</h3>
+          <h3 class="text-center">{{ request()->title??'Rekapitulasi Absensi' }}</h3>
           <p class="text-center" style="margin-bottom: 0;padding-bottom: 0">Nama: {{ \App\User::where('uuid',request()->user)->first()->name }}</p>
           <p class="text-center">Tanggal: {{ $tanggal }}</p>
           @include('absensi::logs.layouts.table-single')

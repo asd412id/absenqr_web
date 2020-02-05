@@ -89,14 +89,6 @@
             <label>Masukkan 6 Kode Aktivasi</label>
             <input style="font-weight: bold;font-size: 1.3em" type="number" name="act_key" id="act-key" class="form-control" value="{{ @$config->act_key??mt_rand(100000,999999) }}" {{ @$config->act_key?'':'disabled' }} placeholder="Kode Aktivasi">
           </div>
-          <div class="form-group">
-            <label>Jumlah Menit per Jam (Jumlah Jam pada Laporan Absensi)</label>
-            <input type="number" class="form-control" name="config[menit_per_jam]" value="{{ @$config->menit_per_jam??60 }}" placeholder="Jumlah menit per jam">
-          </div>
-          <div class="form-group">
-            <label>Satuan Jam (Jumlah Jam pada Laporan Absensi)</label>
-            <input type="text" class="form-control" name="config[satuan_jam]" value="{{ @$config->satuan_jam??'Jam' }}" placeholder="Satuan Jam">
-          </div>
         </div>
       </div>
     </div>

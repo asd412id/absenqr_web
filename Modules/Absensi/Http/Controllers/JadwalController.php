@@ -114,6 +114,8 @@ class JadwalController extends Controller
     $insert->end_cout = $request->end_cout;
     $insert->late = $request->late;
     $insert->early = $request->early;
+    $insert->menit_per_jam = $request->menit_per_jam??60;
+    $insert->satuan_jam = $request->satuan_jam??'Jam';
 
     if ($insert->save()) {
       return redirect()->route('absensi.jadwal.index')->with('message','Data berhasil disimpan!');
@@ -189,6 +191,8 @@ class JadwalController extends Controller
     $insert->end_cout = $request->end_cout;
     $insert->late = $request->late;
     $insert->early = $request->early;
+    $insert->menit_per_jam = $request->menit_per_jam??60;
+    $insert->satuan_jam = $request->satuan_jam??'Jam';
 
     if ($insert->save()) {
       return redirect()->route('absensi.jadwal.index')->with('message','Data berhasil disimpan!');

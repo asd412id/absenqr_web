@@ -8,7 +8,7 @@
       <th>Check Out</th>
       <th>Terlambat</th>
       <th>Pulang Cepat</th>
-      <th style="white-space: nowrap">Jumlah Jam<br>({{ @$config->menit_per_jam??60 }} Menit)</th>
+      <th style="white-space: nowrap">Jumlah Jam</th>
       <th>Keterangan</th>
     </thead>
     <tbody>

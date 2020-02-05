@@ -99,6 +99,14 @@
               @endforeach
             </div>
           </div>
+          <div class="form-group">
+            <label>Jumlah Menit per Jam (60 menit, 40 menit, ...)</label>
+            <input type="number" class="form-control" name="menit_per_jam" value="{{ $data->menit_per_jam??60 }}" placeholder="Jumlah menit per jam">
+          </div>
+          <div class="form-group">
+            <label>Satuan Jam (Jam, JP, ...)</label>
+            <input type="text" class="form-control" name="satuan_jam" value="{{ $data->satuan_jam??'Jam' }}" placeholder="Satuan Jam">
+          </div>
         </div>
       </div>
     </div>
