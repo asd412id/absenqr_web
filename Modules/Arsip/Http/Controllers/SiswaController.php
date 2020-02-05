@@ -367,7 +367,7 @@ class SiswaController extends Controller
       ->orWhere('tanggal_lahir','like',$role)
       ->orWhere('asal_sekolah','like',$role);
     })
-    ->orderBy('id','asc')->paginate($rows, ['*'], 'page');
+    ->orderBy('name','asc')->paginate($rows, ['*'], 'page');
 
     $data = [
       'title'=>'Daftar Siswa UPTD SMPN 39 Sinjai',

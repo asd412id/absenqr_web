@@ -348,7 +348,7 @@ class PegawaiController extends Controller
       ->orWhere('jabatan','like',$role)
       ->orWhere('pangkat_golongan','like',$role);
     })
-    ->orderBy('id','asc')->paginate($rows, ['*'], 'page');
+    ->orderBy('name','asc')->paginate($rows, ['*'], 'page');
 
     $data = [
       'title'=>'Daftar Pegawai UPTD SMPN 39 Sinjai',
