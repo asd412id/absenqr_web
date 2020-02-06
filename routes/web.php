@@ -12,6 +12,8 @@
 */
 
 Route::middleware('web')->group(function(){
+  Route::get('/download','MainController@downloadAPP');
+
   Route::group(['middleware'=>'guest'], function()
   {
     Route::get('/', 'MainController@login')->name('login');

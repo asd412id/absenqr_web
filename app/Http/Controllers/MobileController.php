@@ -27,6 +27,7 @@ class MobileController extends BaseController
     $data = [
       'status'=>'connected',
       'nama_instansi'=>@$this->configs->nama_instansi??'UPTD SMP NEGERI 39 SINJAI',
+      'background'=>@$this->configs->login_bg?'uploaded/'.$this->configs->login_bg:'assets/img/bg.jpeg',
     ];
     return response()->json($data,302);
   }

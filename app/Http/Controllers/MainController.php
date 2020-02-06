@@ -221,4 +221,9 @@ class MainController extends BaseController
 
     return redirect()->back()->withErrors(['Password tidak sesuai!']);
   }
+
+  public function downloadAPP()
+  {
+    return response()->download(public_path('assets/app/absen_digital.apk'));
+  }
 }
