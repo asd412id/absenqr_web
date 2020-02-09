@@ -224,6 +224,6 @@ class MainController extends BaseController
 
   public function downloadAPP()
   {
-    return response()->download(public_path('assets/app/absen_digital.apk'));
+    return response()->download(public_path('assets/app/app-release.apk'),'Absen Digital.apk');
   }
 }

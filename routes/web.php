@@ -12,7 +12,7 @@
 */
 
 Route::middleware('web')->group(function(){
-  Route::get('/download','MainController@downloadAPP');
+  Route::get('/app','MainController@downloadAPP');
 
   Route::group(['middleware'=>'guest'], function()
   {
