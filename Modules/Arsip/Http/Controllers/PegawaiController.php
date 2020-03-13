@@ -85,12 +85,13 @@ class PegawaiController extends Controller
   {
     $role = [
       'nama' => 'required',
-      'username' => 'required',
+      'username' => 'required|unique:users,username',
       'password' => 'required',
     ];
     $msgs = [
       'nama.required' => 'Nama Lengkap tidak boleh kosong!',
       'username.required' => 'Username tidak boleh kosong!',
+      'username.unique' => 'Username telah digunakan!',
       'password.required' => 'Password tidak boleh kosong!'
     ];
 
@@ -206,11 +207,12 @@ class PegawaiController extends Controller
   {
     $role = [
       'nama' => 'required',
-      'username' => 'required',
+      'username' => 'required|unique:users,username,'.$uuid.',uuid',
     ];
     $msgs = [
       'nama.required' => 'Nama Lengkap tidak boleh kosong!',
       'username.required' => 'Username tidak boleh kosong!'
+      'username.unique' => 'Username telah digunakan!'
     ];
 
     if ($request->nip) {

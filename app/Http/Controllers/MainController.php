@@ -194,12 +194,13 @@ class MainController extends BaseController
       'old_password.required' => 'Password tidak boleh kosong!'
     ];
 
-    if (\Auth::user()->role == 'admin') {
+    // if (\Auth::user()->role == 'admin') {
       $roles['name'] = 'required';
-      $roles['username'] = 'required';
+      $roles['username'] = 'required|unique:users,username,'.auth()->user()->uuid.',uuid';
       $messages['name.required'] = 'Nama tidak boleh kosong!';
       $messages['username.required'] = 'Username tidak boleh kosong!';
-    }
+      $messages['username.unique'] = 'Username telah digunakan!';
+    // }
 
     Validator::make($r->all(),$roles,$messages)->validate();
 
