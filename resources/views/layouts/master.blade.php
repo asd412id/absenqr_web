@@ -1,3 +1,13 @@
+@php
+  $configs = \App\Configs::getAll();
+  if (@$configs->logo1) {
+    $logo = asset('uploaded/'.@$configs->logo1);
+  }elseif (@$configs->logo2) {
+    $logo = asset('uploaded/'.@$configs->logo2);
+  }else{
+    $logo = url('assets/img/sinjai.png');
+  }
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +15,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>@yield('title','Administrator')</title>
-  <link rel="icon" href="{{ url('assets/img/sinjai.png') }}" type="image/x-icon" />
+  <link rel="icon" href="{{ $logo }}" type="image/x-icon" />
   <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('assets/vendor') }}/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="{{ url('assets/vendor') }}/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
@@ -54,7 +64,7 @@
       </div>
       <footer class="footer">
         <div class="w-100 clearfix">
-          <span class="text-center text-sm-left d-md-inline-block">Copyright © 2019 UPTD SMP Negeri 39 Sinjai.</span>
+          <span class="text-center text-sm-left d-md-inline-block">Copyright © {{ date("Y").' '.(@$configs->nama_instansi??'UPTD SMP Negeri 39 Sinjai') }}.</span>
           <span class="float-none float-sm-right mt-1 mt-sm-0 text-center">Dikembangkan oleh <a href="https://www.facebook.com/aezdar" class="text-dark font-weight-bold">asd412id</a></span>
         </div>
       </footer>

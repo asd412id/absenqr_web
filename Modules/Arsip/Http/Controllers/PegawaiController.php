@@ -211,7 +211,7 @@ class PegawaiController extends Controller
     ];
     $msgs = [
       'nama.required' => 'Nama Lengkap tidak boleh kosong!',
-      'username.required' => 'Username tidak boleh kosong!'
+      'username.required' => 'Username tidak boleh kosong!',
       'username.unique' => 'Username telah digunakan!'
     ];
 
