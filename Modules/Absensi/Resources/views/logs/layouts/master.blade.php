@@ -88,7 +88,7 @@
               <a href="javascript:void()" data-toggle="modal" data-target="#showjadwal" class="btn btn-success btn-cari"> Jadwal</a>
               <button type="submit" class="btn btn-primary btn-cari" onclick="$(this).closest('form').prop('target','_self')">Proses</button>
               @if (@count($data))
-                <input type="submit" name="download_pdf" value="Dowload" class="btn btn-danger" style="position: relative" onclick="$(this).closest('form').prop('target','_blank')">
+                <input type="submit" name="download_pdf" value="Download" class="btn btn-danger" style="position: relative" onclick="$(this).closest('form').prop('target','_blank')">
               @endif
             </div>
           </div>
