@@ -52,6 +52,26 @@ class MobileAbsenController extends Controller
       ],404);
     }
 
+    $getJadwal = $user->jadwal()
+    ->where('hari','like',"%$hari%")
+    ->get();
+
+    $jd = [];
+    if (count($getJadwal)) {
+      foreach ($getJadwal as $j) {
+        array_push($jd,[
+          'id' => $j->id,
+          'uuid' => $j->uuid,
+          'name' => $j->nama_jadwal,
+          'ruang' => $j->get_ruang->nama_ruang,
+          'date' => Carbon::now()->format("Y-m-d"),
+          'start_cin' => Carbon::createFromFormat("H:i",$j->cin)->format("H:i"),
+          'cin' => $j->cin,
+          'cout' => $j->cout,
+        ]);
+      }
+    }
+
     $user->absenRuang()->attach($ruang->id);
     $absen = $user->absen->last();
 
@@ -59,6 +79,7 @@ class MobileAbsenController extends Controller
       'status'=>'success',
       'message'=>'Absen Berhasil',
       'ruang'=>$ruang->nama_ruang,
+      'jadwal'=>$jd,
       'time'=>$absen->created_at->format('H:i')
     ],202);
   }

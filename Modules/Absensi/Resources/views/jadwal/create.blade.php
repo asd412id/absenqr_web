@@ -24,10 +24,6 @@
         </div>
         <div class="card-body">
           <div class="form-group">
-            <label for="nama_jadwal">Nama Jadwal</label>
-            <input type="text" name="nama_jadwal" class="form-control" id="nama_jadwal" value="{{ old('nama_jadwal') }}" placeholder="Nama Jadwal" required>
-          </div>
-          <div class="form-group">
             <label for="ruang">Ruang</label>
             <select class="form-control" name="ruang" required>
               <option value="">Pilih Ruang</option>
@@ -35,6 +31,10 @@
                 <option value="{{ $r->id }}">{{ $r->nama_ruang }}</option>
               @endforeach
             </select>
+          </div>
+          <div class="form-group">
+            <label for="nama_jadwal">Nama Jadwal</label>
+            <input type="text" name="nama_jadwal" class="form-control" id="nama_jadwal" value="{{ old('nama_jadwal') }}" placeholder="Nama Jadwal" required>
           </div>
           <div class="form-group">
             <label for="cin">Check In</label>
