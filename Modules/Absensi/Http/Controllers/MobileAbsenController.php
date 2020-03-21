@@ -54,18 +54,21 @@ class MobileAbsenController extends Controller
 
     $getJadwal = $user->jadwal()
     ->where('hari','like',"%$hari%")
+    ->where('cin','>',$time)
     ->get();
+
 
     $jd = [];
     if (count($getJadwal)) {
       foreach ($getJadwal as $j) {
+        $time5 = Carbon::createFromFormat("H:i",$j->cin)->subMinutes(5)->format("H:i:00");
         array_push($jd,[
           'id' => $j->id,
           'uuid' => $j->uuid,
           'name' => $j->nama_jadwal,
           'ruang' => $j->get_ruang->nama_ruang,
           'date' => Carbon::now()->format("Y-m-d"),
-          'start_cin' => Carbon::createFromFormat("H:i",$j->cin)->format("H:i"),
+          'start_cin' => Carbon::createFromFormat("Y-m-d H:i:s",$now->format("Y-m-d ").$time5)->timestamp*1000,
           'cin' => $j->cin,
           'cout' => $j->cout,
         ]);
