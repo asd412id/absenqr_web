@@ -19,16 +19,39 @@ class MobileAbsenController extends Controller
     $user = auth()->user();
     $ruang = Ruang::where('_token',$ruang_token)->first();
 
-    if (!$ruang) {
-      return response()->json([
-        'status'=>'error',
-        'message'=>'QR Code tidak terdaftar!',
-      ],404);
-    }
-
     $now = Carbon::now();
     $time = $now->format('H:i');
     $hari = $now->format('N');
+
+    $getJadwal = $user->jadwal()
+    ->where('hari','like',"%$hari%")
+    ->where('cin','>',$time)
+    ->get();
+
+    $jd = [];
+    if (count($getJadwal)) {
+      foreach ($getJadwal as $j) {
+        $time5 = Carbon::createFromFormat("H:i",$j->cin)->subMinutes(5)->format("H:i:00");
+        array_push($jd,[
+          'id' => $j->id,
+          'uuid' => $j->uuid,
+          'ruang' => $j->get_ruang->nama_ruang.' (5 menit lagi)',
+          'name' => $j->nama_jadwal.' - '.$j->cin,
+          'date' => Carbon::now()->format("Y-m-d"),
+          'start_cin' => Carbon::createFromFormat("Y-m-d H:i:s",$now->format("Y-m-d ").$time5)->timestamp*1000,
+          'cin' => $j->cin,
+          'cout' => $j->cout,
+        ]);
+      }
+    }
+
+    if (!$ruang) {
+      return response()->json([
+        'status'=>'error',
+        'jadwal'=>$jd,
+        'message'=>'QR Code tidak terdaftar!',
+      ],404);
+    }
 
     $jadwal = $user->jadwal()
     ->where('ruang',$ruang->id)
@@ -48,31 +71,9 @@ class MobileAbsenController extends Controller
     if (!$jadwal) {
       return response()->json([
         'status'=>'error',
+        'jadwal'=>$jd,
         'message'=>'Jadwal tidak tersedia!',
       ],404);
-    }
-
-    $getJadwal = $user->jadwal()
-    ->where('hari','like',"%$hari%")
-    ->where('cin','>',$time)
-    ->get();
-
-
-    $jd = [];
-    if (count($getJadwal)) {
-      foreach ($getJadwal as $j) {
-        $time5 = Carbon::createFromFormat("H:i",$j->cin)->subMinutes(5)->format("H:i:00");
-        array_push($jd,[
-          'id' => $j->id,
-          'uuid' => $j->uuid,
-          'name' => $j->nama_jadwal,
-          'ruang' => $j->get_ruang->nama_ruang,
-          'date' => Carbon::now()->format("Y-m-d"),
-          'start_cin' => Carbon::createFromFormat("Y-m-d H:i:s",$now->format("Y-m-d ").$time5)->timestamp*1000,
-          'cin' => $j->cin,
-          'cout' => $j->cout,
-        ]);
-      }
     }
 
     $user->absenRuang()->attach($ruang->id);
