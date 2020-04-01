@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="{{ asset('assets/vendor') }}/toast/jquery.toast.min.css">
   <link rel="stylesheet" href="{{ asset('assets/vendor') }}/perfect-scrollbar/css/perfect-scrollbar.css">
   <link rel="stylesheet" href="{{ asset('assets/vendor') }}/mohithg-switchery/dist/switchery.min.css">
+  <link rel="stylesheet" href="{{ asset('assets/vendor') }}/select2/select2.min.css">
   <link rel="stylesheet" href="{{ asset('assets') }}/css/theme.min.css">
   <link rel="stylesheet" href="{{ asset('assets') }}/css/style.min.css">
   @yield('header')
@@ -87,6 +88,7 @@
 <script src="{{ asset('assets/vendor/repeater/jquery.repeater.min.js') }}" charset="utf-8"></script>
 <script src="{{ asset('assets/vendor/datetimepicker/js/datetimepicker.min.js') }}" charset="utf-8"></script>
 <script src="{{ asset('assets/vendor/mohithg-switchery/dist/switchery.min.js') }}" charset="utf-8"></script>
+<script src="{{ asset('assets/vendor/select2/select2.min.js') }}" charset="utf-8"></script>
 <script src="{{ url('assets') }}/js/theme.js"></script>
 <script src="{{ asset('assets') }}/js/modernizr-2.8.3.min.js"></script>
 <script src="{{ url('assets/js/script.js') }}" charset="utf-8"></script>

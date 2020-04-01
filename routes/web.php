@@ -27,6 +27,9 @@ Route::middleware('web')->group(function(){
     Route::get('pengaturan', 'MainController@sysConf')->name('configs');
     Route::post('pengaturan', 'MainController@sysConfUpdate')->name('configs.update');
 
+    Route::group(['prefix'=>'ajax'],function(){
+      Route::get('user', 'AjaxController@searchUser')->name('ajax.search.user');
+    });
 
     Route::get('pengaturan/akun', 'MainController@profile')->name('profile');
     Route::post('pengaturan/akun', 'MainController@profileUpdate')->name('profile.update');

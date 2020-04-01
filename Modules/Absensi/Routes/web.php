@@ -28,6 +28,8 @@ Route::prefix('absensi')->middleware('web','auth')->group(function() {
     Route::group(['prefix'=>'jadwal'], function()
     {
       Route::get('/', 'JadwalController@index')->name('absensi.jadwal.index');
+      Route::get('/tambah/{uuid}', 'JadwalController@create')->name('absensi.jadwal.copy');
+
       Route::get('/tambah', 'JadwalController@create')->name('absensi.jadwal.create');
       Route::post('/tambah', 'JadwalController@store')->name('absensi.jadwal.store');
       Route::get('/{uuid}/ubah', 'JadwalController@edit')->name('absensi.jadwal.edit');

@@ -34,6 +34,8 @@ class JadwalController extends Controller
         $btn = '<div class="table-actions">';
 
         if (\Auth::user()->role == 'admin') {
+          $btn .= ' <a href="'.route('absensi.jadwal.copy',['uuid'=>$row->uuid]).'" class="text-primary" title="Salin Jadwal"><i class="ik ik-copy"></i></a>';
+
           $btn .= ' <a href="'.route('absensi.jadwal.edit',['uuid'=>$row->uuid]).'" class="text-primary" title="Ubah"><i class="ik ik-edit"></i></a>';
 
           $btn .= ' <a href="'.route('absensi.jadwal.destroy',['uuid'=>$row->uuid]).'" class="text-danger confirm" data-text="Hapus data '.$row->nama_jadwal.'?" title="Hapus"><i class="ik ik-trash-2"></i></a>';
@@ -56,12 +58,20 @@ class JadwalController extends Controller
   * Show the form for creating a new resource.
   * @return Response
   */
-  public function create()
+  public function create($uuid=null)
   {
     $data = [
       'title'=>'Tambah Jadwal Absensi',
       'ruang'=>Ruang::all(),
     ];
+
+    if ($uuid) {
+      $jadwal = Jadwal::where("uuid",$uuid)->first();
+      if ($jadwal) {
+        $data['data'] = $jadwal;
+      }
+    }
+
     return view('absensi::jadwal.create',$data);
   }
 
@@ -108,6 +118,7 @@ class JadwalController extends Controller
     $insert->hari = $request->hari;
     $insert->cin = $request->cin;
     $insert->cout = $request->cout;
+    $insert->to_user = $request->user;
     $insert->start_cin = $request->start_cin;
     $insert->end_cin = $request->end_cin;
     $insert->start_cout = $request->start_cout;
@@ -118,6 +129,21 @@ class JadwalController extends Controller
     $insert->satuan_jam = $request->satuan_jam??'Jam';
 
     if ($insert->save()) {
+      $insert->user()->detach();
+      if ($request->user == 1) {
+        $users = \App\User::where('role','!=','admin')->select('id')->get()->pluck('id')->toArray();
+        $insert->user()->sync($users);
+      }elseif ($request->user == 2) {
+        $users = \App\User::where('role','pegawai')->select('id')->get()->pluck('id')->toArray();
+        $insert->user()->sync($users);
+      }elseif ($request->user == 3) {
+        $users = \App\User::where('role','siswa')->select('id')->get()->pluck('id')->toArray();
+        $insert->user()->sync($users);
+      }elseif ($request->user == 4) {
+        if (count($request->users)) {
+          $insert->user()->sync($request->users);
+        }
+      }
       return redirect()->route('absensi.jadwal.index')->with('message','Data berhasil disimpan!');
     }
     return redirect()->back()->withErrors(['Terjadi kesalahan! Silahkan hubungi operator.'])->withInput();
@@ -185,6 +211,7 @@ class JadwalController extends Controller
     $insert->hari = $request->hari;
     $insert->cin = $request->cin;
     $insert->cout = $request->cout;
+    $insert->to_user = $request->user;
     $insert->start_cin = $request->start_cin;
     $insert->end_cin = $request->end_cin;
     $insert->start_cout = $request->start_cout;
@@ -195,6 +222,21 @@ class JadwalController extends Controller
     $insert->satuan_jam = $request->satuan_jam??'Jam';
 
     if ($insert->save()) {
+      $insert->user()->detach();
+      if ($request->user == 1) {
+        $users = \App\User::where('role','!=','admin')->select('id')->get()->pluck('id')->toArray();
+        $insert->user()->sync($users);
+      }elseif ($request->user == 2) {
+        $users = \App\User::where('role','pegawai')->select('id')->get()->pluck('id')->toArray();
+        $insert->user()->sync($users);
+      }elseif ($request->user == 3) {
+        $users = \App\User::where('role','siswa')->select('id')->get()->pluck('id')->toArray();
+        $insert->user()->sync($users);
+      }elseif ($request->user == 4) {
+        if (count($request->users)) {
+          $insert->user()->sync($request->users);
+        }
+      }
       return redirect()->route('absensi.jadwal.index')->with('message','Data berhasil disimpan!');
     }
     return redirect()->back()->withErrors(['Terjadi kesalahan! Silahkan hubungi operator.'])->withInput();

@@ -265,11 +265,11 @@ if ($("#table-absensi-ruang").length>0) {
       });
     }
   });
-  table.on( 'draw.dt', function () {
-    table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
-      cell.innerHTML = (i+1)+'.';
-    });
-  }).draw();
+  // table.on( 'draw.dt', function () {
+  //   table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
+  //     cell.innerHTML = (i+1)+'.';
+  //   });
+  // }).draw();
 }
 
 if ($("#table-absensi-jadwal").length>0) {
@@ -299,11 +299,11 @@ if ($("#table-absensi-jadwal").length>0) {
       });
     }
   });
-  table.on( 'draw.dt', function () {
-    table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
-      cell.innerHTML = (i+1)+'.';
-    });
-  }).draw();
+  // table.on( 'draw.dt', function () {
+  //   table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
+  //     cell.innerHTML = (i+1)+'.';
+  //   });
+  // }).draw();
 }
 
 if ($("#table-absensi-jadwal-absen-user").length>0) {
@@ -330,11 +330,11 @@ if ($("#table-absensi-jadwal-absen-user").length>0) {
       });
     }
   });
-  table.on( 'draw.dt', function () {
-    table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
-      cell.innerHTML = (i+1)+'.';
-    });
-  }).draw();
+  // table.on( 'draw.dt', function () {
+  //   table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
+  //     cell.innerHTML = (i+1)+'.';
+  //   });
+  // }).draw();
 }
 if ($("#table-absensi-desc").length>0) {
   var table = $("#table-absensi-desc").DataTable({
@@ -361,11 +361,11 @@ if ($("#table-absensi-desc").length>0) {
       });
     }
   });
-  table.on( 'draw.dt', function () {
-    table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
-      cell.innerHTML = (i+1)+'.';
-    });
-  }).draw();
+  // table.on( 'draw.dt', function () {
+  //   table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
+  //     cell.innerHTML = (i+1)+'.';
+  //   });
+  // }).draw();
 }
 
 if ($("#table-absensi-edit-jadwal-user").length>0) {
