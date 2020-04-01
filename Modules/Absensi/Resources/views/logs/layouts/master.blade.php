@@ -76,7 +76,7 @@
                 <input type="text" class="form-control" value="{{ request()->end_date??date('Y/m/d') }}" name="end_date" id="end_date">
               </div>
             </div>
-            <div class="col-sm-12 mt-10 mb-10 text-center">
+            <div class="col-sm-12 mb-10 text-center">
               <a href="javascript:void()" data-toggle="modal" data-target="#showuser" class="btn btn-danger btn-cari"> User</a>
               <a href="javascript:void()" data-toggle="modal" data-target="#showjadwal" class="btn btn-success btn-cari"> Jadwal</a>
               <button type="submit" class="btn btn-primary btn-cari" onclick="$(this).closest('form').prop('target','_self')">Proses</button>
@@ -98,7 +98,7 @@
                   <div class="row">
                     <div class="card">
                       <div class="card-body">
-                        <h6>Ketik nama user, role, atau status kepegawaian untuk mulai mencari! (Kosongkan untuk memilih semua user)</h6>
+                        <h6>Ketik nama user, kelas, role, atau status kepegawaian untuk mulai mencari! (Kosongkan untuk memilih semua user)</h6>
                         <select class="form-control select2-multiple" data-url="{{ route('ajax.search.user') }}" data-placeholder="Semua User" style="width: 100%" name="user[]" id="user" multiple>
                           @if (request()->user)
                             @foreach ($users as $key => $v)
