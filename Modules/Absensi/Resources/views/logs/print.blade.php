@@ -74,13 +74,13 @@
           $tanggal = request()->start_date==request()->end_date?$carbon->createFromFormat('Y/m/d',request()->start_date)->translatedFormat('d/m/Y'):$carbon->createFromFormat('Y/m/d',request()->start_date)->format('d/m/Y').' - '.$carbon->createFromFormat('Y/m/d',request()->end_date)->format('d/m/Y');
           $qr = 'Absensi Logs - '.time().' - by asd412id';
         @endphp
-        @if (!request()->user)
+        @if (!request()->user||count($data)>1)
           <h3 class="text-center">{{ request()->title??'Rekapitulasi Absensi' }}</h3>
           <p class="text-center">Tanggal: {{ $tanggal }}</p>
           @include('absensi::logs.layouts.table')
         @else
           <h3 class="text-center">{{ request()->title??'Rekapitulasi Absensi' }}</h3>
-          <p class="text-center" style="margin-bottom: 0;padding-bottom: 0">Nama: {{ \App\User::where('uuid',request()->user)->first()->name }}</p>
+          <p class="text-center" style="margin-bottom: 0;padding-bottom: 0">Nama: {{ \App\User::where('id',request()->user)->first()->name }}</p>
           <p class="text-center">Tanggal: {{ $tanggal }}</p>
           @include('absensi::logs.layouts.table-single')
         @endif

@@ -20,13 +20,14 @@ class JadwalUserController extends Controller
   public function index()
   {
     if (request()->ajax()) {
-      $data = User::with('jadwal')->where('role','!=','admin')->orderBy('name','asc');
+      $utype = request()->user??'pegawai';
+      $data = User::with('jadwal')->where('role','!=','admin')->where('role',$utype)->orderBy('name','asc');
       return DataTables::of($data)
       ->addColumn('jadwal',function($row){
         $jd = [];
         if (count($row->jadwal)) {
           foreach ($row->jadwal as $key => $j) {
-            array_push($jd,'<span class="badge badge-primary">'.$j->nama_jadwal.' ('.$j->get_ruang->nama_ruang.')</span>');
+            array_push($jd,'<span class="badge badge-primary">'.$j->nama_jadwal.' ('.implode(', ',$j->nama_hari).')'.' - '.$j->get_ruang->nama_ruang.'</span>');
           }
         }
         return count($jd)?implode(" ",$jd):'-';
@@ -71,6 +72,9 @@ class JadwalUserController extends Controller
 
   public function update($uuid, Request $request)
   {
+    Jadwal::whereIn('id',$request->jadwal_user)
+    ->update(['to_user'=>4]);
+
     $user = User::where('uuid',$uuid)->first();
     $user->jadwal()->sync($request->jadwal_user);
     return redirect()->route('absensi.jadwal.user.index')->with('message','Data berhasil disimpan!');

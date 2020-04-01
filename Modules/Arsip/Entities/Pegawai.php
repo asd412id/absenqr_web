@@ -59,6 +59,6 @@ class Pegawai extends Model
 
   public function user()
   {
-    return $this->hasOne(User::class,'id_user');
+    return $this->hasOne(User::class,'id_user')->where('role','pegawai');
   }
 }

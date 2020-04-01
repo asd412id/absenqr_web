@@ -2,7 +2,7 @@
 @section('log-content')
   <div class="col-sm-12 text-center">
     @if (count($data))
-      @if (!request()->user)
+      @if (!request()->user||count($data)>1)
         @include('absensi::logs.layouts.table')
       @else
         @include('absensi::logs.layouts.table-single')

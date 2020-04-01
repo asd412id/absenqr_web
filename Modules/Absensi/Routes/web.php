@@ -29,6 +29,7 @@ Route::prefix('absensi')->middleware('web','auth')->group(function() {
     {
       Route::get('/', 'JadwalController@index')->name('absensi.jadwal.index');
       Route::get('/tambah/{uuid}', 'JadwalController@create')->name('absensi.jadwal.copy');
+      Route::get('/tambah/user/{uuid}', 'JadwalController@createByUser')->name('absensi.jadwal.byuser');
 
       Route::get('/tambah', 'JadwalController@create')->name('absensi.jadwal.create');
       Route::post('/tambah', 'JadwalController@store')->name('absensi.jadwal.store');

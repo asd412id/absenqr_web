@@ -75,6 +75,22 @@ class JadwalController extends Controller
     return view('absensi::jadwal.create',$data);
   }
 
+  public function createByUser($uuid)
+  {
+    $user = \App\User::where("uuid",$uuid)->first();
+    $data = [
+      'title'=>'Buat Jadwal User',
+      'ruang'=>Ruang::all(),
+    ];
+
+    $data['data'] = json_decode(json_encode([
+      "to_user" => 4,
+      "user" => [$user]
+    ]));
+
+    return view('absensi::jadwal.create',$data);
+  }
+
   /**
   * Store a newly created resource in storage.
   * @param Request $request

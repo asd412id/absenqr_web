@@ -265,11 +265,12 @@ if ($("#table-absensi-ruang").length>0) {
       });
     }
   });
-  // table.on( 'draw.dt', function () {
-  //   table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
-  //     cell.innerHTML = (i+1)+'.';
-  //   });
-  // }).draw();
+  table.on( 'draw.dt', function () {
+    var PageInfo = $('.dataTable').DataTable().page.info();
+    table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
+      cell.innerHTML = (i+1+PageInfo.start)+'.';
+    });
+  }).draw();
 }
 
 if ($("#table-absensi-jadwal").length>0) {
@@ -299,11 +300,12 @@ if ($("#table-absensi-jadwal").length>0) {
       });
     }
   });
-  // table.on( 'draw.dt', function () {
-  //   table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
-  //     cell.innerHTML = (i+1)+'.';
-  //   });
-  // }).draw();
+  table.on( 'draw.dt', function () {
+    var PageInfo = $('.dataTable').DataTable().page.info();
+    table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
+      cell.innerHTML = (i+1+PageInfo.start)+'.';
+    });
+  }).draw();
 }
 
 if ($("#table-absensi-jadwal-absen-user").length>0) {
@@ -330,11 +332,12 @@ if ($("#table-absensi-jadwal-absen-user").length>0) {
       });
     }
   });
-  // table.on( 'draw.dt', function () {
-  //   table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
-  //     cell.innerHTML = (i+1)+'.';
-  //   });
-  // }).draw();
+  table.on( 'draw.dt', function () {
+    var PageInfo = $('.dataTable').DataTable().page.info();
+    table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
+      cell.innerHTML = (i+1+PageInfo.start)+'.';
+    });
+  }).draw();
 }
 if ($("#table-absensi-desc").length>0) {
   var table = $("#table-absensi-desc").DataTable({
@@ -361,32 +364,89 @@ if ($("#table-absensi-desc").length>0) {
       });
     }
   });
-  // table.on( 'draw.dt', function () {
-  //   table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
-  //     cell.innerHTML = (i+1)+'.';
-  //   });
-  // }).draw();
-}
-
-if ($("#table-absensi-edit-jadwal-user").length>0) {
-  setTimeout(() => {
-    var table = $("#table-absensi-edit-jadwal-user").DataTable({
-      responsive: true,
-      "language": language,
-      columnDefs: [{
-        orderable: false,
-        targets: -1
-      }],
-      'drawCallback': function (settings) {
-        initProcess();
-        checkBox();
-        $(".confirm").on('click', function () {
-          var txt = $(this).data('text');
-          if (!confirm(txt)) {
-            return false;
-          }
-        });
-      }
+  table.on( 'draw.dt', function () {
+    var PageInfo = $('.dataTable').DataTable().page.info();
+    table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
+      cell.innerHTML = (i+1+PageInfo.start)+'.';
     });
-  }, 500);
+  }).draw();
 }
+$.fn.select2.amd.define('select2/selectAllAdapter', [
+  'select2/utils',
+  'select2/dropdown',
+  'select2/dropdown/attachBody'
+], function (Utils, Dropdown, AttachBody) {
+  function SelectAll() { }
+  SelectAll.prototype.render = function (decorated) {
+    var self = this,
+    $rendered = decorated.call(this),
+    $selectAll = $(
+      '<button class="btn btn-xs btn-primary" type="button" style="margin-left:6px;">Pilih Semua</button>'
+    ),
+    $unselectAll = $(
+      '<button class="btn btn-xs btn-default" type="button" style="margin-left:6px;">Batalkan Semua</button>'
+    ),
+    $btnContainer = $('<div style="margin-top:3px;">').append($selectAll).append($unselectAll);
+    if (!this.$element.prop("multiple")) {
+      // this isn't a multi-select -> don't add the buttons!
+      return $rendered;
+    }
+    $rendered.find('.select2-dropdown').prepend($btnContainer);
+    $selectAll.on('click', function (e) {
+      var $results = $rendered.find('.select2-results__option[aria-selected=false]');
+      $results.each(function () {
+        self.trigger('select', {
+          data: $(this).data('data')
+        });
+      });
+      self.trigger('close');
+    });
+    $unselectAll.on('click', function (e) {
+      // var $results = $rendered.find('.select2-results__option[aria-selected=true]');
+      // $results.each(function () {
+      //   self.trigger('unselect', {
+      //     data: $(this).data('data')
+      //   });
+      // });
+      self.$element.find('option').prop('selected',false).trigger('change');
+      self.trigger('close');
+    });
+    return $rendered;
+  };
+  return Utils.Decorate(
+    Utils.Decorate(
+      Dropdown,
+      AttachBody
+    ),
+    SelectAll
+  );
+});
+$(".select2").each(function(){
+  var url = $(this).data('url');
+  var placeholder = $(this).data('placeholder');
+  $(".select2").selec2({
+    placeholder: placeholder,
+    ajax: {
+      url: url,
+      dataType: 'json',
+      delay: 500,
+      closeOnSelect: false
+    }
+  });
+})
+$(".select2-multiple").each(function(){
+  var url = $(this).data('url');
+  var placeholder = $(this).data('placeholder');
+  $(this).select2({
+    multiple: true,
+    placeholder: placeholder,
+    dropdownAdapter: $.fn.select2.amd.require('select2/selectAllAdapter'),
+    minimumInputLength: 1,
+    ajax: {
+      url: url,
+      dataType: 'json',
+      delay: 500,
+      closeOnSelect: false
+    }
+  });
+});

@@ -23,6 +23,13 @@
   <div class="col-sm-12">
     <div class="card">
       <div class="card-body">
+        <form class="mb-10 float-right" style="width: 200px" action="" method="get">
+          <select class="form-control" name="user" onchange="$(this).parent().submit()">
+            <option {{ request()->user=='pegawai'?'selected':'' }} value="pegawai">Pegawai</option>
+            <option {{ request()->user=='siswa'?'selected':'' }} value="siswa">Siswa</option>
+          </select>
+        </form>
+        <div class="clearfix"></div>
         <div class="dt-responsive">
           <table class="table table-hover table-striped nowrap" id="table-absensi-jadwal-absen-user">
             <thead>

@@ -122,8 +122,7 @@
           </div>
           <div class="form-group" style="{{ @$data->to_user!=4?'display: none':'' }}" id="select-user">
             <label for="early">User Tertentu</label>
-            <select class="form-control" style="width: 100%" name="users[]" id="users" multiple="multiple">
-              <option></option>
+            <select class="form-control select2-multiple" data-url="{{ route('ajax.search.user') }}" data-placeholder="Ketik nama user" style="width: 100%" name="users[]" id="users" multiple>
               @if (@count(@$data->user)&&@$data->to_user==4)
                 @foreach ($data->user as $key => $u)
                   <option selected value="{{ $u->id }}">{{ $u->name }}</option>
@@ -184,14 +183,6 @@
       $("#select-user").slideDown(200);
     }else{
       $("#select-user").slideUp(200);
-    }
-  })
-  $("#users").select2({
-    placeholder: "Ketik nama user ...",
-    minimumInputLength: 3,
-    ajax: {
-      url: "{{ route('ajax.search.user') }}",
-      dataType: 'json'
     }
   })
 

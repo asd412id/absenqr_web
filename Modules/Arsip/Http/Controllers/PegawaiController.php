@@ -205,9 +205,10 @@ class PegawaiController extends Controller
   */
   public function update(Request $request, $uuid)
   {
+    $insert = Pegawai::where('uuid',$uuid)->first();
     $role = [
       'nama' => 'required',
-      'username' => 'required|unique:users,username,'.$uuid.',uuid',
+      'username' => 'required|unique:users,username,'.$insert->user->uuid.',uuid',
     ];
     $msgs = [
       'nama.required' => 'Nama Lengkap tidak boleh kosong!',
@@ -222,8 +223,6 @@ class PegawaiController extends Controller
     }
 
     Validator::make($request->all(),$role,$msgs)->validate();
-
-    $insert = Pegawai::where('uuid',$uuid)->first();
 
     $filepath = null;
     if ($request->hasFile('foto')) {

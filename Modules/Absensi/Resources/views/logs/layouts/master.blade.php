@@ -53,14 +53,6 @@
               <input type="text" class="form-control" value="{{ request()->title??'Rekapitulasi Absen' }}" name="title" id="title" title="Title Log Absensi">
             </div>
             <div class="col-sm-2">
-              <select class="form-control" name="user" id="user">
-                <option {{ !request()->user?'selected':'' }} value="">Semua User</option>
-                @foreach ($users as $key => $v)
-                  <option {{ $v->uuid==request()->user?'selected':'' }} value="{{ $v->uuid }}">{{ $v->name }}</option>
-                @endforeach
-              </select>
-            </div>
-            <div class="col-sm-2">
               <select class="form-control" name="role" id="role">
                 <option {{ !request()->role?'selected':'' }} value="">Semua Role</option>
                 <option {{ request()->role=='pegawai'?'selected':'' }} value="pegawai">Pegawai</option>
@@ -75,7 +67,7 @@
                 <option {{ request()->status=='ptt'?'selected':'' }} value="ptt">PTT</option>
               </select>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-5">
               <div class="input-group" id="range">
                 <input type="text" class="form-control" value="{{ request()->start_date??date('Y/m/d') }}" name="start_date" id="start_date">
                 <div class="input-group-append">
@@ -84,7 +76,8 @@
                 <input type="text" class="form-control" value="{{ request()->end_date??date('Y/m/d') }}" name="end_date" id="end_date">
               </div>
             </div>
-            <div class="col-sm-12 pb-10 text-center">
+            <div class="col-sm-12 mt-10 mb-10 text-center">
+              <a href="javascript:void()" data-toggle="modal" data-target="#showuser" class="btn btn-danger btn-cari"> User</a>
               <a href="javascript:void()" data-toggle="modal" data-target="#showjadwal" class="btn btn-success btn-cari"> Jadwal</a>
               <button type="submit" class="btn btn-primary btn-cari" onclick="$(this).closest('form').prop('target','_self')">Proses</button>
               @if (@count($data))
@@ -92,13 +85,73 @@
               @endif
             </div>
           </div>
-          <div class="row" id="jadwal-wrapper" style="display: none">
-            @php
-              $list_jadwal = request()->jadwal??$jadwal;
-            @endphp
-            @foreach ($list_jadwal as $key => $jd)
-              <input type="hidden" name="jadwal[]" value="{{ $jd->uuid??$jd }}" id="jadwal_{{ $jd->uuid??$jd}}">
-            @endforeach
+          <div class="modal fade" id="showuser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="daftarjadwal-title">Filter User</h5>
+                  <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="card">
+                      <div class="card-body">
+                        <h6>Ketik nama user, role, atau status kepegawaian untuk mulai mencari! (Kosongkan untuk memilih semua user)</h6>
+                        <select class="form-control select2-multiple" data-url="{{ route('ajax.search.user') }}" data-placeholder="Semua User" style="width: 100%" name="user[]" id="user" multiple>
+                          @if (request()->user)
+                            @foreach ($users as $key => $v)
+                              <option selected value="{{ $v->id }}">{{ $v->name }}</option>
+                            @endforeach
+                          @endif
+                        </select>
+                        <div class="text-right mt-10">
+                          <button class="btn btn-outline-success" type="button" data-dismiss="modal">Simpan Pilihan</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="showjadwal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h6 class="modal-title" id="daftarjadwal-title">Filter Jadwal</h6>
+                  <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5>Ketik nama jadwal atau nama ruang! (Kosongkan untuk memilih semua jadwal)</h5>
+                        <select class="form-control select2-multiple" data-url="{{ route('ajax.search.jadwal') }}" data-placeholder="Ketik nama jadwal atau nama ruang" style="width: 100%" name="jadwal[]" multiple>
+                          @php
+                            $list_jadwal = [];
+                            if (request()->jadwal) {
+                              $list_jadwal = \Modules\Absensi\Entities\Jadwal::whereIn('id',request()->jadwal)->get();
+                            }
+                          @endphp
+                          @if (count($list_jadwal))
+                            @foreach ($list_jadwal as $key => $value)
+                              <option selected value="{{ $value->id }}">{{ $value->nama_jadwal.' ('.implode(', ',$value->nama_hari).') - '.$value->get_ruang->nama_ruang }}</option>
+                            @endforeach
+                          @endif
+                        </select>
+                        <div class="text-right mt-10">
+                          <button class="btn btn-outline-success" type="button" data-dismiss="modal">Simpan Pilihan</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </form>
         <div class="row">
@@ -109,100 +162,9 @@
   </div>
 </div>
 @endsection
-@section('modals')
-  <div class="modal fade" id="showjadwal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="daftarjadwal-title">Filter Jadwal</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="card">
-              <div class="card-body">
-                <table class="table table-hover table-striped nowrap" id="table-absensi-edit-jadwal-user">
-                  <thead>
-                    <th width="10">#</th>
-                    <th>Nama Jadwal</th>
-                    <th>Ruang</th>
-                    <th>Hari</th>
-                    <th width="10">
-                      <label class="checkbox-inline">
-                        <input type="checkbox" id="select-all">
-                        <span style="position: relative;top: -2px;">Pilih</span>
-                      </label>
-                    </th>
-                  </thead>
-                  <tbody>
-                    @foreach ($jadwal as $key => $v)
-                      <tr>
-                        <td>{{ $key+1 }}</td>
-                        <td>{{ $v->nama_jadwal }}</td>
-                        <td>{{ $v->get_ruang->nama_ruang }}</td>
-                        <td>{{ implode(", ",$v->nama_hari) }}</td>
-                        <td>
-                          <input type="checkbox" class="daftar_jadwal" data-target="jadwal_{{ $v->uuid }}" data-id="{{ $v->uuid }}" {{ request()->jadwal&&in_array($v->uuid,request()->jadwal)?'checked':'' }} {{ !request()->jadwal?'checked':'' }}>
-                        </td>
-                      </tr>
-                    @endforeach
-                  </tbody>
-                </table>
-                <div class="text-right mt-10">
-                  <button class="btn btn-outline-success" type="button" data-dismiss="modal">Simpan Pilihan</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-@endsection
 @section('footer')
 <script src="{{ url('assets/vendor/jquery.datetimepicker/jquery.datetimepicker.full.min.js') }}" charset="utf-8"></script>
 <script type="text/javascript">
-  function checkBox() {
-    $(".daftar_jadwal").each(function(i,v){
-      if (!$(v).is(":checked")) {
-        $("#select-all").prop('checked',false);
-        return false;
-      }
-      $("#select-all").prop('checked',true);
-    })
-
-    $(".daftar_jadwal").each(function(i,e){
-      let target = $(e).data('target');
-      let v = $(e).data('id');
-      if ($(e).is(":checked")) {
-        let w = '<input type="hidden" name="jadwal[]" value="'+v+'" id="'+target+'" />';
-        let isSet = $("#jadwal-wrapper").find("#"+target).length;
-        if (isSet == 0) {
-          $("#jadwal-wrapper").append(w);
-        }
-      }else{
-        $("#jadwal-wrapper").find("#"+target).remove();
-      }
-    })
-
-  }
-  function initProcess() {
-    $(".daftar_jadwal").on('change',function(){
-      checkBox();
-    })
-    $("#select-all").change(function(){
-      if ($(this).is(":checked")) {
-        $(".daftar_jadwal").prop('checked',true).change();
-      }else{
-        $(".daftar_jadwal").prop('checked',false).change();
-      }
-    })
-  }
-  initProcess();
-  checkBox();
-
   $(function(){
    $('#start_date').datetimepicker({
     format:'Y/m/d',

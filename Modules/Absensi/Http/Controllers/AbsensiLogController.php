@@ -24,11 +24,10 @@ class AbsensiLogController extends Controller
 
   public function index()
   {
-    $user = User::where('role','!=','admin')->orderBy('name','asc')->get();
     $jadwal = Jadwal::has('user')->get();
     $data = [
       'title' => 'Absensi Log',
-      'users' => $user,
+      'users' => [],
       'jadwal' => $jadwal,
     ];
     return view('absensi::logs.index',$data);
@@ -36,9 +35,6 @@ class AbsensiLogController extends Controller
 
   public function showLogs(Request $r)
   {
-    if (!$r->jadwal) {
-      return redirect()->route('absensi.log.index')->withErrors(['Jadwal harus dipilih']);
-    }
     $users = User::where('role','!=','admin')
     ->when($r->status,function($q,$role){
       $q->whereHas('pegawai',function($q) use($role){
@@ -46,7 +42,7 @@ class AbsensiLogController extends Controller
       });
     })
     ->when($r->user,function($q,$role){
-      $q->where('uuid',$role);
+      $q->whereIn('id',$role);
     })
     ->when($r->role,function($q,$role){
       $q->where('role',$role);
@@ -62,11 +58,15 @@ class AbsensiLogController extends Controller
 
     $logs = $this->getLogs($users,$dates,$r);
 
-    $user = User::where('role','!=','admin')->orderBy('name','asc')->get();
-    $jadwal = Jadwal::has('user')->get();
+    $jadwal = [];
+
+    if ($r->jadwal) {
+      $jadwal = Jadwal::whereIn('id',$r->jadwal)->get();
+    }
+
     $data = [
       'title' => 'Absensi Log',
-      'users' => $user,
+      'users' => $users,
       'jadwal' => $jadwal,
       'config' => $this->configs,
       'data' => $logs,
@@ -86,7 +86,7 @@ class AbsensiLogController extends Controller
         'page-width'=>'21.5cm',
         'page-height'=>'33cm',
       ];
-      if (!request()->user) {
+      if (!request()->user||count($users)>1) {
         $params['orientation'] = 'landscape';
       }
 
@@ -128,7 +128,7 @@ class AbsensiLogController extends Controller
         $nday = $d->format('N');
         $jadwal = $u->jadwal()
         ->when($r->jadwal,function($q,$role){
-          $q->whereIn('uuid',$role);
+          $q->whereIn('id',$role);
         })
         ->where('hari','like','%'.$nday.'%')
         ->orderBy('cin','asc')

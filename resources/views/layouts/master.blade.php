@@ -88,7 +88,7 @@
 <script src="{{ asset('assets/vendor/repeater/jquery.repeater.min.js') }}" charset="utf-8"></script>
 <script src="{{ asset('assets/vendor/datetimepicker/js/datetimepicker.min.js') }}" charset="utf-8"></script>
 <script src="{{ asset('assets/vendor/mohithg-switchery/dist/switchery.min.js') }}" charset="utf-8"></script>
-<script src="{{ asset('assets/vendor/select2/select2.min.js') }}" charset="utf-8"></script>
+<script src="{{ asset('assets/vendor/select2/select2.full.min.js') }}" charset="utf-8"></script>
 <script src="{{ url('assets') }}/js/theme.js"></script>
 <script src="{{ asset('assets') }}/js/modernizr-2.8.3.min.js"></script>
 <script src="{{ url('assets/js/script.js') }}" charset="utf-8"></script>

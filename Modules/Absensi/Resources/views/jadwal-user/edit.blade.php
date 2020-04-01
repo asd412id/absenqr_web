@@ -21,56 +21,26 @@
 @endsection
 
 @section('content')
-@php
-$data_jadwal = $data->jadwal()->select('id')->get()->pluck('id')->toArray();
-@endphp
 <form action="{{ route('absensi.jadwal.user.update',['uuid'=>$data->uuid]) }}" enctype="multipart/form-data" method="post">
   @csrf
   <div class="row">
-    <div id="jadwal-wrapper">
-      @foreach ($data_jadwal as $key => $jd)
-        <input type="hidden" name="jadwal_user[]" value="{{ $jd }}" id="jadwal_{{ $jd}}">
-      @endforeach
-    </div>
     <div class="col-sm-12">
       <div class="card">
+        <div class="card-header clearfix cd-title">
+          @if (\Auth::user()->role == 'admin')
+            <a href="{{ route('absensi.jadwal.byuser',['uuid'=>$data->uuid]) }}" class="btn btn-sm mr-1 btn-primary"><i class="ik ik-plus"></i> Buat Jadwal</a>
+          @endif
+        </div>
         <div class="card-body">
-          <table class="table table-hover table-striped nowrap" id="table-absensi-edit-jadwal-user">
-            <thead>
-              <th width="10">#</th>
-              <th>Nama Jadwal</th>
-              <th>Ruang</th>
-              <th>Check In</th>
-              <th>Check Out</th>
-              <th>Terlambat (Menit)</th>
-              <th>Pulang Cepat (Menit)</th>
-              <th>Hari</th>
-              <th width="10">
-                <label class="checkbox-inline">
-                  <input type="checkbox" id="select-all">
-                  <span style="position: relative;top: -2px;">Pilih</span>
-                </label>
-              </th>
-            </thead>
-            <tbody>
-              @foreach ($jadwal as $key => $v)
-                <tr>
-                  <td>{{ $key+1 }}</td>
-                  <td>{{ $v->nama_jadwal }}</td>
-                  <td>{{ $v->get_ruang->nama_ruang }}</td>
-                  <td>{{ $v->cin }}</td>
-                  <td>{{ $v->cout }}</td>
-                  <td>{{ $v->late }}</td>
-                  <td>{{ $v->early }}</td>
-                  <td>{{ implode(", ",$v->nama_hari) }}</td>
-                  <td>
-                    <input type="checkbox" class="check_jadwal" data-target="jadwal_{{ $v->id }}" data-id="{{ $v->id }}" {{ in_array($v->id,$data_jadwal) ?'checked':''}}>
-                  </td>
-                </tr>
+          <select class="form-control select2-multiple" data-url="{{ route('ajax.search.jadwal') }}" data-placeholder="Ketik nama jadwal atau nama ruang" style="width: 100%" name="jadwal_user[]" id="jadwal_user" multiple="multiple">
+            <option></option>
+            @if (count($data->jadwal))
+              @foreach ($data->jadwal as $key => $value)
+                <option selected value="{{ $value->id }}">{{ $value->nama_jadwal.' ('.implode(', ',$value->nama_hari).') - '.$value->get_ruang->nama_ruang }}</option>
               @endforeach
-            </tbody>
-          </table>
-          <div class="text-center">
+            @endif
+          </select>
+          <div class="text-center mt-10">
             <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-save"></i> SIMPAN</button>
             <a href="{{ route('absensi.jadwal.user.index') }}" class="btn btn-danger"><i class="fa fa-fw fa-undo"></i> KEMBALI</a>
           </div>
@@ -82,53 +52,7 @@ $data_jadwal = $data->jadwal()->select('id')->get()->pluck('id')->toArray();
 @endsection
 
 @section('footer')
-<script src="{{ url('assets/vendor/jquery.datetimepicker/jquery.datetimepicker.full.min.js') }}" charset="utf-8"></script>
 <script type="text/javascript">
-  function checkBox() {
-    $(".check_jadwal").each(function(i,v){
-      if (!$(v).is(":checked")) {
-        $("#select-all").prop('checked',false);
-        return false;
-      }
-      $("#select-all").prop('checked',true);
-    })
-
-    $(".check_jadwal").each(function(i,e){
-      let target = $(e).data('target');
-      let v = $(e).data('id');
-      if ($(e).is(":checked")) {
-        let w = '<input type="hidden" name="jadwal_user[]" value="'+v+'" id="'+target+'" />';
-        let isSet = $("#jadwal-wrapper").find("#"+target).length;
-        if (isSet == 0) {
-          $("#jadwal-wrapper").append(w);
-        }
-      }else{
-        $("#jadwal-wrapper").find("#"+target).remove();
-      }
-    })
-
-  }
-  function initProcess() {
-    $(".check_jadwal").on('change',function(){
-      checkBox();
-    })
-    $("#select-all").change(function(){
-      if ($(this).is(":checked")) {
-        $(".check_jadwal").prop('checked',true).change();
-      }else{
-        $(".check_jadwal").prop('checked',false).change();
-      }
-    })
-  }
-
-  initProcess();
-  checkBox();
-
-  $(".timepicker").datetimepicker({
-    datepicker:false,
-    format:'H:i',
-    step:5
-  });
   @if ($errors->any())
     @foreach ($errors->all() as $key => $err)
       showDangerToast('{{ $err }}')
