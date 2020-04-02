@@ -424,12 +424,13 @@ $.fn.select2.amd.define('select2/selectAllAdapter', [
 $(".select2").each(function(){
   var url = $(this).data('url');
   var placeholder = $(this).data('placeholder');
-  $(".select2").selec2({
+  $(".select2").select2({
     placeholder: placeholder,
+    minimumInputLength: 1,
     ajax: {
       url: url,
       dataType: 'json',
-      delay: 500,
+      delay: 250,
       closeOnSelect: false
     }
   });
@@ -445,7 +446,7 @@ $(".select2-multiple").each(function(){
     ajax: {
       url: url,
       dataType: 'json',
-      delay: 500,
+      delay: 250,
       closeOnSelect: false
     }
   });

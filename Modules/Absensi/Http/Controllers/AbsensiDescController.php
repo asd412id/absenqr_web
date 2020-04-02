@@ -85,10 +85,8 @@ class AbsensiDescController extends Controller
       ->get();
       return response()->json($jadwal);
     }
-    $users = User::where('role','!=','admin')->orderBy('name','asc')->get();
     $data = [
       'title'=>'Tambah Keterangan Absensi',
-      'user'=>$users,
     ];
     return view('absensi::desc.create',$data);
   }

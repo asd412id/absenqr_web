@@ -25,10 +25,7 @@
         <div class="card-body">
           <div class="form-group">
             <label for="ruang">User</label>
-            <select class="form-control" name="user" id="user" required>
-              @foreach ($user as $key => $u)
-                <option value="{{ $u->id }}">{{ $u->name }}</option>
-              @endforeach
+            <select class="form-control select2" data-url="{{ route('ajax.search.user') }}" data-placeholder="Pilih user" name="user" id="user" required>
             </select>
           </div>
           <div class="form-group">
@@ -104,7 +101,7 @@
       checkBox();
     },'json')
   }
-  
+
   function initJadwal() {
     let user = $("#user").val();
     let time = $("#time").val();
