@@ -37,6 +37,10 @@
             <input type="text" name="nama_jadwal" class="form-control" id="nama_jadwal" value="{{ @$data->nama_jadwal }}" placeholder="Nama Jadwal" required>
           </div>
           <div class="form-group">
+            <label for="nama_jadwal">Nama Alias</label>
+            <input type="text" name="alias" class="form-control" id="alias" value="{{ @$data->alias }}" placeholder="Nama Alias Jadwal">
+          </div>
+          <div class="form-group">
             <label for="cin">Check In</label>
             <input type="text" name="cin" class="form-control timepicker" id="cin" value="{{ @$data->cin }}" required>
           </div>

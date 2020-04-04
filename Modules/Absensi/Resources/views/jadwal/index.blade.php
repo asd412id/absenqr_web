@@ -2,7 +2,7 @@
 @section('title',$title)
 @section('header')
   <style media="screen">
-    .table td:nth-child(8){
+    .table td:nth-child(7){
       white-space: normal !important;
     }
   </style>
@@ -30,11 +30,10 @@
             <thead>
               <th width="10">#</th>
               <th>Nama Jadwal</th>
+              <th>Nama Alias</th>
               <th>Ruang</th>
               <th>Check In</th>
               <th>Check Out</th>
-              <th>Terlambat (Menit)</th>
-              <th>Pulang Cepat (Menit)</th>
               <th>Hari</th>
               <th width="10"></th>
             </thead>

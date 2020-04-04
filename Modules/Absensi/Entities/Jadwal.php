@@ -13,10 +13,12 @@ class Jadwal extends Model
   protected $fillable = [
     'uuid',
     'nama_jadwal',
+    'alias',
     'ruang',
     'hari',
     'cin',
     'cout',
+    'to_user',
     'start_cin',
     'end_cin',
     'start_cout',

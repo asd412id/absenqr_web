@@ -2,6 +2,11 @@
 @section('title',$title)
 @section('header')
   <link rel="stylesheet" href="{{ url('assets/vendor/jquery.datetimepicker/jquery.datetimepicker.min.css') }}">
+  <style media="screen">
+    #table-jadwal th{
+      white-space: nowrap;
+    }
+  </style>
 @endsection
 @section('head_icon')
   <i class="fas fa-edit bg-info"></i>
@@ -31,10 +36,6 @@
             <label for="time">Keterangan</label>
             <textarea name="desc" rows="8" class="form-control" placeholder="Keterangan" required>{{ old('desc')??$data->desc }}</textarea>
           </div>
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-save"></i> SIMPAN</button>
-            <a href="{{ route('absensi.desc.index') }}" class="btn btn-danger"><i class="fa fa-fw fa-undo"></i> KEMBALI</a>
-          </div>
         </div>
       </div>
     </div>
@@ -43,13 +44,14 @@
         <div class="card-header">
           <h3>Pilih Jadwal</h3>
         </div>
-        <div class="card-body">
+        <div class="card-body pb-0">
           <div class="card" style="box-shadow: none">
               <div class="card-body p0">
                 <table class="table table-hover table-striped table-bordered nowrap" id="table-jadwal">
                   <thead>
                     <th width="10">#</th>
                     <th>Nama Jadwal</th>
+                    <th>Nama Alias</th>
                     <th>Ruang</th>
                     <th width="10" style="white-space: nowrap">
                       <label class="checkbox-inline m0">
@@ -60,6 +62,10 @@
                   </thead>
                   <tbody></tbody>
                 </table>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-save"></i> SIMPAN</button>
+                  <a href="{{ route('absensi.desc.index') }}" class="btn btn-danger"><i class="fa fa-fw fa-undo"></i> KEMBALI</a>
+                </div>
               </div>
             </div>
         </div>
@@ -74,7 +80,7 @@
 <script type="text/javascript">
   function getJadwal(user,date) {
     $("#table-jadwal tbody").html('<tr><td colspan="5" class="text-center">Memuat jadwal ...</td></tr>');
-    $.get('{{ route('absensi.desc.create') }}',{
+    $.get('{{ route('absensi.desc.edit',['uuid'=>$data->uuid]) }}',{
       user: user,
       date: date
     },function(res){
@@ -88,6 +94,7 @@
           content += '<tr>';
           content += '<td>'+(i+1)+'</td>';
           content += '<td>'+v.nama_jadwal+'</td>';
+          content += '<td>'+(v.alias??'-')+'</td>';
           content += '<td>'+v.get_ruang.nama_ruang+'</td>';
           content += '<td><input type="checkbox" name="jadwal[]" class="daftar_jadwal" value="'+v.id+'" '+(selected>=0?'checked':'')+' /></td>';
           content += '</tr>';
@@ -98,7 +105,7 @@
       checkBox();
     },'json')
   }
-  
+
   function initJadwal() {
     let user = '{{ $data->user->id }}';
     let time = $("#time").val();
@@ -106,6 +113,12 @@
   }
 
   function checkBox() {
+    if ($(".daftar_jadwal:checked").length>0) {
+      $("button[type=submit]").prop('disabled',false);
+    }else{
+      $("button[type=submit]").prop('disabled',true);
+    }
+
     $(".daftar_jadwal").each(function(i,v){
       if (!$(v).is(":checked")) {
         $("#select-all").prop('checked',false);

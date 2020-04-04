@@ -36,7 +36,7 @@
             <option></option>
             @if (count($data->jadwal))
               @foreach ($data->jadwal as $key => $value)
-                <option selected value="{{ $value->id }}">{{ $value->nama_jadwal.' ('.implode(', ',$value->nama_hari).') - '.$value->get_ruang->nama_ruang }}</option>
+                <option selected value="{{ $value->id }}">{{ $value->nama_jadwal.($value->alias?' ('.$value->alias.')':'').' - '.$value->get_ruang->nama_ruang }}</option>
               @endforeach
             @endif
           </select>

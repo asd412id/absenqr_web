@@ -13,6 +13,7 @@ use Modules\Absensi\Entities\AbsensiDesc;
 
 use Modules\Arsip\Entities\Pegawai;
 use Modules\Arsip\Entities\Siswa;
+use Modules\Payroll\Entities\Payroll;
 
 class User extends Authenticatable
 {
@@ -72,5 +73,10 @@ class User extends Authenticatable
     public function absenRuang()
     {
       return $this->belongsToMany(Ruang::class,'absensi_log','user_id','ruang_id')->withTimestamps();
+    }
+
+    public function payroll()
+    {
+      return $this->hasMany(Payroll::class,'user_id');
     }
 }

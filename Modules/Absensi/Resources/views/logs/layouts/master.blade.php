@@ -77,7 +77,7 @@
               </div>
             </div>
             <div class="col-sm-12 mb-10 text-center">
-              <a href="javascript:void()" data-toggle="modal" data-target="#showuser" class="btn btn-danger btn-cari"> User</a>
+              <a href="javascript:void()" data-toggle="modal" data-target="#showuser" class="btn btn-info btn-cari"> User</a>
               <a href="javascript:void()" data-toggle="modal" data-target="#showjadwal" class="btn btn-success btn-cari"> Jadwal</a>
               <button type="submit" class="btn btn-primary btn-cari" onclick="$(this).closest('form').prop('target','_self')">Proses</button>
               @if (@count($data))

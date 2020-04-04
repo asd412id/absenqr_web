@@ -43,6 +43,13 @@
           <div class="nav-item{{ strpos(Request::url(),route('absensi.log.index'))!==false?' active':'' }}">
             <a href="{{ route('absensi.log.index') }}"><i class="fas fa-clipboard-list"></i><span>Absensi Log</span></a>
           </div>
+          <div class="nav-lavel">PENGGAJIAN</div>
+          <div class="nav-item{{ strpos(Request::url(),route('payroll.user.index'))!==false?' active':'' }}">
+            <a href="{{ route('payroll.user.index') }}"><i class="fas fa-money-bill-wave"></i><span>Gaji Pegawai</span></a>
+          </div>
+          <div class="nav-item{{ Request::url()==route('payroll.log.index')?' active':'' }}">
+            <a href="{{ route('payroll.log.index') }}"><i class="fas fa-file-invoice"></i><span>Cetak Gaji</span></a>
+          </div>
         @endif
         <div class="nav-lavel">PENGATURAN</div>
         <div class="nav-item{{ Request::url()==route('configs')?' active':'' }}">

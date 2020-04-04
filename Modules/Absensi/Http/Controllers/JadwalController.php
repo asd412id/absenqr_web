@@ -130,6 +130,7 @@ class JadwalController extends Controller
     $insert = new Jadwal;
     $insert->uuid = (string) Str::uuid();
     $insert->nama_jadwal = $request->nama_jadwal;
+    $insert->alias = $request->alias;
     $insert->ruang = $request->ruang;
     $insert->hari = $request->hari;
     $insert->cin = $request->cin;
@@ -223,6 +224,7 @@ class JadwalController extends Controller
 
     $insert = Jadwal::where('uuid',$uuid)->first();
     $insert->nama_jadwal = $request->nama_jadwal;
+    $insert->alias = $request->alias;
     $insert->ruang = $request->ruang;
     $insert->hari = $request->hari;
     $insert->cin = $request->cin;

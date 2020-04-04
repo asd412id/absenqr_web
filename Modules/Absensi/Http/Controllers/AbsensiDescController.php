@@ -41,7 +41,7 @@ class AbsensiDescController extends Controller
         $getJadwal = Jadwal::whereIn('id',$row->jadwal??[])->get();
         if ($getJadwal) {
           foreach ($getJadwal as $key => $jd) {
-            array_push($jadwal,'<em class="badge badge-primary">'.$jd->nama_jadwal.' ('.$jd->get_ruang->nama_ruang.')</em>');
+            array_push($jadwal,'<em class="badge badge-primary">'.$jd->nama_jadwal.($jd->alias?' ('.$jd->alias.')':'').' - '.$jd->get_ruang->nama_ruang.'</em>');
           }
         }
         return is_array($jadwal)&&count($jadwal)?implode(" ",$jadwal):'-';
@@ -82,6 +82,7 @@ class AbsensiDescController extends Controller
       })
       ->where('hari','like','%'.$time->format('N').'%')
       ->with('get_ruang')
+      ->orderBY('nama_jadwal','asc')
       ->get();
       return response()->json($jadwal);
     }
@@ -139,7 +140,7 @@ class AbsensiDescController extends Controller
   * @param int $uuid
   * @return Response
   */
-  public function edit($uuid)
+  public function edit($uuid,Request $r)
   {
     $desc = AbsensiDesc::where('uuid',$uuid)->first();
     if (!$desc) {
@@ -152,6 +153,7 @@ class AbsensiDescController extends Controller
       })
       ->where('hari','like','%'.$time->format('N').'%')
       ->with('get_ruang')
+      ->orderBy('nama_jadwal','asc')
       ->get();
       return response()->json($jadwal);
     }

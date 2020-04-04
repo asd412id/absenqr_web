@@ -83,6 +83,8 @@
       "right": ""
     }); //to remove previous position style
   }
+
+  $(".currency").autoNumeric('init');
 })(jQuery);
 
 if ($(".toggle").length>0) {
@@ -190,14 +192,19 @@ if ($("#table-siswa").length>0) {
     ],
     "language": language,
     'drawCallback': function(settings){
-      var start = (settings.json.input.start/settings.json.input.length)+1;
-      var rows = settings.json.input.length;
-      var dta = settings.json.input.search.value;
-      var uri = 'all';
-      if (dta!=null) {
-        uri = encodeURIComponent(dta.trim());
+      if (settings.json.data.length>0) {
+        var start = (settings.json.input.start/settings.json.input.length)+1;
+        var rows = settings.json.input.length;
+        var dta = settings.json.input.search.value;
+        var uri = 'all';
+        if (dta!=null) {
+          uri = encodeURIComponent(dta.trim());
+        }
+        $(".btn-print").prop('href',location.href+'/ekspor-pdf?q='+uri+'&rows='+rows+'&page='+start);
+        $(".btn-print").prop('disabled',false);
+      }else {
+        $(".btn-print").prop('disabled',true);
       }
-      $(".btn-print").prop('href',location.href+'/ekspor-pdf?q='+uri+'&rows='+rows+'&page='+start);
       $(".confirm").on('click',function(){
         var txt = $(this).data('text');
         if (!confirm(txt)) {
@@ -225,14 +232,19 @@ if ($("#table-pegawai").length>0) {
     ],
     "language": language,
     'drawCallback': function(settings){
-      var start = (settings.json.input.start/settings.json.input.length)+1;
-      var rows = settings.json.input.length;
-      var dta = settings.json.input.search.value;
-      var uri = 'all';
-      if (dta!=null) {
-        uri = encodeURIComponent(dta.trim());
+      if (settings.json.data.length>0) {
+        var start = (settings.json.input.start/settings.json.input.length)+1;
+        var rows = settings.json.input.length;
+        var dta = settings.json.input.search.value;
+        var uri = 'all';
+        if (dta!=null) {
+          uri = encodeURIComponent(dta.trim());
+        }
+        $(".btn-print").prop('href',location.href+'/ekspor-pdf?q='+uri+'&rows='+rows+'&page='+start);
+        $(".btn-print").prop('disabled',false);
+      }else {
+        $(".btn-print").prop('disabled',true);
       }
-      $(".btn-print").prop('href',location.href+'/ekspor-pdf?q='+uri+'&rows='+rows+'&page='+start);
       $(".confirm").on('click',function(){
         var txt = $(this).data('text');
         if (!confirm(txt)) {
@@ -282,11 +294,10 @@ if ($("#table-absensi-jadwal").length>0) {
     columns: [
       {data: 'id'},
       {data: 'nama_jadwal', name: 'nama_jadwal'},
+      {data: 'alias', name: 'alias'},
       {data: 'get_ruang.nama_ruang', name: 'get_ruang.nama_ruang'},
       {data: 'cin', name: 'cin'},
       {data: 'cout', name: 'cout'},
-      {data: 'late', name: 'late'},
-      {data: 'early', name: 'early'},
       {data: 'nama_hari', name: 'nama_hari'},
       {data: 'action', name: 'action', orderable: false, searchable: false},
     ],
@@ -356,6 +367,71 @@ if ($("#table-absensi-desc").length>0) {
     ],
     "language": language,
     'drawCallback': function(settings){
+      $(".confirm").on('click',function(){
+        var txt = $(this).data('text');
+        if (!confirm(txt)) {
+          return false;
+        }
+      });
+    }
+  });
+  table.on( 'draw.dt', function () {
+    var PageInfo = $('.dataTable').DataTable().page.info();
+    table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
+      cell.innerHTML = (i+1+PageInfo.start)+'.';
+    });
+  }).draw();
+}
+if ($("#table-payroll-user").length>0) {
+  var table = $("#table-payroll-user").DataTable({
+    processing: true,
+    serverSide: true,
+    responsive: true,
+    ajax: location.href,
+    columns: [
+      {data: 'id'},
+      {data: 'name', name: 'name'},
+      {data: 'beban_kerja', name: 'beban_kerja'},
+      {data: 'action', name: 'action', orderable: false, searchable: false}
+    ],
+    "language": language,
+    'drawCallback': function(settings){
+      $(".confirm").on('click',function(){
+        var txt = $(this).data('text');
+        if (!confirm(txt)) {
+          return false;
+        }
+      });
+    }
+  });
+  table.on( 'draw.dt', function () {
+    var PageInfo = $('.dataTable').DataTable().page.info();
+    table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
+      cell.innerHTML = (i+1+PageInfo.start)+'.';
+    });
+  }).draw();
+}
+if ($("#table-payroll-user-detail").length>0) {
+  var table = $("#table-payroll-user-detail").DataTable({
+    processing: true,
+    serverSide: true,
+    responsive: true,
+    ajax: location.href,
+    columns: [
+      {data: 'id'},
+      {data: 'name', name: 'name'},
+      {data: 'gaji', name: 'gaji', className: 'currency'},
+      {data: 'menit', name: 'menit'},
+      {data: 'get_jadwal', name: 'get_jadwal'},
+      {data: 'lembur', name: 'lembur'},
+      {data: 'action', name: 'action', orderable: false, searchable: false}
+    ],
+    "language": language,
+    'drawCallback': function(settings){
+      $(".currency").attr("data-a-sign","Rp ");
+      $(".currency").attr("data-a-sep",".");
+      $(".currency").attr("data-a-dec",",");
+      $(".currency").autoNumeric('init');
       $(".confirm").on('click',function(){
         var txt = $(this).data('text');
         if (!confirm(txt)) {
