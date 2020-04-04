@@ -423,7 +423,7 @@ if ($("#table-payroll-user-detail").length>0) {
       {data: 'gaji', name: 'gaji', className: 'currency'},
       {data: 'menit', name: 'menit'},
       {data: 'get_jadwal', name: 'get_jadwal'},
-      {data: 'lembur', name: 'lembur'},
+      {data: 'lembur', name: 'lembur', className: 'lembur'},
       {data: 'action', name: 'action', orderable: false, searchable: false}
     ],
     "language": language,
@@ -432,6 +432,15 @@ if ($("#table-payroll-user-detail").length>0) {
       $(".currency").attr("data-a-sep",".");
       $(".currency").attr("data-a-dec",",");
       $(".currency").autoNumeric('init');
+
+      $(".lembur").each(function(i,v){
+        if ($(v).text()=='Y') {
+          $(v).text("Ya");
+        }else if ($(v).text()=='N') {
+          $(v).text("Tidak");
+        }
+      });
+
       $(".confirm").on('click',function(){
         var txt = $(this).data('text');
         if (!confirm(txt)) {
@@ -502,7 +511,7 @@ $(".select2").each(function(){
   var placeholder = $(this).data('placeholder');
   $(".select2").select2({
     placeholder: placeholder,
-    minimumInputLength: 1,
+    minimumInputLength: 3,
     ajax: {
       url: url,
       dataType: 'json',
@@ -518,7 +527,7 @@ $(".select2-multiple").each(function(){
     multiple: true,
     placeholder: placeholder,
     dropdownAdapter: $.fn.select2.amd.require('select2/selectAllAdapter'),
-    minimumInputLength: 1,
+    minimumInputLength: 3,
     ajax: {
       url: url,
       dataType: 'json',

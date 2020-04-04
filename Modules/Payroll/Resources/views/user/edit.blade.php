@@ -41,10 +41,6 @@
               <option {{ $data->lembur=='Y'?'selected':'' }} value="Y">Ya</option>
             </select>
           </div>
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-save"></i> SIMPAN</button>
-            <a href="{{ url()->previous() }}" class="btn btn-danger"><i class="fa fa-fw fa-undo"></i> KEMBALI</a>
-          </div>
         </div>
       </div>
     </div>
@@ -53,7 +49,7 @@
         <div class="card-header">
           <h3>Pilih Jadwal</h3>
         </div>
-        <div class="card-body">
+        <div class="card-body pb-0">
           <div class="card" style="box-shadow: none">
               <div class="card-body p0">
                 <table class="table table-hover table-striped table-bordered nowrap" id="table-jadwal">
@@ -70,6 +66,10 @@
                   </thead>
                   <tbody></tbody>
                 </table>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-save"></i> SIMPAN</button>
+                  <a href="{{ url()->previous() }}" class="btn btn-danger"><i class="fa fa-fw fa-undo"></i> KEMBALI</a>
+                </div>
               </div>
             </div>
         </div>
@@ -113,6 +113,12 @@
   }
 
   function checkBox() {
+    if ($(".daftar_jadwal:checked").length>0) {
+      $("button[type=submit]").prop('disabled',false);
+    }else{
+      $("button[type=submit]").prop('disabled',true);
+    }
+
     $(".daftar_jadwal").each(function(i,v){
       if (!$(v).is(":checked")) {
         $("#select-all").prop('checked',false);

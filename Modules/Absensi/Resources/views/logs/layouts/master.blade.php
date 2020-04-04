@@ -129,7 +129,7 @@
                   <div class="row">
                     <div class="card">
                       <div class="card-body">
-                        <h5>Ketik nama jadwal atau nama ruang! (Kosongkan untuk memilih semua jadwal)</h5>
+                        <h6>Ketik nama jadwal atau nama ruang! (Kosongkan untuk memilih semua jadwal)</h6>
                         <select class="form-control select2-multiple" data-url="{{ route('ajax.search.jadwal') }}" data-placeholder="Ketik nama jadwal atau nama ruang" style="width: 100%" name="jadwal[]" multiple>
                           @php
                             $list_jadwal = [];

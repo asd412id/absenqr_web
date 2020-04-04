@@ -31,7 +31,7 @@ class AbsensiDescController extends Controller
       ->orderBy('updated_at','desc');
       return DataTables::of($data)
       ->addColumn('get_time',function($row){
-        return $row->time->format('d-m-Y');
+        return $row->time->locale('id')->translatedFormat('d F Y');
       })
       ->addColumn('get_desc',function($row){
         return nl2br($row->desc);
