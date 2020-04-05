@@ -66,6 +66,7 @@ class PayrollUserController extends Controller
         $q->where('id',request()->user);
       })
       ->with('get_ruang')
+      ->orderBy('nama_jadwal','asc')
       ->get();
       return response()->json($jadwal);
     }
@@ -131,13 +132,18 @@ class PayrollUserController extends Controller
     $user = User::where('uuid',$uuid)->first();
 
     if (request()->ajax()) {
-      $data = Payroll::orderBy('name','asc');
+      $data = Payroll::where('user_id',$user->id)
+      ->orderBy('name','asc');
       return DataTables::of($data)
       ->addColumn('get_jadwal',function($row){
-        $jadwal = $row->jadwal->select('nama_jadwal')
-        ->get()
-        ->pluck('nama_jadwal')->toArray();
-        return implode(', ',$jadwal);
+        $jadwal = $row->jadwal->get();
+        $jd = [];
+        if (count($jadwal)) {
+          foreach ($jadwal as $key => $j) {
+            array_push($jd,'<span class="badge badge-primary">'.$j->nama_jadwal.($j->alias?' ('.$j->alias.')':'').' - '.$j->get_ruang->nama_ruang.'</span>');
+          }
+        }
+        return count($jd)?implode(" ",$jd):'-';
       })
       ->addColumn('action', function($row){
 
@@ -153,7 +159,7 @@ class PayrollUserController extends Controller
 
         return $btn;
       })
-      ->rawColumns(['action','desc'])
+      ->rawColumns(['action','get_jadwal'])
       ->make(true);
     }
 
@@ -177,6 +183,7 @@ class PayrollUserController extends Controller
         $q->where('id',request()->user);
       })
       ->with('get_ruang')
+      ->orderBy('nama_jadwal','asc')
       ->get();
       return response()->json($jadwal);
     }

@@ -12,8 +12,6 @@
 */
 
 Route::prefix('payroll')->middleware('auth')->group(function() {
-    Route::get('/', 'PayrollController@index')->name('payroll.log.index');
-
     Route::group(['prefix'=>'user'], function()
     {
       Route::get('/', 'PayrollUserController@index')->name('payroll.user.index');
@@ -26,4 +24,7 @@ Route::prefix('payroll')->middleware('auth')->group(function() {
       Route::post('/{uuid}/edit', 'PayrollUserController@update')->name('payroll.user.update');
       Route::get('/{uuid}/destroy', 'PayrollUserController@destroy')->name('payroll.user.destroy');
     });
+
+    Route::get('/', 'PayrollController@index')->name('payroll.log.index');
+    Route::post('/', 'PayrollController@showLogs')->name('payroll.log.show');
 });

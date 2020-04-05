@@ -1,6 +1,17 @@
 @extends('layouts.master')
 @section('title',$title)
 
+@section('header')
+  <style media="screen">
+    .table td:nth-child(5){
+      white-space: normal !important;
+    }
+    .table td .badge{
+      margin: 1px 0;
+    }
+  </style>
+@endsection
+
 @section('head_icon')
   <i class="fas fa-money-bill-wave bg-success"></i>
 @endsection
@@ -26,7 +37,7 @@
               <th width="10">#</th>
               <th>Nama Gaji</th>
               <th>Besar Gaji</th>
-              <th>Menit</th>
+              <th>Hitungan Waktu</th>
               <th>Jadwal</th>
               <th>Hitung Lembur</th>
               <th width="10"></th>

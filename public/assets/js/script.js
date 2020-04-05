@@ -421,7 +421,7 @@ if ($("#table-payroll-user-detail").length>0) {
       {data: 'id'},
       {data: 'name', name: 'name'},
       {data: 'gaji', name: 'gaji', className: 'currency'},
-      {data: 'menit', name: 'menit'},
+      {data: 'menit', name: 'menit', className: 'waktu'},
       {data: 'get_jadwal', name: 'get_jadwal'},
       {data: 'lembur', name: 'lembur', className: 'lembur'},
       {data: 'action', name: 'action', orderable: false, searchable: false}
@@ -438,6 +438,12 @@ if ($("#table-payroll-user-detail").length>0) {
           $(v).text("Ya");
         }else if ($(v).text()=='N') {
           $(v).text("Tidak");
+        }
+      });
+
+      $(".waktu").each(function(i,v){
+        if (Number.isInteger(parseInt($(v).text()))) {
+          $(v).text($(v).text()+" Menit");
         }
       });
 

@@ -28,16 +28,13 @@
     label{
       margin-bottom: 0;
     }
-    .desc{
-      max-width: 225px;
-    }
   </style>
 @endsection
 @section('head_icon')
   <i class="fas fa-clipboard-list bg-danger"></i>
 @endsection
 @section('head_title',$title)
-@section('head_desc','Daftar Log Absen')
+@section('head_desc','Hitung & Cetak Gaji Pegawai')
 @section('breadcrumb')
   <li class="breadcrumb-item active" aria-current="page">{{ $title }}</li>
 @endsection
@@ -46,18 +43,11 @@
   <div class="col-sm-12">
     <div class="card">
       <div class="card-body">
-        <form action="{{ route('absensi.log.show') }}" method="post">
+        <form action="{{ route('payroll.log.show') }}" method="post">
           @csrf
           <div class="row">
             <div class="col-sm-3">
-              <input type="text" class="form-control" value="{{ request()->title??'Rekapitulasi Absen' }}" name="title" id="title" title="Title Log Absensi">
-            </div>
-            <div class="col-sm-2">
-              <select class="form-control" name="role" id="role">
-                <option {{ !request()->role?'selected':'' }} value="">Semua Role</option>
-                <option {{ request()->role=='pegawai'?'selected':'' }} value="pegawai">Pegawai</option>
-                <option {{ request()->role=='siswa'?'selected':'' }} value="siswa">Siswa</option>
-              </select>
+              <input type="text" class="form-control" value="{{ request()->title??'Daftar Gaji Pegawai' }}" name="title" id="title" title="Title Daftar Gaji Pegawai">
             </div>
             <div class="col-sm-2">
               <select class="form-control" name="status" id="status">
@@ -67,7 +57,7 @@
                 <option {{ request()->status=='ptt'?'selected':'' }} value="ptt">PTT</option>
               </select>
             </div>
-            <div class="col-sm-5">
+            <div class="col-sm-3">
               <div class="input-group" id="range">
                 <input type="text" class="form-control" value="{{ request()->start_date??date('Y/m/d') }}" name="start_date" id="start_date">
                 <div class="input-group-append">
@@ -76,8 +66,8 @@
                 <input type="text" class="form-control" value="{{ request()->end_date??date('Y/m/d') }}" name="end_date" id="end_date">
               </div>
             </div>
-            <div class="col-sm-12 mb-10 text-center">
-              <a href="javascript:void()" data-toggle="modal" data-target="#showuser" class="btn btn-danger btn-cari"> User</a>
+            <div class="col-sm-4" style="padding-top: 3px">
+              <a href="javascript:void()" data-toggle="modal" data-target="#showuser" class="btn btn-info btn-cari"> User</a>
               <a href="javascript:void()" data-toggle="modal" data-target="#showjadwal" class="btn btn-success btn-cari"> Jadwal</a>
               <button type="submit" class="btn btn-primary btn-cari" onclick="$(this).closest('form').prop('target','_self')">Proses</button>
               @if (@count($data))
@@ -100,7 +90,7 @@
                       <div class="card-body">
                         <h6>Ketik nama user, kelas, role, atau status kepegawaian untuk mulai mencari! (Kosongkan untuk memilih semua user)</h6>
                         <select class="form-control select2-multiple" data-url="{{ route('ajax.search.user') }}" data-placeholder="Semua User" style="width: 100%" name="user[]" id="user" multiple>
-                          @if (request()->user)
+                          @if (request()->user && count($users))
                             @foreach ($users as $key => $v)
                               <option selected value="{{ $v->id }}">{{ $v->name }}</option>
                             @endforeach
@@ -129,17 +119,11 @@
                   <div class="row">
                     <div class="card">
                       <div class="card-body">
-                        <h5>Ketik nama jadwal atau nama ruang! (Kosongkan untuk memilih semua jadwal)</h5>
+                        <h6>Ketik nama jadwal atau nama ruang! (Kosongkan untuk memilih semua jadwal)</h6>
                         <select class="form-control select2-multiple" data-url="{{ route('ajax.search.jadwal') }}" data-placeholder="Ketik nama jadwal atau nama ruang" style="width: 100%" name="jadwal[]" multiple>
-                          @php
-                            $list_jadwal = [];
-                            if (request()->jadwal) {
-                              $list_jadwal = \Modules\Absensi\Entities\Jadwal::whereIn('id',request()->jadwal)->get();
-                            }
-                          @endphp
-                          @if (count($list_jadwal))
-                            @foreach ($list_jadwal as $key => $value)
-                              <option selected value="{{ $value->id }}">{{ $value->nama_jadwal.' ('.implode(', ',$value->nama_hari).') - '.$value->get_ruang->nama_ruang }}</option>
+                          @if (request()->jadwal && count($jadwal))
+                            @foreach ($jadwal as $key => $value)
+                              <option selected value="{{ $value->id }}">{{ $value->nama_jadwal.($value->alias?' ('.$value->alias.')':'').' - '.$value->get_ruang->nama_ruang }}</option>
                             @endforeach
                           @endif
                         </select>

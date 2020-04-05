@@ -24,10 +24,10 @@ class AbsensiLogController extends Controller
 
   public function index()
   {
-    $jadwal = Jadwal::has('user')->get();
     $data = [
       'title' => 'Absensi Log',
-      'users' => [],
+      'jadwal' => [],
+      'users' => []
     ];
     return view('absensi::logs.index',$data);
   }
@@ -75,7 +75,7 @@ class AbsensiLogController extends Controller
       if (!count($logs)) {
         return redirect()->route('absensi.log.index')->withErrors(['Log absen tidak tersedia!']);
       }
-      if (request()->user && count($users)>1) {
+      if (request()->user && count($users)==1) {
         $data['title'] = 'Absensi Log - '.$users[0]->name.' ('.Carbon::now()->locale('id')->translatedFormat('j F Y').')';
       }else{
         $data['title'] = 'Absensi Log ('.Carbon::now()->locale('id')->translatedFormat('j F Y').')';
@@ -122,9 +122,8 @@ class AbsensiLogController extends Controller
   {
     $logs = [];
     foreach ($dates as $key => $d) {
-
-      foreach ($users as $key => $u) {
-        $nday = $d->format('N');
+      $nday = $d->format('N');
+      foreach ($users as $key1 => $u) {
         $jadwal = $u->jadwal()
         ->when($r->jadwal,function($q,$role){
           $q->whereIn('id',$role);
@@ -143,7 +142,7 @@ class AbsensiLogController extends Controller
         ->orderBy('created_at','asc')
         ->get();
 
-        foreach ($jadwal as $key => $j) {
+        foreach ($jadwal as $key2 => $j) {
 
           $desc = $u->absenDesc()
           ->where('time',$d->startOfDay()->format('Y-m-d H:i:s'))
@@ -212,7 +211,7 @@ class AbsensiLogController extends Controller
             'colorCout'=>$colorCout,
             'desc'=>$desc?$desc->desc:null,
           ];
-          $logs[$d->format('d/m/Y')][$u->name][] = $data;
+          $logs[$d->format('d/m/Y')][$u->name.'_'.$key1][] = $data;
         }
       }
     }

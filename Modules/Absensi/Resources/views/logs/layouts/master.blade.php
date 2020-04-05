@@ -100,7 +100,7 @@
                       <div class="card-body">
                         <h6>Ketik nama user, kelas, role, atau status kepegawaian untuk mulai mencari! (Kosongkan untuk memilih semua user)</h6>
                         <select class="form-control select2-multiple" data-url="{{ route('ajax.search.user') }}" data-placeholder="Semua User" style="width: 100%" name="user[]" id="user" multiple>
-                          @if (request()->user)
+                          @if (request()->user && count($users))
                             @foreach ($users as $key => $v)
                               <option selected value="{{ $v->id }}">{{ $v->name }}</option>
                             @endforeach
@@ -131,15 +131,9 @@
                       <div class="card-body">
                         <h6>Ketik nama jadwal atau nama ruang! (Kosongkan untuk memilih semua jadwal)</h6>
                         <select class="form-control select2-multiple" data-url="{{ route('ajax.search.jadwal') }}" data-placeholder="Ketik nama jadwal atau nama ruang" style="width: 100%" name="jadwal[]" multiple>
-                          @php
-                            $list_jadwal = [];
-                            if (request()->jadwal) {
-                              $list_jadwal = \Modules\Absensi\Entities\Jadwal::whereIn('id',request()->jadwal)->get();
-                            }
-                          @endphp
-                          @if (count($list_jadwal))
-                            @foreach ($list_jadwal as $key => $value)
-                              <option selected value="{{ $value->id }}">{{ $value->nama_jadwal.' ('.implode(', ',$value->nama_hari).') - '.$value->get_ruang->nama_ruang }}</option>
+                          @if (request()->jadwal && count($jadwal))
+                            @foreach ($jadwal as $key => $value)
+                              <option selected value="{{ $value->id }}">{{ $value->nama_jadwal.($value->alias?' ('.$value->alias.')':'').' - '.$value->get_ruang->nama_ruang }}</option>
                             @endforeach
                           @endif
                         </select>

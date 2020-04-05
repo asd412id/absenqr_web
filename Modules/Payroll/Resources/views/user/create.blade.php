@@ -63,6 +63,7 @@
                   <thead>
                     <th width="10">#</th>
                     <th>Nama Jadwal</th>
+                    <th>Nama Alias</th>
                     <th>Ruang</th>
                     <th width="10" style="white-space: nowrap">
                       <label class="checkbox-inline m0">
@@ -101,6 +102,7 @@
           content += '<tr>';
           content += '<td>'+(i+1)+'</td>';
           content += '<td>'+v.nama_jadwal+'</td>';
+          content += '<td>'+(v.alias??'-')+'</td>';
           content += '<td>'+v.get_ruang.nama_ruang+'</td>';
           content += '<td><input type="checkbox" name="jadwal[]" class="daftar_jadwal" value="'+v.id+'" /></td>';
           content += '</tr>';

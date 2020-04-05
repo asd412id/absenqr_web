@@ -18,7 +18,7 @@
       @endphp
       @foreach ($data as $key => $days)
         @php
-          $udone = [];
+          $ddone = [];
           $rowspan[$key] = 0;
           foreach ($days as $k => $user) {
             $rowspan[$key] += count($user);
@@ -33,12 +33,12 @@
           @endif
           @foreach ($days as $key1 => $users)
             @php
-            array_push($udone,$key1);
-            $ddone = [];
+            array_push($ddone,$key1);
+            $udone = [];
             @endphp
             @foreach ($users as $key2 => $user)
               @php
-                array_push($ddone,$key2)
+                array_push($udone,$key2)
               @endphp
               <td class="text-left"><span class="font-weight-bold badge badge-dark p0" style="font-size: 1em;padding: 3px 7px !important">{{ $user['jadwal']->nama_jadwal }}</span><br><em class="font-weight-bold badge badge-primary p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $user['jadwal']->get_ruang->nama_ruang }}</em><br><em class="font-weight-bold badge badge-success p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $user['jadwal']->cin.' - '.$user['jadwal']->cout }}</em></td>
               <td class="{{ $user['colorCin'] }}">{{ $user['acin'] }}</td>
@@ -51,7 +51,7 @@
             @endforeach
             @if (count($users)>1)
               @foreach ($users as $key2 => $user)
-                @continue(in_array($key2,$ddone))
+                @continue(in_array($key2,$udone))
                 <tr>
                   <td class="text-left"><span class="font-weight-bold badge badge-dark p0" style="font-size: 1em;padding: 3px 7px !important">{{ $user['jadwal']->nama_jadwal }}</span><br><em class="font-weight-bold badge badge-primary p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $user['jadwal']->get_ruang->nama_ruang }}</em><br><em class="font-weight-bold badge badge-success p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $user['jadwal']->cin.' - '.$user['jadwal']->cout }}</em></td>
                   <td class="{{ $user['colorCin'] }}">{{ $user['acin'] }}</td>
@@ -68,7 +68,7 @@
         </tr>
         @if (count($days)>1)
           @foreach ($days as $key1 => $day)
-            @continue(in_array($key1,$udone))
+            @continue(in_array($key1,$ddone))
             @php
               $h = \Carbon\Carbon::createFromFormat('d/m/Y',$key1)->format('N');
             @endphp
@@ -76,7 +76,7 @@
               <td class="nowrap" style="vertical-align: top" rowspan="{{ count($day) }}">{{ $hari[$h].', '.$key1 }}</td>
               @foreach ($day as $key2 => $user)
                 @php
-                array_push($ddone,$key2)
+                array_push($udone,$key2)
                 @endphp
                 <td class="text-left"><span class="font-weight-bold badge badge-dark p0" style="font-size: 1em;padding: 3px 7px !important">{{ $user['jadwal']->nama_jadwal }}</span><br><em class="font-weight-bold badge badge-primary p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $user['jadwal']->get_ruang->nama_ruang }}</em><br><em class="font-weight-bold badge badge-success p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $user['jadwal']->cin.' - '.$user['jadwal']->cout }}</em></td>
                 <td class="{{ $user['colorCin'] }}">{{ $user['acin'] }}</td>
@@ -90,7 +90,7 @@
             </tr>
             @if (count($day)>1)
               @foreach ($day as $key2 => $user)
-                @continue(in_array($key2,$ddone))
+                @continue(in_array($key2,$udone))
                 <tr>
                   <td class="text-left"><span class="font-weight-bold badge badge-dark p0" style="font-size: 1em;padding: 3px 7px !important">{{ $user['jadwal']->nama_jadwal }}</span><br><em class="font-weight-bold badge badge-primary p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $user['jadwal']->get_ruang->nama_ruang }}</em><br><em class="font-weight-bold badge badge-success p0" style="font-size: 0.8em;padding: 3px 7px !important">{{ $user['jadwal']->cin.' - '.$user['jadwal']->cout }}</em></td>
                   <td class="{{ $user['colorCin'] }}">{{ $user['acin'] }}</td>
