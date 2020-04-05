@@ -137,6 +137,8 @@ class PayrollController extends Controller
             $jcin = Carbon::createFromFormat('Y-m-d H:i',$d->format('Y-m-d').' '.$j->cin);
             $jcout = Carbon::createFromFormat('Y-m-d H:i',$d->format('Y-m-d').' '.$j->cout);
 
+            $total_waktu += $jcin->diffInMinutes($jcout);
+
             $cin = null;
             $cout = null;
             foreach ($absen as $ak => $a) {
@@ -151,8 +153,6 @@ class PayrollController extends Controller
                 }
               }
             }
-
-            $total_waktu += $cin&&$cout?$jcin->diffInMinutes($jcout):0;
 
             $realMinutes = $cin&&$cout?$cout->diffInMinutes($cin):0;
 
