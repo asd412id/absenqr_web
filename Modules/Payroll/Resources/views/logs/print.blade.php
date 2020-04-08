@@ -63,26 +63,47 @@
       .table .badge-dark{
         margin-bottom: 3px;
       }
+      .wrapper{
+        clear: both;
+      }
+      .slip-info-wrapper{
+        display: inline-block;
+      }
+      .slip-info-wrapper.w-right{
+        float: right;
+      }
+      .slip-info{
+        border: none !important;
+      }
+      .slip-info th, .slip-info td{
+        border: none !important;
+        padding: 0 !important;
+        text-align: left;
+      }
+      .slip-info th:nth-child(2){
+        padding-right: 7px !important;
+        padding-left: 7px !important;
+      }
     </style>
   </head>
   <body>
     <div class="page">
       @include('layouts.kop')
+      @php
+        $qr = 'Payroll - '.time().' - by asd412id';
+      @endphp
       @if (count($data))
-        @php
+        @if (count($users)>1)
+          @php
           $carbon = new \Carbon\Carbon;
           $tanggal = request()->start_date==request()->end_date?$carbon->createFromFormat('Y/m/d',request()->start_date)->locale('id')->translatedFormat('l, d F Y'):$carbon->createFromFormat('Y/m/d',request()->start_date)->locale('id')->translatedFormat('d F Y').' s.d. '.$carbon->createFromFormat('Y/m/d',request()->end_date)->locale('id')->translatedFormat('d F Y');
-          $qr = 'Absensi Logs - '.time().' - by asd412id';
-        @endphp
-        @if (!request()->user||count($users)>1)
-          <h3 class="text-center">{{ request()->title??'Rekapitulasi Absensi' }}</h3>
+          @endphp
+          <h3 class="text-center">{{ request()->title??'Daftar Gaji' }}</h3>
           <p class="text-center">{{ $tanggal }}</p>
+          @include('payroll::logs.layouts.table')
         @else
-          <h3 class="text-center">{{ request()->title??'Rekapitulasi Absensi' }}</h3>
-          <h5 class="text-center" style="margin-bottom: 0;padding-bottom: 0">{{ \App\User::where('id',request()->user)->first()->name }}</h5>
-          <p class="text-center">{{ $tanggal }}</p>
+          @include('payroll::logs.layouts.table-single')
         @endif
-        @include('payroll::logs.layouts.table')
       @endif
       @include('layouts.ttd')
     </div>

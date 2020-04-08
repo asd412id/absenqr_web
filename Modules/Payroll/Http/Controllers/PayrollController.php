@@ -178,6 +178,7 @@ class PayrollController extends Controller
             'terlaksana' => $terlaksana,
             'total_gaji' => $paid,
           ];
+          $logs[$key]['id'] = $u->id;
           $logs[$key]['name'] = $u->name;
           $logs[$key]['gaji'][$key1] = $data;
         }

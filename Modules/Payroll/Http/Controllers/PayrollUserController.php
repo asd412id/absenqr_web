@@ -92,7 +92,7 @@ class PayrollUserController extends Controller
       'user' => 'required',
       'name' => 'required',
       'gaji' => 'required',
-      'menit' => 'required',
+      'menit' => 'required|numeric|min:1',
       'jadwal' => 'required'
     ];
     $msgs = [
@@ -100,6 +100,8 @@ class PayrollUserController extends Controller
       'name.required' => 'Nama gaji tidak boleh kosong!',
       'gaji.required' => 'Jumlah gaji tidak boleh kosong!',
       'menit.required' => 'Menit tidak boleh kosong!',
+      'menit.numeric' => 'Menit harus berupa angka!',
+      'menit.min' => 'Waktu minimal 1 menit!',
       'jadwal.required' => 'Jadwal harus dipilih!'
     ];
 
@@ -210,7 +212,7 @@ class PayrollUserController extends Controller
       'user' => 'required',
       'name' => 'required',
       'gaji' => 'required',
-      'menit' => 'required',
+      'menit' => 'required|numeric|min:1',
       'jadwal' => 'required'
     ];
     $msgs = [
@@ -218,6 +220,8 @@ class PayrollUserController extends Controller
       'name.required' => 'Nama gaji tidak boleh kosong!',
       'gaji.required' => 'Jumlah gaji tidak boleh kosong!',
       'menit.required' => 'Menit tidak boleh kosong!',
+      'menit.numeric' => 'Menit harus berupa angka!',
+      'menit.min' => 'Waktu minimal 1 menit!',
       'jadwal.required' => 'Jadwal harus dipilih!'
     ];
 

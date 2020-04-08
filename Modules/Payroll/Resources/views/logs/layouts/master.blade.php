@@ -28,6 +28,22 @@
     label{
       margin-bottom: 0;
     }
+    .wrapper{
+      clear: both;
+    }
+    .slip-info-wrapper{
+      display: inline-block;
+    }
+    .slip-info-wrapper.w-right{
+      float: right;
+    }
+    .slip-info th, .slip-info td{
+      border: none;
+      padding: 3px 7px !important;
+    }
+    .slip-detail{
+      text-align: left !important;
+    }
   </style>
 @endsection
 @section('head_icon')
