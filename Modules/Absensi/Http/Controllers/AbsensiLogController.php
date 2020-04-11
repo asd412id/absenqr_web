@@ -83,9 +83,9 @@ class AbsensiLogController extends Controller
       }
 
       if (request()->user && count($users)==1) {
-        $data['title'] = 'Absensi Log - '.$users[0]->name.' ('.$tgl.')';
+        $data['title'] = ($r->title??'Absensi Log').' - '.$users[0]->name.' ('.$tgl.')';
       }else{
-        $data['title'] = 'Absensi Log ('.$tgl.')';
+        $data['title'] = ($r->title??'Absensi Log').' ('.$tgl.')';
       }
 
       $params = [
