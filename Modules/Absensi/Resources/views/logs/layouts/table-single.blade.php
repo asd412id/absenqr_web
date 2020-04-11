@@ -1,7 +1,7 @@
 <div class="dt-responsive">
   <table class="table table-bordered table-absen">
     <thead>
-      @if (count($data)>1)
+      @if (count($data)>1 && request()->start_date!=request()->end_date)
         <th>Tanggal</th>
       @endif
       <th>Jadwal</th>
@@ -25,7 +25,7 @@
           }
         @endphp
         <tr>
-          @if (count($data)>1)
+          @if (count($data)>1 && request()->start_date!=request()->end_date)
             @php
             $h = \Carbon\Carbon::createFromFormat('d/m/Y',$key)->format('N');
             @endphp
