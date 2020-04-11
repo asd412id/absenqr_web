@@ -31,7 +31,7 @@
           </div>
           <div class="form-group">
             <label for="time">Nama Gaji</label>
-            <input type="text" name="name" class="form-control" value="{{ old('name')??'' }}" placeholder="Haji Honor">
+            <input type="text" name="name" class="form-control" value="{{ old('name')??'' }}" placeholder="Gaji Honor">
           </div>
           <div class="form-group">
             <label for="time">Jumlah Gaji</label>

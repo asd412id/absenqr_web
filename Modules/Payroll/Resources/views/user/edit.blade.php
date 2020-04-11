@@ -24,7 +24,7 @@
           <input type="hidden" name="user" id="user" value="{{ $data->user->id }}">
           <div class="form-group">
             <label for="time">Nama Gaji</label>
-            <input type="text" name="name" class="form-control" value="{{ old('name')??$data->name }}" placeholder="Haji Honor">
+            <input type="text" name="name" class="form-control" value="{{ old('name')??$data->name }}" placeholder="Gaji Honor">
           </div>
           <div class="form-group">
             <label for="time">Jumlah Gaji</label>
