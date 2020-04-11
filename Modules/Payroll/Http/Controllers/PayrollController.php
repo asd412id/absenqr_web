@@ -74,10 +74,15 @@ class PayrollController extends Controller
       if (!count($logs)) {
         return redirect()->route('payroll.log.index')->withErrors(['gaji pegawai tidak tersedia!']);
       }
+      if ($r->start_date!=$r->end_date) {
+        $tgl = Carbon::parse($r->start_date)->locale('id')->translatedFormat('j F Y').' s.d. '.Carbon::parse($r->start_end)->locale('id')->translatedFormat('j F Y');
+      }else {
+        $tgl = Carbon::parse($r->start_date)->locale('id')->translatedFormat('j F Y');
+      }
       if (request()->user && count($users)==1) {
-        $data['title'] = 'Gaji Pegawai - '.$users[0]->name.' ('.Carbon::now()->locale('id')->translatedFormat('j F Y').')';
+        $data['title'] = ($r->title??'Gaji Pegawai').' - '.$users[0]->name.' ('.$tgl.')';
       }else{
-        $data['title'] = 'Gaji Pegawai ('.Carbon::now()->locale('id')->translatedFormat('j F Y').')';
+        $data['title'] = ($r->title??'Gaji Pegawai').' ('.$tgl.')';
       }
 
       $params = [
