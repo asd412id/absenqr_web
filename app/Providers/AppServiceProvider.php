@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
   */
   public function boot()
   {
-    Schema::defaultStringLength(191);
+    \Schema::defaultStringLength(191);
     \Response::macro('attachment', function ($content,$filename,$type = null) {
       $headers = [
         'Content-Disposition' => 'filename="'.$filename.'"'
