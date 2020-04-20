@@ -27,6 +27,8 @@ Route::middleware('web')->group(function(){
     Route::get('pengaturan', 'MainController@sysConf')->name('configs');
     Route::post('pengaturan', 'MainController@sysConfUpdate')->name('configs.update');
 
+    Route::get('/pengaturan/hapus-img/{img}', 'MainController@deleteImg')->name('configs.delete.img');
+
     Route::group(['prefix'=>'ajax'],function(){
       Route::get('user', 'AjaxController@searchUser')->name('ajax.search.user');
       Route::get('pegawai', 'AjaxController@searchPegawai')->name('ajax.search.pegawai');

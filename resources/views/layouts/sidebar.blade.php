@@ -2,7 +2,7 @@
   <div class="sidebar-header">
     <a class="header-brand" href="{{ route('arsip.index') }}">
       <div class="logo-img">
-        <img src="{{ asset('assets/img/sinjai.png') }}" class="header-brand-img" alt="" style="width: 100%">
+        <img src="{{ $logo }}" class="header-brand-img" alt="" style="width: 100%">
       </div>
       <span class="text" style="font-size: 0.87em">Aplikasi Sekolah</span>
     </a>

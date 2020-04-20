@@ -136,8 +136,18 @@ class MainController extends BaseController
 
   public function login()
   {
+    $configs = $this->configs;
+    if (@$configs->logo1) {
+      $logo = asset('uploaded/'.@$configs->logo1);
+    }elseif (@$configs->logo2) {
+      $logo = asset('uploaded/'.@$configs->logo2);
+    }else{
+      $logo = url('assets/img/sinjai.png');
+    }
+
     $data = [
       'config'=>$this->configs,
+      'logo'=>$logo,
       'title' => 'Masuk Halaman Admin  - '.(@$this->config->nama_instansi??'UPTD SMP NEGERI 39 SINJAI')
     ];
 
@@ -182,6 +192,18 @@ class MainController extends BaseController
     ];
 
     return view('profile',$data);
+  }
+
+  public function deleteImg($img)
+  {
+    $config = Configs::where('config',$img)->first();
+    if ($config && $config->value) {
+      Storage::disk('public')->delete($config->value);
+      if ($config->delete()) {
+        return redirect()->route('configs')->withMessage('Logo berhasil dihapus!');
+      }
+    }
+    return redirect()->back()->withErrors(['Logo gagal dihapus!']);
   }
 
   public function profileUpdate(Request $r)

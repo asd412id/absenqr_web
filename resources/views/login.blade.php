@@ -10,7 +10,7 @@
   <meta name="keywords" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="icon" href="{{ url('assets/img/sinjai.png') }}" type="image/x-icon" />
+  <link rel="icon" href="{{ $logo }}" type="image/x-icon" />
 
   <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800" rel="stylesheet">
 
@@ -37,7 +37,7 @@
         <div class="col-xl-4 col-lg-6 col-md-7 my-auto p-0">
           <div class="authentication-form mx-auto">
             <div class="logo-centered">
-              <a href="{{ route('login') }}"><img src="{{ @$config->logo2?asset('uploaded/'.@$config->logo2):url('assets/img/sinjai.png') }}" alt="" style="width: 100%"></a>
+              <a href="{{ route('login') }}"><img src="{{ $logo }}" alt="" style="width: 100%"></a>
             </div>
             <h3 class="text-center">Aplikasi Sistem Manajemen Data <br>{{ @$config->nama_instansi??'UPTD SMP NEGERI 39 SINJAI' }}</h3>
             <p class="text-center">Masuk Halaman Administrator</p>
