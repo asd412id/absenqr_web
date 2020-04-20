@@ -77,7 +77,7 @@ class AbsensiLogController extends Controller
       }
 
       if ($r->start_date!=$r->end_date) {
-        $tgl = Carbon::parse($r->start_date)->locale('id')->translatedFormat('j F Y').' s.d. '.Carbon::parse($r->start_end)->locale('id')->translatedFormat('j F Y');
+        $tgl = Carbon::parse($r->start_date)->locale('id')->translatedFormat('j F Y').' s.d. '.Carbon::parse($r->end_date)->locale('id')->translatedFormat('j F Y');
       }else {
         $tgl = Carbon::parse($r->start_date)->locale('id')->translatedFormat('j F Y');
       }
