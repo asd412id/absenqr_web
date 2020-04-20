@@ -62,12 +62,13 @@ class JadwalController extends Controller
   {
     $data = [
       'title'=>'Tambah Jadwal Absensi',
-      'ruang'=>Ruang::all(),
+      'ruang'=>Ruang::find(request()->ruang),
     ];
 
     if ($uuid) {
       $jadwal = Jadwal::where("uuid",$uuid)->first();
       if ($jadwal) {
+        $data['ruang'] = $jadwal->get_ruang;
         $data['data'] = $jadwal;
       }
     }
@@ -80,7 +81,7 @@ class JadwalController extends Controller
     $user = \App\User::where("uuid",$uuid)->first();
     $data = [
       'title'=>'Buat Jadwal User',
-      'ruang'=>Ruang::all(),
+      'ruang'=>$jadwal->get_ruang,
     ];
 
     $data['data'] = json_decode(json_encode([
@@ -179,7 +180,7 @@ class JadwalController extends Controller
     }
     $data = [
       'title'=>'Ubah Jadwal Absensi',
-      'ruang'=>Ruang::all(),
+      'ruang'=>$jadwal->get_ruang,
       'data'=>$jadwal
     ];
     return view('absensi::jadwal.edit',$data);

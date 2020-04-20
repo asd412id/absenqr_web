@@ -517,7 +517,7 @@ $(".select2").each(function(){
   var placeholder = $(this).data('placeholder');
   $(".select2").select2({
     placeholder: placeholder,
-    minimumInputLength: 3,
+    minimumInputLength: 1,
     ajax: {
       url: url,
       dataType: 'json',
@@ -533,7 +533,7 @@ $(".select2-multiple").each(function(){
     multiple: true,
     placeholder: placeholder,
     dropdownAdapter: $.fn.select2.amd.require('select2/selectAllAdapter'),
-    minimumInputLength: 3,
+    minimumInputLength: 1,
     ajax: {
       url: url,
       dataType: 'json',

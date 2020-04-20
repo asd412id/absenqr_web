@@ -32,6 +32,7 @@ Route::middleware('web')->group(function(){
     Route::group(['prefix'=>'ajax'],function(){
       Route::get('user', 'AjaxController@searchUser')->name('ajax.search.user');
       Route::get('pegawai', 'AjaxController@searchPegawai')->name('ajax.search.pegawai');
+      Route::get('ruang', 'AjaxController@searchRuang')->name('ajax.search.ruang');
       Route::get('jadwal', 'AjaxController@searchJadwal')->name('ajax.search.jadwal');
     });
 

@@ -10,6 +10,7 @@ use Illuminate\Routing\Controller as BaseController;
 
 use App\User;
 use Modules\Absensi\Entities\Jadwal;
+use Modules\Absensi\Entities\Ruang;
 
 class AjaxController extends BaseController
 {
@@ -74,6 +75,35 @@ class AjaxController extends BaseController
           array_push($data['results'],[
             'id' => $u->id,
             'text' => $u->name
+          ]);
+        }
+      }
+
+      return response()->json($data);
+    }
+
+    return response()->json([
+      'status'=>'error',
+      'message'=>'Page not Found'
+    ],404);
+  }
+
+  public function searchRuang(Request $r)
+  {
+    if ($r->ajax()) {
+      $data['results'] = [];
+      $ruang = Ruang::when($r->term,function($q,$role){
+        $search = "%".$role."%";
+        $q->where('nama_ruang','like',$search)
+        ->orWhere('desc','like',$search);
+      })
+      ->orderBy('nama_ruang','asc')
+      ->get();
+      if (count($ruang)) {
+        foreach ($ruang as $key => $u) {
+          array_push($data['results'],[
+            'id' => $u->id,
+            'text' => $u->nama_ruang
           ]);
         }
       }

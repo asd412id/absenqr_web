@@ -25,11 +25,10 @@
         <div class="card-body">
           <div class="form-group">
             <label for="ruang">Ruang</label>
-            <select class="form-control" name="ruang" required>
-              <option value="">Pilih Ruang</option>
-              @foreach ($ruang as $key => $r)
-                <option {{ @$data->ruang == $r->id ? 'selected' : '' }} value="{{ $r->id }}">{{ $r->nama_ruang }}</option>
-              @endforeach
+            <select class="form-control select2" data-url="{{ route('ajax.search.ruang') }}" data-placeholder="Pilih Ruang" name="ruang" required>
+              @if (@$ruang)
+                <option value="{{ $ruang->id }}">{{ $ruang->nama_ruang }}</option>
+              @endif
             </select>
           </div>
           <div class="form-group">
