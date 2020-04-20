@@ -33,7 +33,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label>Backround Halaman Login</label>
+            <label>Background Halaman Login</label>
             @if (@$config->login_bg)
               <a href="{{ route('configs.delete.img',['img'=>'login_bg']) }}" class="text-danger confirm" data-text="Hapus Background Login?">Hapus</a>
               <div class="clearfix"></div>
