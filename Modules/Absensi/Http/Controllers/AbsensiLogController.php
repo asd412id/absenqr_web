@@ -152,7 +152,8 @@ class AbsensiLogController extends Controller
         foreach ($jadwal as $key2 => $j) {
 
           $desc = $u->absenDesc()
-          ->where('time',$d->startOfDay()->format('Y-m-d H:i:s'))
+          ->where('time','<=',$d->startOfDay()->format('Y-m-d H:i:s'))
+          ->where('time_end','>=',$d->startOfDay()->format('Y-m-d H:i:s'))
           ->where('jadwal','like','%'.$j->id.'%')
           ->orderBy('created_at','asc')
           ->first();
@@ -200,11 +201,19 @@ class AbsensiLogController extends Controller
           $cout = $cout?$cout->format('H:i'):null;
 
           if ($cin || $jend_cin->lessThanOrEqualTo(Carbon::now())) {
-            $colorCin = $cin?$late?'bg-warning':'':'bg-danger';
+            if ($desc && !$cin) {
+              $colorCin = 'bg-green';
+            }else{
+              $colorCin = $cin?$late?'bg-warning':'':'bg-danger';
+            }
           }
 
           if ($cout || $jend_cout->lessThanOrEqualTo(Carbon::now())) {
-            $colorCout = $cout?$early?'bg-warning':'':'bg-danger';
+            if ($desc && !$cout) {
+              $colorCout = 'bg-green';
+            }else{
+              $colorCout = $cout?$early?'bg-warning':'':'bg-danger';
+            }
           }
 
           $data = [

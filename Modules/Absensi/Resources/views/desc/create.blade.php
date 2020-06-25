@@ -34,8 +34,16 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="time">Tanggal</label>
-            <input type="text" name="time" class="form-control datepicker" id="time" value="{{ old('time')??date('d-m-Y') }}" required placeholder="Tanggal">
+            <div class="row">
+              <div class="col-sm-6">
+                <label for="time">Tanggal Mulai</label>
+                <input type="text" name="time" class="form-control" id="time" value="{{ old('time')??date('Y/m/d') }}" required placeholder="Tanggal Mulai">
+              </div>
+              <div class="col-sm-6">
+                <label for="time_end">Tanggal Selesai</label>
+                <input type="text" name="time_end" class="form-control" id="time_end" value="{{ old('time_end')??date('Y/m/d') }}" required placeholder="Tanggal Selesai">
+              </div>
+            </div>
           </div>
           <div class="form-group">
             <label for="time">Keterangan</label>
@@ -83,11 +91,12 @@
 @section('footer')
 <script src="{{ url('assets/vendor/jquery.datetimepicker/jquery.datetimepicker.full.min.js') }}" charset="utf-8"></script>
 <script type="text/javascript">
-  function getJadwal(user,date) {
+  function getJadwal(user,time,time_end) {
     $("#table-jadwal tbody").html('<tr><td colspan="5" class="text-center">Memuat jadwal ...</td></tr>');
     $.get('{{ route('absensi.desc.create') }}',{
       user: user,
-      date: date
+      start: time,
+      end: time_end
     },function(res){
       let content;
       if (res.length == 0) {
@@ -112,7 +121,8 @@
   function initJadwal() {
     let user = $("#user").val();
     let time = $("#time").val();
-    getJadwal(user,time);
+    let time_end = $("#time_end").val();
+    getJadwal(user,time,time_end);
   }
 
   function checkBox() {
@@ -161,17 +171,39 @@
   initProcess();
   checkBox();
 
-  $("#user,#time").change(function(){
-    $(this).blur();
+  var bs = false
+  $("#user,#time,#time_end").change(function(){
+    if (!bs) {
+      bs = true;
+      $(this).blur();
+    }
+    bs = false;
     initJadwal();
   })
 
   initJadwal();
 
-  $(".datepicker").datetimepicker({
-    timepicker:false,
-    format:'d-m-Y'
+  $('#time').datetimepicker({
+   format:'Y/m/d',
+   onShow:function( ct ){
+     let _time_end = $('#time_end').val();
+     this.setOptions({
+       maxDate:_time_end?_time_end:false
+     })
+   },
+   timepicker:false
   });
+  $('#time_end').datetimepicker({
+   format:'Y/m/d',
+   onShow:function( ct ){
+     let _time = $('#time').val();
+     this.setOptions({
+       minDate:_time?_time:false
+     })
+   },
+   timepicker:false
+  });
+
   @if ($errors->any())
     @foreach ($errors->all() as $key => $err)
       showDangerToast('{{ $err }}')

@@ -76,11 +76,18 @@ class AbsensiDescController extends Controller
   public function create(Request $r)
   {
     if (request()->ajax()) {
-      $time = Carbon::createFromFormat('d-m-Y',$r->date);
+      $start = Carbon::createFromFormat('Y/m/d',$r->start);
+      $end = Carbon::createFromFormat('Y/m/d',$r->end);
+      $periods = $start->toPeriod($end);
+
       $jadwal = Jadwal::whereHas('user',function($q) use($r){
         $q->where('id',$r->user);
       })
-      ->where('hari','like','%'.$time->format('N').'%')
+      ->where(function($q) use($periods){
+        foreach ($periods as $key => $v) {
+          $q->orWhere('hari','like','%"'.$v->format('N').'"%');
+        }
+      })
       ->with('get_ruang')
       ->orderBY('nama_jadwal','asc')
       ->get();
@@ -126,6 +133,7 @@ class AbsensiDescController extends Controller
 
     $insert->user_id = $request->user;
     $insert->time = $request->time;
+    $insert->time_end = $request->time_end;
     $insert->desc = $request->desc;
     $insert->jadwal = $request->jadwal;
 
@@ -147,13 +155,20 @@ class AbsensiDescController extends Controller
       return redirect()->route('absensi.desc.index');
     }
     if (request()->ajax()) {
-      $time = Carbon::createFromFormat('d-m-Y',$r->date);
+      $start = Carbon::createFromFormat('Y/m/d',$r->start);
+      $end = Carbon::createFromFormat('Y/m/d',$r->end);
+      $periods = $start->toPeriod($end);
+
       $jadwal = Jadwal::whereHas('user',function($q) use($r){
         $q->where('id',$r->user);
       })
-      ->where('hari','like','%'.$time->format('N').'%')
+      ->where(function($q) use($periods){
+        foreach ($periods as $key => $v) {
+          $q->orWhere('hari','like','%"'.$v->format('N').'"%');
+        }
+      })
       ->with('get_ruang')
-      ->orderBy('nama_jadwal','asc')
+      ->orderBY('nama_jadwal','asc')
       ->get();
       return response()->json($jadwal);
     }
@@ -188,6 +203,7 @@ class AbsensiDescController extends Controller
 
     $insert = AbsensiDesc::where('uuid',$uuid)->first();
     $insert->time = $request->time;
+    $insert->time_end = $request->time_end;
     $insert->desc = $request->desc;
     $insert->jadwal = $request->jadwal;
 

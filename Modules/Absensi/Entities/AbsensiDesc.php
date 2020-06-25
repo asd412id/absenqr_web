@@ -11,7 +11,8 @@ class AbsensiDesc extends Model
     protected $table = 'absensi_desc';
 
     protected $dates = [
-      'time'
+      'time',
+      'time_end',
     ];
 
     protected $casts = [
@@ -25,7 +26,11 @@ class AbsensiDesc extends Model
 
     public function setTimeAttribute($value)
     {
-      $this->attributes['time'] = $value?Carbon::createFromFormat('d-m-Y',$value)->format('Y-m-d'):null;
+      $this->attributes['time'] = $value?Carbon::createFromFormat('Y/m/d',$value)->format('Y-m-d'):null;
+    }
+    public function setTimeEndAttribute($value)
+    {
+      $this->attributes['time_end'] = $value?Carbon::createFromFormat('Y/m/d',$value)->format('Y-m-d'):null;
     }
 
 }
