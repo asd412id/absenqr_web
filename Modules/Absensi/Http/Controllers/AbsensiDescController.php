@@ -31,7 +31,7 @@ class AbsensiDescController extends Controller
       ->orderBy('updated_at','desc');
       return DataTables::of($data)
       ->addColumn('get_time',function($row){
-        return $row->time->locale('id')->translatedFormat('d F Y');
+        return $row->time->locale('id')->translatedFormat('d F Y').($row->time_end?' - '.$row->time_end->locale('id')->translatedFormat('d F Y'):'');
       })
       ->addColumn('get_desc',function($row){
         return nl2br($row->desc);
@@ -109,12 +109,14 @@ class AbsensiDescController extends Controller
     $role = [
       'user' => 'required',
       'time' => 'required',
+      'time_end' => 'required',
       'desc' => 'required',
       'jadwal' => 'required',
     ];
     $msgs = [
       'user.required' => 'User tidak boleh kosong!',
-      'time.required' => 'Waktu tidak boleh kosong!',
+      'time.required' => 'Waktu mulai tidak boleh kosong!',
+      'time_end.required' => 'Waktu selesai tidak boleh kosong!',
       'desc.required' => 'Keterangan tidak boleh kosong!',
       'jadwal.required' => 'Jadwal harus dipilih!',
     ];
@@ -123,6 +125,7 @@ class AbsensiDescController extends Controller
 
     $insert = AbsensiDesc::where('user_id',$request->user)
     ->where('time',$request->time)
+    ->where('time_end',$request->time_end)
     ->where('jadwal',json_encode($request->jadwal))
     ->first();
 

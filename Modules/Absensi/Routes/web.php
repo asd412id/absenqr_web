@@ -38,6 +38,16 @@ Route::prefix('absensi')->middleware('web','auth')->group(function() {
       Route::get('/{uuid}/hapus', 'JadwalController@destroy')->name('absensi.jadwal.destroy');
     });
 
+    Route::group(['prefix'=>'hari-libur'], function()
+    {
+      Route::get('/', 'HariLiburController@index')->name('absensi.libur.index');
+      Route::get('/tambah', 'HariLiburController@create')->name('absensi.libur.create');
+      Route::post('/tambah', 'HariLiburController@store')->name('absensi.libur.store');
+      Route::get('/{uuid}/ubah', 'HariLiburController@edit')->name('absensi.libur.edit');
+      Route::post('/{uuid}/ubah', 'HariLiburController@update')->name('absensi.libur.update');
+      Route::get('/{uuid}/hapus', 'HariLiburController@destroy')->name('absensi.libur.destroy');
+    });
+
     Route::group(['prefix'=>'user'], function()
     {
       Route::get('/', 'JadwalUserController@index')->name('absensi.jadwal.user.index');

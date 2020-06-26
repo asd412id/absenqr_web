@@ -382,6 +382,37 @@ if ($("#table-absensi-desc").length>0) {
     });
   }).draw();
 }
+if ($("#table-absensi-libur").length>0) {
+  var table = $("#table-absensi-libur").DataTable({
+    processing: true,
+    serverSide: true,
+    responsive: true,
+    ajax: location.href,
+    columns: [
+      {data: 'id'},
+      {data: 'name', name: 'name'},
+      {data: 'desc', name: 'desc'},
+      {data: 'start', name: 'start'},
+      {data: 'end', name: 'end'},
+      {data: 'action', name: 'action', orderable: false, searchable: false},
+    ],
+    "language": language,
+    'drawCallback': function(settings){
+      $(".confirm").on('click',function(){
+        var txt = $(this).data('text');
+        if (!confirm(txt)) {
+          return false;
+        }
+      });
+    }
+  });
+  table.on( 'draw.dt', function () {
+    var PageInfo = $('.dataTable').DataTable().page.info();
+    table.column(0, {search: 'applied', order: 'applied', page: 'applied'}).nodes().each( function (cell, i) {
+      cell.innerHTML = (i+1+PageInfo.start)+'.';
+    });
+  }).draw();
+}
 if ($("#table-payroll-user").length>0) {
   var table = $("#table-payroll-user").DataTable({
     processing: true,

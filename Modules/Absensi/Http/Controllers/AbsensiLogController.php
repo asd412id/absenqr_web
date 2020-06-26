@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 
 use App\User;
 use Modules\Absensi\Entities\Jadwal;
+use Modules\Absensi\Entities\HariLibur;
 
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
@@ -130,6 +131,16 @@ class AbsensiLogController extends Controller
     $logs = [];
     foreach ($dates as $key => $d) {
       $nday = $d->format('N');
+
+      $libur = HariLibur::where('start','<=',$d->startOfDay()->format('Y-m-d'))
+      ->where('end','>=',$d->startOfDay()->format('Y-m-d'))
+      ->orderBy('created_at','asc')
+      ->get();
+
+      if (count($libur)) {
+        continue;
+      }
+
       foreach ($users as $key1 => $u) {
         $jadwal = $u->jadwal()
         ->when($r->jadwal,function($q,$role){
