@@ -213,7 +213,7 @@ class AbsensiLogController extends Controller
 
           if ($cin || $jend_cin->lessThanOrEqualTo(Carbon::now())) {
             if ($desc && !$cin) {
-              $colorCin = 'bg-green';
+              $colorCin = 'bg-success';
             }else{
               $colorCin = $cin?$late?'bg-warning':'':'bg-danger';
             }
@@ -221,7 +221,7 @@ class AbsensiLogController extends Controller
 
           if ($cout || $jend_cout->lessThanOrEqualTo(Carbon::now())) {
             if ($desc && !$cout) {
-              $colorCout = 'bg-green';
+              $colorCout = 'bg-success';
             }else{
               $colorCout = $cout?$early?'bg-warning':'':'bg-danger';
             }
