@@ -2,35 +2,37 @@
   $configs = \App\Configs::getAll();
 @endphp
 <div class="clearfix"></div>
-<table class="" style="margin-top: 25px;float: left;page-break-inside: avoid !important;white-space: nowrap;">
-  <tr>
-    <td class="font-weight-bold" colspan="2">Keterangan Warna Absen:</td>
-  </tr>
-  <tr>
-    <td>
-      <span style="display: inline-block;margin: 1px;padding: 17px;border: solid 1px #000"></span>
-    </td>
-    <td style="padding-left: 10px">Kehadiran Tepat Waktu</td>
-  </tr>
-  <tr>
-     <td>
-      <span class="bg-warning" style="display: inline-block;margin: 1px;padding: 17px;border: solid 1px #000"></span>
-    </td>
-    <td style="padding-left: 10px">Terlambat / Pulang Cepat</td>
-  </tr>
-  <tr>
-     <td>
-      <span class="bg-success" style="display: inline-block;margin: 1px;padding: 17px;border: solid 1px #000"></span>
-    </td>
-    <td style="padding-left: 10px">Sakit / Izin / Keterangan</td>
-  </tr>
-  <tr>
-     <td>
-      <span class="bg-danger" style="display: inline-block;margin: 1px;padding: 17px;border: solid 1px #000"></span>
-    </td>
-    <td style="padding-left: 10px">Tidak Hadir</td>
-  </tr>
-</table>
+@if (strpos(Request::url(),route('absensi.log.index'))!==false)
+  <table class="" style="margin-top: 25px;float: left;page-break-inside: avoid !important;white-space: nowrap;">
+    <tr>
+      <td class="font-weight-bold" colspan="2">Keterangan Warna Absen:</td>
+    </tr>
+    <tr>
+      <td>
+        <span style="display: inline-block;margin: 1px;padding: 17px;border: solid 1px #000"></span>
+      </td>
+      <td style="padding-left: 10px">Kehadiran Tepat Waktu</td>
+    </tr>
+    <tr>
+       <td>
+        <span class="bg-warning" style="display: inline-block;margin: 1px;padding: 17px;border: solid 1px #000"></span>
+      </td>
+      <td style="padding-left: 10px">Terlambat / Pulang Cepat</td>
+    </tr>
+    <tr>
+       <td>
+        <span class="bg-success" style="display: inline-block;margin: 1px;padding: 17px;border: solid 1px #000"></span>
+      </td>
+      <td style="padding-left: 10px">Sakit / Izin / Keterangan</td>
+    </tr>
+    <tr>
+       <td>
+        <span class="bg-danger" style="display: inline-block;margin: 1px;padding: 17px;border: solid 1px #000"></span>
+      </td>
+      <td style="padding-left: 10px">Tidak Hadir</td>
+    </tr>
+  </table>
+@endif
 <table class="" style="margin-top: 25px;float: right;page-break-inside: avoid !important;white-space: nowrap;">
   <tr>
     <td rowspan="5" width="150">
