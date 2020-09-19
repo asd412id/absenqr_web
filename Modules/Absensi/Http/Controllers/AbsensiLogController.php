@@ -244,4 +244,197 @@ class AbsensiLogController extends Controller
     }
     return $logs;
   }
+
+  public function rekap()
+  {
+    $data = [
+      'title' => 'Rekap Absen',
+      'jadwal' => [],
+      'users' => []
+    ];
+    return view('absensi::logs.rekap',$data);
+  }
+
+  public function rekapShow(Request $r)
+  {
+    $users = User::where('role','!=','admin')
+    ->when($r->status,function($q,$role){
+      $q->whereHas('pegawai',function($q) use($role){
+        $q->where('status_kepegawaian',$role);
+      });
+    })
+    ->when($r->user,function($q,$role){
+      $q->whereIn('id',$role);
+    })
+    ->when($r->role,function($q,$role){
+      $q->where('role',$role);
+    })
+    ->orderBy('name','asc')
+    ->get();
+
+    if (!count($users)) {
+      return redirect()->route('absensi.log.rekap')->withErrors(['User tidak tersedia']);
+    }
+
+    if (!$r->jadwal) {
+      return redirect()->route('absensi.log.rekap')->withErrors(['Jadwal harus dipilih!']);
+    }
+
+    $dates = Carbon::parse($r->start_date)->toPeriod($r->end_date);
+
+    $logs = $this->getRekap($users,$dates,$r);
+
+    $jadwal = [];
+
+    if ($r->jadwal) {
+      $jadwal = Jadwal::where('id',$r->jadwal)->get();
+    }
+
+    $data = [
+      'title' => 'Rekap Absen',
+      'users' => $users,
+      'jadwal' => $jadwal,
+      'config' => $this->configs,
+      'data' => $logs,
+    ];
+
+    if ($r->download_pdf) {
+      if (!count($logs)) {
+        return redirect()->route('absensi.log.rekap')->withErrors(['Log absen tidak tersedia!']);
+      }
+
+      if ($r->start_date!=$r->end_date) {
+        $tgl = Carbon::parse($r->start_date)->locale('id')->translatedFormat('j F Y').' s.d. '.Carbon::parse($r->end_date)->locale('id')->translatedFormat('j F Y');
+      }else {
+        $tgl = Carbon::parse($r->start_date)->locale('id')->translatedFormat('j F Y');
+      }
+
+      if (request()->user && count($users)==1) {
+        $data['title'] = ($r->title??'Rekap Absen').' - '.$users[0]->name.' ('.$tgl.')';
+      }else{
+        $data['title'] = ($r->title??'Rekap Absen').' ('.$tgl.')';
+      }
+
+      $params = [
+        'page-width'=>'21.5cm',
+        'page-height'=>'33cm',
+      ];
+      if (!request()->user||count($users)>1) {
+        $params['orientation'] = 'landscape';
+      }
+
+      $filename = $data['title'].'.pdf';
+
+      $pdf = PDF::loadView('absensi::logs.rekap-print',$data)
+      ->setOptions($params);
+      return $pdf->stream($filename);
+    }
+
+    return view('absensi::logs.show-rekap',$data);
+  }
+
+  public function getRekap($users,$dates,$r)
+  {
+    $logs = [];
+    foreach ($users as $key => $u) {
+      $count = 0;
+      $total = 0;
+      foreach ($dates as $key1 => $d) {
+        $nday = $d->format('N');
+
+        $jadwal = $u->jadwal()
+        ->when($r->jadwal,function($q,$role){
+          $q->where('id',$role);
+        })
+        ->where('hari','like','%'.$nday.'%')
+        ->orderBy('cin','asc')
+        ->orderBy('start_cin','asc')
+        ->get();
+
+        if (!$jadwal) {
+          continue;
+        }
+
+        $libur = HariLibur::where('start','<=',$d->startOfDay()->format('Y-m-d'))
+        ->where('end','>=',$d->startOfDay()->format('Y-m-d'))
+        ->orderBy('created_at','asc')
+        ->get();
+
+        if (count($libur)) {
+          continue;
+        }
+
+        $absen = $u->absen()
+        ->where('created_at','>=',$d->startOfDay()->format('Y-m-d H:i:s'))
+        ->where('created_at','<=',$d->endOfDay()->format('Y-m-d H:i:s'))
+        ->orderBy('created_at','asc')
+        ->get();
+
+        foreach ($jadwal as $key2 => $j) {
+
+          $total++;
+
+          $desc = $u->absenDesc()
+          ->where('time','<=',$d->startOfDay()->format('Y-m-d H:i:s'))
+          ->where('time_end','>=',$d->startOfDay()->format('Y-m-d H:i:s'))
+          ->where('jadwal','like','%'.$j->id.'%')
+          ->orderBy('created_at','asc')
+          ->first();
+
+          $jstart_cin = Carbon::createFromFormat('Y-m-d H:i',$d->format('Y-m-d').' '.$j->start_cin);
+          $jend_cin = Carbon::createFromFormat('Y-m-d H:i',$d->format('Y-m-d').' '.$j->end_cin);
+          $jstart_cout = Carbon::createFromFormat('Y-m-d H:i',$d->format('Y-m-d').' '.$j->start_cout);
+          $jend_cout = Carbon::createFromFormat('Y-m-d H:i',$d->format('Y-m-d').' '.$j->end_cout);
+
+          $cin = null;
+          $cout = null;
+          $colorCin = '';
+          $colorCout = '';
+          $signCin = null;
+          $signCout = null;
+          foreach ($absen as $ak => $a) {
+            if ($a->created_at->greaterThanOrEqualTo($jstart_cin) && $a->created_at->lessThanOrEqualTo($jend_cin) && $a->ruang_id == $j->ruang) {
+              if (!$cin) {
+                $cin = true;
+              }
+            }
+            if ($a->created_at->greaterThanOrEqualTo($jstart_cout) && $a->created_at->lessThanOrEqualTo($jend_cout) && $a->ruang_id == $j->ruang) {
+              if (!$cout) {
+                $cout = true;
+              }
+            }
+          }
+
+          if ($cin) {
+            $colorCin = null;
+            $count += 0.5;
+            $signCin = "&#10004;";
+          }elseif ($desc) {
+            $colorCin = 'bg-warning';
+          }
+
+          if ($cout) {
+            $colorCout = null;
+            $count += 0.5;
+            $signCout = "&#10004;";
+          }elseif ($desc) {
+            $colorCout = 'bg-warning';
+          }
+
+          $data = [
+            'colorCin'=>$colorCin,
+            'colorCout'=>$colorCout,
+            'signCin'=>$signCin,
+            'signCout'=>$signCout
+          ];
+          $logs['rekap'][$d->format('Y')][$d->locale('id')->translatedFormat('F')][$u->uuid][$d->format('d')] = $data;
+        }
+      }
+      $logs[$u->uuid]['count'] = $count;
+      $logs[$u->uuid]['total'] = $total;
+      $logs[$u->uuid]['persentasi'] = round($count/$total*100);
+    }
+    $logs['role'] = $r->role;
+    return $logs;
+  }
 }

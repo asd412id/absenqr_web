@@ -71,4 +71,10 @@ Route::prefix('absensi')->middleware('web','auth')->group(function() {
       Route::get('/', 'AbsensiLogController@index')->name('absensi.log.index');
       Route::post('/', 'AbsensiLogController@showLogs')->name('absensi.log.show');
     });
+
+    Route::group(['prefix'=>'rekap'], function()
+    {
+      Route::get('/', 'AbsensiLogController@rekap')->name('absensi.log.rekap');
+      Route::post('/', 'AbsensiLogController@rekapShow')->name('absensi.log.rekap.show');
+    });
 });

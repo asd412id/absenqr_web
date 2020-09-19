@@ -32,6 +32,24 @@
       <td style="padding-left: 10px">Tidak Hadir</td>
     </tr>
   </table>
+@elseif (strpos(Request::url(),route('absensi.log.rekap'))!==false)
+  <table class="" style="margin-top: 25px;float: left;page-break-inside: avoid !important;white-space: nowrap;">
+    <tr>
+      <td class="font-weight-bold" colspan="2">Keterangan Absen:</td>
+    </tr>
+    <tr>
+      <td>
+        <span style="display: inline-block;margin: 1px;padding: 5px 9px;border: solid 1px #000">&#10004;</span>
+      </td>
+      <td style="padding-left: 10px">Hadir</td>
+    </tr>
+    <tr>
+       <td>
+        <span class="bg-warning" style="display: inline-block;margin: 1px;padding: 17px;border: solid 1px #000"></span>
+      </td>
+      <td style="padding-left: 10px">Sakit / Izin</td>
+    </tr>
+  </table>
 @endif
 <table class="" style="margin-top: 25px;float: right;page-break-inside: avoid !important;white-space: nowrap;">
   <tr>
