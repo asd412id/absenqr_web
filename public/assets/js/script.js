@@ -228,7 +228,8 @@ if ($("#table-pegawai").length>0) {
       {data: 'jabatan', name: 'jabatan'},
       {data: 'activate_key', name: 'activate_key'},
       {data: 'action', name: 'action', orderable: false, searchable: false},
-      {data: 'pangkat_golongan', name: 'pangkat_golongan', orderable: false, visible: false}
+      {data: 'pangkat_golongan', name: 'pangkat_golongan', orderable: false, visible: false},
+      {data: 'status_kepegawaian', name: 'status_kepegawaian', orderable: false, visible: false}
     ],
     "language": language,
     'drawCallback': function(settings){
