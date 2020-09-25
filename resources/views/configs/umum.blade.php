@@ -28,6 +28,7 @@
           <div class="form-group">
             <label>Template Kop</label>
             <select class="form-control" name="config[template]">
+              <option {{ @$config->template=='none'?'selected':'' }} value="none">Tanpa Kop</option>
               <option {{ @$config->template=='atas'?'selected':'' }} value="atas">Logo Atas</option>
               <option {{ @$config->template=='samping'?'selected':'' }} value="samping">Logo Samping</option>
             </select>
