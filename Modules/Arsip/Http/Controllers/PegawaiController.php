@@ -107,6 +107,11 @@ class PegawaiController extends Controller
       $msgs['nuptk.unique'] = 'NUPTK telah digunakan!';
     }
 
+    if ($request->urutan) {
+      $role ['urutan'] = 'numeric';
+      $msgs['urutan.numeric'] = 'Urutan harus berupa angka!';
+    }
+
     Validator::make($request->all(),$role,$msgs)->validate();
 
     $filepath = null;
@@ -162,6 +167,7 @@ class PegawaiController extends Controller
         'password'=>bcrypt($request->password),
         'id_user'=>$insert->id,
         'role'=>'pegawai',
+        'urutan'=>$request->urutan??9999,
       ]);
       return redirect()->route('pegawai.index')->with('message','Data berhasil disimpan!');
     }
@@ -235,6 +241,11 @@ class PegawaiController extends Controller
       $msgs['nuptk.unique'] = 'NUPTK telah digunakan!';
     }
 
+    if ($request->urutan) {
+      $role ['urutan'] = 'numeric';
+      $msgs['urutan.numeric'] = 'Urutan harus berupa angka!';
+    }
+
     Validator::make($request->all(),$role,$msgs)->validate();
 
     $filepath = null;
@@ -287,6 +298,7 @@ class PegawaiController extends Controller
       $login = [
         'name'=>$request->nama,
         'username'=>$request->username,
+        'urutan'=>$request->urutan??9999,
       ];
       if ($request->password) {
         $login['password'] = bcrypt($request->password);

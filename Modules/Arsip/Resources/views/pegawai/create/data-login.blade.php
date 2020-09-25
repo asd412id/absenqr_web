@@ -11,5 +11,9 @@
       <label for="password">Password</label>
       <input type="password" name="password" class="form-control" id="password" value="{{ old('password') }}" placeholder="Password" required>
     </div>
+    <div class="form-group">
+      <label for="urutan">Urutan</label>
+      <input type="number" name="urutan" class="form-control" id="urutan" value="{{ old('urutan')??9999 }}" placeholder="Urutan" required>
+    </div>
   </div>
 </div>

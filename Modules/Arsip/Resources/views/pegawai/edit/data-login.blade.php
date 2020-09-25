@@ -11,5 +11,9 @@
       <label for="password">Password</label>
       <input type="password" name="password" class="form-control" id="password" value="" placeholder="Kosongkan jika tidak ingin diubah">
     </div>
+    <div class="form-group">
+      <label for="urutan">Urutan</label>
+      <input type="number" name="urutan" class="form-control" id="urutan" value="{{ @$data->user->urutan??9999 }}" placeholder="Urutan" required>
+    </div>
   </div>
 </div>

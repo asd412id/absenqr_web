@@ -47,6 +47,7 @@ class AbsensiLogController extends Controller
     ->when($r->role,function($q,$role){
       $q->where('role',$role);
     })
+    ->orderBy('urutan','asc')
     ->orderBy('name','asc')
     ->get();
 
@@ -248,6 +249,7 @@ class AbsensiLogController extends Controller
     ->when($r->role,function($q,$role){
       $q->where('role',$role);
     })
+    ->orderBy('urutan','asc')
     ->orderBy('name','asc')
     ->get();
 

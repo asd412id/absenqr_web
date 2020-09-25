@@ -16,6 +16,9 @@ class CreateColumnNuptk extends Migration
         Schema::table('pegawai', function (Blueprint $table) {
             $table->bigInteger('nuptk')->after('nama')->nullable();
         });
+        Schema::table('users', function (Blueprint $table) {
+            $table->bigInteger('urutan')->after('active')->default(9999);
+        });
     }
 
     /**
@@ -27,6 +30,9 @@ class CreateColumnNuptk extends Migration
     {
         Schema::table('pegawai', function (Blueprint $table) {
             $table->dropColumn('nuptk');
+        });
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('urutan');
         });
     }
 }
