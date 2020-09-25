@@ -3,33 +3,103 @@
   <head>
     <meta charset="utf-8">
     <title>{{ $title }}</title>
-    <link rel="stylesheet" href="{{ asset('assets/vendor') }}/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('assets/vendor') }}/bootstrap/dist/css/bootstrap.min.css">
-    <style media="screen">
+    <style>
       html,body{
         width: 100%;height: 100%;margin: 0;padding: 0;
-        /* font-size: 9pt !important; */
+        font-size: 13.5px;
         font-family: Arial !important;
       }
       .page{
-        padding: 0 20px;
+        padding: 20px;
       }
       .page-break{
         page-break-before: always;
       }
-      table tr{
+      .table{
+        width: 100%;
+        margin: 0 auto;
+        border: solid 1px #000;
+        border-collapse: collapse;
+        break-inside: auto;
+      }
+      .table th{
+        text-align: center;
+        vertical-align: middle !important;
+      }
+      .table th, .table td{
+        border: solid 1px #000 !important;
+        border-bottom: solid 1px #000 !important;
+        border-collapse: collapse !important;
+      }
+      .table-absen th, .table-absen td{
+        font-size: {{ request()->font_size??'100%' }} !important;
+      }
+      .table td{
+        vertical-align: top;
+      }
+      .text-center{
+        text-align: center !important;
+      }
+      .text-left{
+        text-align: left !important;
+      }
+      .nowrap{
+        white-space: nowrap !important;
+      }
+      tr, td, th, tbody, thead, tfoot {
         page-break-inside: avoid !important;
+        break-inside: avoid-page !important;
+        page-break-before: auto !important;
+        page-break-after: auto !important;
+        vertical-align: middle !important;
+      }
+      .table th{
+        text-transform: uppercase;
+      }
+      .table th, .table td{
+        padding: 3px 7px;
+        vertical-align: middle !important;
+      }
+      .desc{
+        max-width: 225px;
+      }
+      .table .badge-dark{
+        margin-bottom: 3px;
+      }
+      span.badge{
+        display: block !important;
+        padding: 2px 4px !important;
+        margin: 1px !important;
+        border-radius: 5px !important;
+      }
+      .badge-dark{
+        background-color: rgba(191,128,255,.3) !important;
+      }
+      .bg-primary,.badge-primary{
+        background-color: rgba(0,153,255,.3) !important;
+      }
+      .bg-warning,.badge-warning{
+        background-color: rgba(255,255,0,.3) !important;
+      }
+      .bg-success,.badge-success{
+        background-color: rgba(0,255,0,.3) !important;
+      }
+      .bg-danger,.badge-danger{
+        background-color: rgba(255,0,0,.3) !important;
+      }
+      @page{
+        margin: 10px 20px;
       }
     </style>
   </head>
   <body>
     <div class="page">
       @include('layouts.kop')
-      <h5 class="text-center font-weight-bold">DETAIL DATA SISWA</h5>
+      <h3 class="text-center font-weight-bold">DETAIL DATA SISWA</h3>
       <table class="table table-bordered mt-2">
         <tr>
-          <td colspan="3" class="font-weight-bold">DATA PRIBADI</td>
-          <td rowspan="14" width="150" class="text-center">
+          <td colspan="3" style="font-weight: bold">DATA PRIBADI</td>
+          <td rowspan="14" width="150" class="text-center" style="vertical-align: top">
             <img src="{{ $data->foto?asset('uploaded/'.$data->foto):url('assets/img/avatar.png') }}" alt="" class="img-fluid rounded d-inline" width="150">
           </td>
         </tr>
@@ -99,12 +169,12 @@
           <td>{{ $data->telp??'-' }}</td>
         </tr>
       </table>
-      <table class="table table-bordered mt-2">
+      <table class="table table-bordered" style="margin-top: 10px;">
         <tr>
-          <td colspan="3" class="font-weight-bold">DATA SEKOLAH</td>
+          <td colspan="3" style="font-weight: bold">DATA SEKOLAH</td>
         </tr>
         <tr>
-          <td width="165">Asal Sekolah</td>
+          <td width="200">Asal Sekolah</td>
           <td width="1">:</td>
           <td>{{ $data->asal_sekolah??'-' }}</td>
         </tr>
@@ -139,85 +209,94 @@
           <td>{{ $data->pendidikan_lanjut??'-' }}</td>
         </tr>
       </table>
-      <div class="page-break"></div>
-      <table class="table table-bordered mt-2" style="width: 49%;float: left">
+      <table style="width: 100%" cellspacing="0" cellpadding="0">
         <tr>
-          <td colspan="3" class="font-weight-bold">DATA AYAH</td>
-        </tr>
-        <tr>
-          <td width="95">Nama</td>
-          <td width="1">:</td>
-          <td>{{ $data->nama_ayah??'-' }}</td>
-        </tr>
-        <tr>
-          <td>Alamat</td>
-          <td>:</td>
-          <td>{{ $data->alamat_ayah??'-' }}</td>
-        </tr>
-        <tr>
-          <td>No. Telepon</td>
-          <td>:</td>
-          <td>{{ $data->telp_ayah??'-' }}</td>
-        </tr>
-        <tr>
-          <td>Pekerjaan</td>
-          <td>:</td>
-          <td>{{ $data->pekerjaan_ayah??'-' }}</td>
+          <td style="padding: 0">
+            <table class="table table-bordered" style="width: 100%;float: left;margin-top: 10px">
+              <tr>
+                <td colspan="3" style="font-weight: bold">DATA AYAH</td>
+              </tr>
+              <tr>
+                <td width="95">Nama</td>
+                <td width="1">:</td>
+                <td>{{ $data->nama_ayah??'-' }}</td>
+              </tr>
+              <tr>
+                <td>Alamat</td>
+                <td>:</td>
+                <td>{{ $data->alamat_ayah??'-' }}</td>
+              </tr>
+              <tr>
+                <td>No. Telepon</td>
+                <td>:</td>
+                <td>{{ $data->telp_ayah??'-' }}</td>
+              </tr>
+              <tr>
+                <td>Pekerjaan</td>
+                <td>:</td>
+                <td>{{ $data->pekerjaan_ayah??'-' }}</td>
+              </tr>
+            </table>
+          </td>
+          <td style="padding: 0">
+            <table class="table table-bordered" style="width: 100%;float: right;margin-top: 10px">
+              <tr>
+                <td colspan="3" style="font-weight: bold">DATA IBU</td>
+              </tr>
+              <tr>
+                <td width="95">Nama</td>
+                <td width="1">:</td>
+                <td>{{ $data->nama_ibu??'-' }}</td>
+              </tr>
+              <tr>
+                <td>Alamat</td>
+                <td>:</td>
+                <td>{{ $data->alamat_ibu??'-' }}</td>
+              </tr>
+              <tr>
+                <td>No. Telepon</td>
+                <td>:</td>
+                <td>{{ $data->telp_ibu??'-' }}</td>
+              </tr>
+              <tr>
+                <td>Pekerjaan</td>
+                <td>:</td>
+                <td>{{ $data->pekerjaan_ibu??'-' }}</td>
+              </tr>
+            </table>
+          </td>
+          <td style="padding: 0">
+            <table class="table table-bordered" style="width: 100%;float: left;margin-top: 10px">
+              <tr>
+                <td colspan="3" style="font-weight: bold">DATA WALI</td>
+              </tr>
+              <tr>
+                <td width="95">Nama</td>
+                <td width="1">:</td>
+                <td>{{ $data->nama_wali??'-' }}</td>
+              </tr>
+              <tr>
+                <td>Alamat</td>
+                <td>:</td>
+                <td>{{ $data->alamat_wali??'-' }}</td>
+              </tr>
+              <tr>
+                <td>No. Telepon</td>
+                <td>:</td>
+                <td>{{ $data->telp_wali??'-' }}</td>
+              </tr>
+              <tr>
+                <td>Pekerjaan</td>
+                <td>:</td>
+                <td>{{ $data->pekerjaan_wali??'-' }}</td>
+              </tr>
+            </table>
+          </td>
         </tr>
       </table>
-      <table class="table table-bordered mt-2" style="width: 49%;float: right">
+      <table class="table table-bordered" style="width: 100%;float: right;margin-top: 10px">
         <tr>
-          <td colspan="3" class="font-weight-bold">DATA IBU</td>
-        </tr>
-        <tr>
-          <td width="95">Nama</td>
-          <td width="1">:</td>
-          <td>{{ $data->nama_ibu??'-' }}</td>
-        </tr>
-        <tr>
-          <td>Alamat</td>
-          <td>:</td>
-          <td>{{ $data->alamat_ibu??'-' }}</td>
-        </tr>
-        <tr>
-          <td>No. Telepon</td>
-          <td>:</td>
-          <td>{{ $data->telp_ibu??'-' }}</td>
-        </tr>
-        <tr>
-          <td>Pekerjaan</td>
-          <td>:</td>
-          <td>{{ $data->pekerjaan_ibu??'-' }}</td>
-        </tr>
-      </table>
-      <table class="table table-bordered mt-2" style="width: 49%;float: left">
-        <tr>
-          <td colspan="3" class="font-weight-bold">DATA WALI</td>
-        </tr>
-        <tr>
-          <td width="95">Nama</td>
-          <td width="1">:</td>
-          <td>{{ $data->nama_wali??'-' }}</td>
-        </tr>
-        <tr>
-          <td>Alamat</td>
-          <td>:</td>
-          <td>{{ $data->alamat_wali??'-' }}</td>
-        </tr>
-        <tr>
-          <td>No. Telepon</td>
-          <td>:</td>
-          <td>{{ $data->telp_wali??'-' }}</td>
-        </tr>
-        <tr>
-          <td>Pekerjaan</td>
-          <td>:</td>
-          <td>{{ $data->pekerjaan_wali??'-' }}</td>
-        </tr>
-      </table>
-      <table class="table table-bordered mt-2" style="width: 49%;float: right">
-        <tr>
-          <td colspan="3" class="font-weight-bold">DATA KESEHATAN</td>
+          <td colspan="3" style="font-weight: bold">DATA KESEHATAN</td>
         </tr>
         <tr>
           <td width="135">Golongan Darah</td>
@@ -240,7 +319,7 @@
           <td>{{ $data->kelainan_jasmani??'-' }}</td>
         </tr>
       </table>
-      @include('layouts.ttd',['qr'=>'siswa - '.$data->uuid.'_'.time().' - by asd412id'])
+      @include('layouts.ttd')
     </div>
   </body>
 </html>

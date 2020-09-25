@@ -327,31 +327,12 @@ class SiswaController extends Controller
       'data'=>$siswa
     ];
     $params = [
-      'page-width'=>'21.5cm',
-      'page-height'=>'33cm',
+      'format'=>[215,330]
     ];
-
     $filename = $data['title'].'.pdf';
 
-    $pdf = PDF::loadView('arsip::siswa.print-single',$data)
-    ->setOptions($params);
+    $pdf = PDF::loadView('arsip::siswa.print-single',$data,[],$params);
     return $pdf->stream($filename);
-
-    // $view = view('arsip::siswa.print-single',$data)->render();
-    // $client = new Client;
-    // $res = $client->request('POST','http://pdf/pdf',[
-    //   'form_params'=>[
-    //     'html'=>str_replace(url('/'),'http://nginx_arsip/',$view),
-    //     'options[page-width]'=>'21.5cm',
-    //     'options[page-height]'=>'33cm',
-    //   ]
-    // ]);
-    //
-    // if ($res->getStatusCode() == 200) {
-    //   $filename = $data['title'].'.pdf';
-    //   return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
-    // }
-    // return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
   }
 
   public function exportPDF(Request $request)
@@ -374,33 +355,13 @@ class SiswaController extends Controller
       'data'=>$siswa
     ];
     $params = [
-      'page-width'=>'21.5cm',
-      'page-height'=>'33cm',
-      'orientation'=>'landscape',
+      'format'=>[215,330],
+      'orientation'=>'L',
     ];
-
     $filename = $data['title'].'.pdf';
 
-    $pdf = PDF::loadView('arsip::siswa.print-all',$data)
-    ->setOptions($params);
+    $pdf = PDF::loadView('arsip::siswa.print-all',$data,[],$params);
     return $pdf->stream($filename);
-
-    // $view = view('arsip::siswa.print-all',$data)->render();
-    // $client = new Client;
-    // $res = $client->request('POST','http://pdf/pdf',[
-    //   'form_params'=>[
-    //     'html'=>str_replace(url('/'),'http://nginx_arsip/',$view),
-    //     'options[page-width]'=>'21.5cm',
-    //     'options[page-height]'=>'33cm',
-    //     'options[orientation]'=>'Landscape',
-    //   ]
-    // ]);
-    //
-    // if ($res->getStatusCode() == 200) {
-    //   $filename = $data['title'].'.pdf';
-    //   return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
-    // }
-    // return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
   }
 
   public function importExcel(Request $request)

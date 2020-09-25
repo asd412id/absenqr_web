@@ -3,33 +3,103 @@
   <head>
     <meta charset="utf-8">
     <title>{{ $title }}</title>
-    <link rel="stylesheet" href="{{ asset('assets/vendor') }}/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('assets/vendor') }}/bootstrap/dist/css/bootstrap.min.css">
-    <style media="screen">
+    <style>
       html,body{
         width: 100%;height: 100%;margin: 0;padding: 0;
-        /* font-size: 9pt !important; */
+        font-size: 13.5px;
         font-family: Arial !important;
       }
       .page{
-        padding: 0 20px;
+        padding: 20px;
       }
       .page-break{
         page-break-before: always;
       }
-      table tr{
+      .table{
+        width: 100%;
+        margin: 0 auto;
+        border: solid 1px #000;
+        border-collapse: collapse;
+        break-inside: auto;
+      }
+      .table th{
+        text-align: center;
+        vertical-align: middle !important;
+      }
+      .table th, .table td{
+        border: solid 1px #000 !important;
+        border-bottom: solid 1px #000 !important;
+        border-collapse: collapse !important;
+      }
+      .table-absen th, .table-absen td{
+        font-size: {{ request()->font_size??'100%' }} !important;
+      }
+      .table td{
+        vertical-align: top;
+      }
+      .text-center{
+        text-align: center !important;
+      }
+      .text-left{
+        text-align: left !important;
+      }
+      .nowrap{
+        white-space: nowrap !important;
+      }
+      tr, td, th, tbody, thead, tfoot {
         page-break-inside: avoid !important;
+        break-inside: avoid-page !important;
+        page-break-before: auto !important;
+        page-break-after: auto !important;
+        vertical-align: middle !important;
+      }
+      .table th{
+        text-transform: uppercase;
+      }
+      .table th, .table td{
+        padding: 3px 7px;
+        vertical-align: middle !important;
+      }
+      .desc{
+        max-width: 225px;
+      }
+      .table .badge-dark{
+        margin-bottom: 3px;
+      }
+      span.badge{
+        display: block !important;
+        padding: 2px 4px !important;
+        margin: 1px !important;
+        border-radius: 5px !important;
+      }
+      .badge-dark{
+        background-color: rgba(191,128,255,.3) !important;
+      }
+      .bg-primary,.badge-primary{
+        background-color: rgba(0,153,255,.3) !important;
+      }
+      .bg-warning,.badge-warning{
+        background-color: rgba(255,255,0,.3) !important;
+      }
+      .bg-success,.badge-success{
+        background-color: rgba(0,255,0,.3) !important;
+      }
+      .bg-danger,.badge-danger{
+        background-color: rgba(255,0,0,.3) !important;
+      }
+      @page{
+        margin: 20px;
       }
     </style>
   </head>
   <body>
     <div class="page">
       @include('layouts.kop')
-      <h5 class="text-center font-weight-bold">DETAIL DATA PEGAWAI</h5>
+      <h3 class="text-center font-weight-bold">DETAIL DATA PEGAWAI</h3>
       <table class="table table-bordered mt-2">
         <tr>
-          <td colspan="3" class="font-weight-bold">DATA PRIBADI</td>
-          <td rowspan="15" width="150" class="text-center">
+          <td colspan="3" style="font-weight:bold">DATA PRIBADI</td>
+          <td rowspan="16" width="150" class="text-center" style="vertical-align: top">
             <img src="{{ $data->foto?asset('uploaded/'.$data->foto):url('assets/img/avatar.png') }}" alt="" class="img-fluid rounded d-inline" width="150">
           </td>
         </tr>
@@ -84,6 +154,11 @@
           <td>{{ strtoupper($data->status_kepegawaian)??'-' }}</td>
         </tr>
         <tr>
+          <td>NUPTK</td>
+          <td>:</td>
+          <td>{{ $data->nuptk??'-' }}</td>
+        </tr>
+        <tr>
           <td>NIP</td>
           <td>:</td>
           <td>{{ $data->nip??'-' }}</td>
@@ -104,12 +179,12 @@
           <td>{{ $data->kegemaran??'-' }}</td>
         </tr>
       </table>
-      <table class="table table-bordered mt-2">
+      <table class="table table-bordered" style="margin-top: 15px">
         <tr>
-          <td colspan="3" class="font-weight-bold">DATA KESEHATAN</td>
+          <td colspan="3" style="font-weight: bold">DATA KESEHATAN</td>
         </tr>
         <tr>
-          <td width="125">Golongan Darah</td>
+          <td width="200">Golongan Darah</td>
           <td width="1">:</td>
           <td>{{ $data->golda??'-' }}</td>
         </tr>
@@ -144,11 +219,10 @@
           <td>{{ $data->ciri_ciri??'-' }}</td>
         </tr>
       </table>
-      <div class="page-break"></div>
-      <table class="table table-bordered mt-2">
+      <table class="table table-bordered" style="margin-top: 15px">
         <thead>
           <tr>
-            <td colspan="4" class="font-weight-bold" style="border-bottom: none">RIWAYAT PENDIDIKAN</td>
+            <td colspan="4" style="border-bottom: none;font-weight: bold">RIWAYAT PENDIDIKAN</td>
           </tr>
           <tr>
             <th width="1" class="text-center">No</th>
@@ -177,7 +251,7 @@
           @endif
         </tbody>
       </table>
-      @include('layouts.ttd',['qr'=>'pegawai - '.$data->uuid.'_'.time().' - by asd412id'])
+      @include('layouts.ttd')
     </div>
   </body>
 </html>

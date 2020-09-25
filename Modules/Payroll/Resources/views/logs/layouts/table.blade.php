@@ -1,16 +1,18 @@
 <div class="dt-responsive">
   <table class="table table-bordered table-absen">
     <thead>
-      @if (count($data)>1)
-        <th>Nama</th>
-      @endif
-      <th>Jenis Gaji</th>
-      <th>Besar Gaji</th>
-      <th>Total Waktu</th>
-      <th>Terlaksana</th>
-      <th>Dibayarkan</th>
-      <th>Total Gaji</th>
-      <th>Tanda Tangan</th>
+      <tr>
+        @if (count($data)>1)
+          <th>Nama</th>
+        @endif
+        <th>Jenis Gaji</th>
+        <th>Besar Gaji</th>
+        <th>Total Waktu</th>
+        <th>Terlaksana</th>
+        <th>Dibayarkan</th>
+        <th>Total Gaji</th>
+        <th>Tanda Tangan</th>
+      </tr>
     </thead>
     <tbody>
       @foreach ($data as $key => $users)
@@ -37,7 +39,7 @@
             <td style="text-align: left;padding: 15px 7px">{{ 'Rp '.number_format($g['total_gaji'],2,',','.') }}</td>
             @break(count($users['gaji'])>1)
           @endforeach
-          <td style="text-align: left;padding: 15px 7px;text-align: center;font-size: 1.2em" rowspan="{{ $rowspan }}" class="currency font-weight-bold">{{ 'Rp '.number_format($totalgaji,2,',','.') }}</td>
+          <td style="text-align: left;padding: 15px 7px;text-align: center" rowspan="{{ $rowspan }}" class="currency font-weight-bold">{{ 'Rp '.number_format($totalgaji,2,',','.') }}</td>
           <td style="text-align: left;padding: 15px 7px" rowspan="{{ $rowspan }}"></td>
           @if (count($users['gaji'])>1)
             @foreach ($users['gaji'] as $key1 => $g)

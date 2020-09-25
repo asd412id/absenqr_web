@@ -166,8 +166,7 @@ return [
          * Package Service Providers...
          */
          Yajra\DataTables\DataTablesServiceProvider::class,
-         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
-         Barryvdh\Snappy\ServiceProvider::class,
+         niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -232,8 +231,8 @@ return [
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'IOFactory' => PhpOffice\PhpSpreadsheet\IOFactory::class,
-        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'IMG' => Barryvdh\Snappy\Facades\SnappyImage::class,
+        'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class
 
     ],
 

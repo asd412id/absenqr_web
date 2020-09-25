@@ -3,6 +3,10 @@
 @section('header')
   <link rel="stylesheet" href="{{ url('assets/vendor/jquery.datetimepicker/jquery.datetimepicker.min.css') }}">
   <style media="screen">
+    caption{
+      caption-side: top;
+      color: #000;
+    }
     .nowrap{
       white-space: nowrap;
     }
@@ -68,20 +72,27 @@
             </div>
             <div class="col-sm-5">
               <div class="input-group" id="range">
-                <input type="text" class="form-control" value="{{ request()->start_date??date('Y/m/d') }}" name="start_date" id="start_date">
+                <input type="text" class="form-control" value="{{ request()->start_date??old('start_date')??date('Y/m/d') }}" name="start_date" id="start_date">
                 <div class="input-group-append">
                   <span class="input-group-text">ke</span>
                 </div>
-                <input type="text" class="form-control" value="{{ request()->end_date??date('Y/m/d') }}" name="end_date" id="end_date">
+                <input type="text" class="form-control" value="{{ request()->end_date??old('end_date')??date('Y/m/d') }}" name="end_date" id="end_date">
               </div>
             </div>
             <div class="col-sm-12 mb-10 text-center">
-              <a href="javascript:void()" data-toggle="modal" data-target="#showuser" class="btn btn-info btn-cari"> User</a>
-              <a href="javascript:void()" data-toggle="modal" data-target="#showjadwal" class="btn btn-success btn-cari"> Jadwal</a>
-              <button type="submit" class="btn btn-primary btn-cari" onclick="$(this).closest('form').prop('target','_self')">Proses</button>
+              <a href="javascript:void()" data-toggle="modal" data-target="#showuser" class="btn btn-info btn-cari float-left mr-1"> User</a>
+              <a href="javascript:void()" data-toggle="modal" data-target="#showjadwal" class="btn btn-success btn-cari float-left mr-1"> Jadwal</a>
               @if (@count($data))
-                <input type="submit" name="download_pdf" value="Download" class="btn btn-danger" style="position: relative" onclick="$(this).closest('form').prop('target','_blank')">
+                <input type="submit" name="download_pdf" value="Download" class="btn btn-danger float-right ml-1" style="position: relative" onclick="$(this).closest('form').prop('target','_blank')">
               @endif
+              <button type="submit" class="btn btn-primary btn-cari float-right ml-1" onclick="$(this).closest('form').prop('target','_self')">Proses</button>
+              <label class="float-right ml-1" style="line-height: 2.5em;">Ukuran Font
+                <select class="form-control float-right ml-1" style="width: 80px;position: relative;top:-2px" name="font_size">
+                  @foreach (range(1,25) as $key => $fz)
+                    <option {{ request()->font_size==($fz*5).'%'||$fz==20?'selected':'' }} value="{{ ($fz*5).'%' }}">{{ ($fz*5).'%' }}</option>
+                  @endforeach
+                </select>
+              </label>
             </div>
           </div>
           <div class="modal fade" id="showuser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -158,27 +169,31 @@
 @section('footer')
 <script src="{{ url('assets/vendor/jquery.datetimepicker/jquery.datetimepicker.full.min.js') }}" charset="utf-8"></script>
 <script type="text/javascript">
+  function formatDate(date){
+     var parts = date.split("/");
+     return new Date(parts[0], parts[1] - 1, parts[2]);
+  }
   $(function(){
-   $('#start_date').datetimepicker({
-    format:'Y/m/d',
-    onShow:function( ct ){
-      let end_date = $('#end_date').val();
-      this.setOptions({
-        maxDate:end_date?end_date:false
-      })
-    },
-    timepicker:false
-   });
-   $('#end_date').datetimepicker({
-    format:'Y/m/d',
-    onShow:function( ct ){
-      let start_date = $('#start_date').val();
-      this.setOptions({
-        minDate:start_date?start_date:false
-      })
-    },
-    timepicker:false
-   });
+    $('#start_date').datetimepicker({
+      format:'Y/m/d',
+      timepicker:false
+    }).on('change',function(){
+      let start_date = formatDate($('#start_date').val());
+      let end_date = formatDate($('#end_date').val());
+      if (start_date > end_date) {
+        $('#end_date').val($('#start_date').val());
+      }
+    });
+    $('#end_date').datetimepicker({
+      format:'Y/m/d',
+      timepicker:false
+    }).on('change',function(){
+      let start_date = formatDate($('#start_date').val());
+      let end_date = formatDate($('#end_date').val());
+      if (start_date > end_date) {
+        $('#start_date').val($('#end_date').val());
+      }
+    });
   });
   @if (session()->has('message'))
     showSuccessToast('{{ session()->get('message') }}')

@@ -73,7 +73,7 @@
                 <option {{ request()->status=='ptt'?'selected':'' }} value="ptt">PTT</option>
               </select>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
               <div class="input-group" id="range">
                 <input type="text" class="form-control" value="{{ request()->start_date??date('Y/m/d') }}" name="start_date" id="start_date">
                 <div class="input-group-append">
@@ -82,12 +82,19 @@
                 <input type="text" class="form-control" value="{{ request()->end_date??date('Y/m/d') }}" name="end_date" id="end_date">
               </div>
             </div>
-            <div class="col-sm-4" style="padding-top: 3px">
-              <a href="javascript:void()" data-toggle="modal" data-target="#showuser" class="btn btn-info btn-cari"> User</a>
-              <a href="javascript:void()" data-toggle="modal" data-target="#showjadwal" class="btn btn-success btn-cari"> Jadwal</a>
-              <button type="submit" class="btn btn-primary btn-cari" onclick="$(this).closest('form').prop('target','_self')">Proses</button>
+            <div class="col-sm-12 mb-10 text-center">
+              <a href="javascript:void()" data-toggle="modal" data-target="#showuser" class="btn btn-info btn-cari float-left mr-1"> User</a>
+              <a href="javascript:void()" data-toggle="modal" data-target="#showjadwal" class="btn btn-success btn-cari float-left mr-1"> Jadwal</a>
+              <button type="submit" class="btn btn-primary btn-cari float-left mr-1" onclick="$(this).closest('form').prop('target','_self')">Proses</button>
+              <label class="float-left mr-1" style="line-height: 2.5em;">Ukuran Font
+                <select class="form-control float-left mr-1" style="width: 80px;position: relative;top:-2px" name="font_size">
+                  @foreach (range(1,25) as $key => $fz)
+                    <option {{ request()->font_size==($fz*10).'%'||$fz==20?'selected':'' }} value="{{ ($fz*5).'%' }}">{{ ($fz*5).'%' }}</option>
+                  @endforeach
+                </select>
+              </label>
               @if (@count($data))
-                <input type="submit" name="download_pdf" value="Download" class="btn btn-danger" style="position: relative" onclick="$(this).closest('form').prop('target','_blank')">
+                <input type="submit" name="download_pdf" value="Download" class="btn btn-danger float-left mr-1" style="position: relative" onclick="$(this).closest('form').prop('target','_blank')">
               @endif
             </div>
           </div>

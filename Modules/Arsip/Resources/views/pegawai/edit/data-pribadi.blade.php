@@ -157,6 +157,10 @@
       </div>
     </div>
     <div class="form-group">
+      <label for="nuptk">NUPTK</label>
+      <input type="text" name="nuptk" class="form-control" id="nuptk" value="{{ $data->nuptk }}" placeholder="NUPTK">
+    </div>
+    <div class="form-group">
       <label for="nip">NIP</label>
       <input type="text" name="nip" class="form-control" id="nip" value="{{ $data->nip }}" placeholder="NIP">
     </div>

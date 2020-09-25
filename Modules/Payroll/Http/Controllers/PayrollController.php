@@ -86,17 +86,15 @@ class PayrollController extends Controller
       }
 
       $params = [
-        'page-width'=>'21.5cm',
-        'page-height'=>'33cm',
+        'format'=>[215,330]
       ];
       if (!request()->user||count($users)>1) {
-        $params['orientation'] = 'landscape';
+        $params['orientation'] = 'L';
       }
 
       $filename = $data['title'].'.pdf';
 
-      $pdf = PDF::loadView('payroll::logs.print',$data)
-      ->setOptions($params);
+      $pdf = PDF::loadView('payroll::logs.print',$data,[],$params);
       return $pdf->stream($filename);
     }
 

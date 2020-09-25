@@ -51,7 +51,7 @@ class AbsensiLogController extends Controller
     ->get();
 
     if (!count($users)) {
-      return redirect()->route('absensi.log.index')->withErrors(['User tidak tersedia']);
+      return redirect()->route('absensi.log.index')->withErrors(['User tidak tersedia'])->withInput();
     }
 
     $dates = Carbon::parse($r->start_date)->toPeriod($r->end_date);
@@ -74,7 +74,7 @@ class AbsensiLogController extends Controller
 
     if ($r->download_pdf) {
       if (!count($logs)) {
-        return redirect()->route('absensi.log.index')->withErrors(['Log absen tidak tersedia!']);
+        return redirect()->route('absensi.log.index')->withErrors(['Log absen tidak tersedia!'])->withInput();
       }
 
       if ($r->start_date!=$r->end_date) {
@@ -90,37 +90,16 @@ class AbsensiLogController extends Controller
       }
 
       $params = [
-        'page-width'=>'21.5cm',
-        'page-height'=>'33cm',
+        'format'=>[215,330]
       ];
       if (!request()->user||count($users)>1) {
-        $params['orientation'] = 'landscape';
+        $params['orientation'] = 'L';
       }
 
       $filename = $data['title'].'.pdf';
 
-      $pdf = PDF::loadView('absensi::logs.print',$data)
-      ->setOptions($params);
+      $pdf = PDF::loadView('absensi::logs.print',$data,[],$params);
       return $pdf->stream($filename);
-
-      // $view = view('absensi::logs.print',$data)->render();
-      // $client = new Client;
-      // $params = [
-      //   'html'=>str_replace(url('/'),'http://nginx_arsip/',$view),
-      //   'options[page-width]'=>'21.5cm',
-      //   'options[page-height]'=>'33cm',
-      // ];
-      // if (!request()->user) {
-      //   $params['options[orientation]'] = 'landscape';
-      // }
-      // $res = $client->request('POST','http://pdf/pdf',[
-      //   'form_params'=>$params
-      // ]);
-      //
-      // if ($res->getStatusCode() == 200) {
-      //   $filename = $data['title'].'.pdf';
-      //   return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
-      // }
     }
 
     return view('absensi::logs.show',$data);
@@ -273,11 +252,11 @@ class AbsensiLogController extends Controller
     ->get();
 
     if (!count($users)) {
-      return redirect()->route('absensi.log.rekap')->withErrors(['User tidak tersedia']);
+      return redirect()->route('absensi.log.rekap')->withErrors(['User tidak tersedia'])->withInput();
     }
 
     if (!$r->jadwal) {
-      return redirect()->route('absensi.log.rekap')->withErrors(['Jadwal harus dipilih!']);
+      return redirect()->route('absensi.log.rekap')->withErrors(['Jadwal harus dipilih!'])->withInput();
     }
 
     $dates = Carbon::parse($r->start_date)->toPeriod($r->end_date);
@@ -300,7 +279,7 @@ class AbsensiLogController extends Controller
 
     if ($r->download_pdf) {
       if (!count($logs)) {
-        return redirect()->route('absensi.log.rekap')->withErrors(['Log absen tidak tersedia!']);
+        return redirect()->route('absensi.log.rekap')->withErrors(['Log absen tidak tersedia!'])->withInput();
       }
 
       if ($r->start_date!=$r->end_date) {
@@ -316,17 +295,15 @@ class AbsensiLogController extends Controller
       }
 
       $params = [
-        'page-width'=>'21.5cm',
-        'page-height'=>'33cm',
+        'format'=>[215,330]
       ];
       if (!request()->user||count($users)>1) {
-        $params['orientation'] = 'landscape';
+        $params['orientation'] = 'L';
       }
 
       $filename = $data['title'].'.pdf';
 
-      $pdf = PDF::loadView('absensi::logs.rekap-print',$data)
-      ->setOptions($params);
+      $pdf = PDF::loadView('absensi::logs.rekap-print',$data,[],$params);
       return $pdf->stream($filename);
     }
 
@@ -432,7 +409,7 @@ class AbsensiLogController extends Controller
       }
       $logs[$u->uuid]['count'] = $count;
       $logs[$u->uuid]['total'] = $total;
-      $logs[$u->uuid]['persentasi'] = round($count/$total*100);
+      $logs[$u->uuid]['persentasi'] = $total>0?round($count/$total*100):0;
     }
     $logs['role'] = $r->role;
     return $logs;

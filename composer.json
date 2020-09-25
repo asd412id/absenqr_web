@@ -9,11 +9,11 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
-        "barryvdh/laravel-snappy": "^0.4.6",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^6.0",
         "laravel/tinker": "^1.0",
+        "niklasravnsborg/laravel-pdf": "^4.0",
         "nwidart/laravel-modules": "^5.1",
         "phpoffice/phpspreadsheet": "^1.9",
         "simplesoftwareio/simple-qrcode": "^2.0",

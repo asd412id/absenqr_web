@@ -157,6 +157,10 @@
       </div>
     </div>
     <div class="form-group">
+      <label for="nuptk">NUPTK</label>
+      <input type="text" name="nuptk" class="form-control" id="nuptk" value="{{ old('nuptk') }}" placeholder="NUPTK">
+    </div>
+    <div class="form-group">
       <label for="nip">NIP</label>
       <input type="text" name="nip" class="form-control" id="nip" value="{{ old('nip') }}" placeholder="NIP">
     </div>

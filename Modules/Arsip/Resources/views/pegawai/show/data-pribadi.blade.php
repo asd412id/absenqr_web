@@ -74,6 +74,11 @@
                 <td>{{ strtoupper($data->status_kepegawaian)??'-' }}</td>
               </tr>
               <tr>
+                <td>NUPTK</td>
+                <td>:</td>
+                <td>{{ $data->nuptk??'-' }}</td>
+              </tr>
+              <tr>
                 <td>NIP</td>
                 <td>:</td>
                 <td>{{ $data->nip??'-' }}</td>

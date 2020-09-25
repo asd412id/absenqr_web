@@ -101,6 +101,12 @@ class PegawaiController extends Controller
       $msgs['nip.unique'] = 'NIP telah digunakan!';
     }
 
+    if ($request->nuptk) {
+      $role ['nuptk'] = 'digits:16|unique:pegawai,nuptk';
+      $msgs['nuptk.digits'] = 'NUPTK harus berupa angka berjumlah 18!';
+      $msgs['nuptk.unique'] = 'NUPTK telah digunakan!';
+    }
+
     Validator::make($request->all(),$role,$msgs)->validate();
 
     $filepath = null;
@@ -122,6 +128,7 @@ class PegawaiController extends Controller
     $insert->uuid = (string) Str::uuid();
     $insert->nama = $request->nama;
     $insert->nip = $request->nip;
+    $insert->nuptk = $request->nuptk;
     $insert->status_kawin = $request->status_kawin;
     $insert->alamat = $request->alamat;
     $insert->pangkat_golongan = $request->pangkat_golongan;
@@ -222,6 +229,12 @@ class PegawaiController extends Controller
       $msgs['nip.unique'] = 'NIP telah digunakan!';
     }
 
+    if ($request->nuptk) {
+      $role ['nuptk'] = 'digits:16|unique:pegawai,nuptk,'.$uuid.',uuid';
+      $msgs['nuptk.digits'] = 'NUPTK harus berupa angka berjumlah 18!';
+      $msgs['nuptk.unique'] = 'NUPTK telah digunakan!';
+    }
+
     Validator::make($request->all(),$role,$msgs)->validate();
 
     $filepath = null;
@@ -244,6 +257,7 @@ class PegawaiController extends Controller
     $insert->uuid = (string) Str::uuid();
     $insert->nama = $request->nama;
     $insert->nip = $request->nip;
+    $insert->nuptk = $request->nuptk;
     $insert->status_kawin = $request->status_kawin;
     $insert->alamat = $request->alamat;
     $insert->pangkat_golongan = $request->pangkat_golongan;
@@ -310,31 +324,13 @@ class PegawaiController extends Controller
       'data'=>$pegawai
     ];
     $params = [
-      'page-width'=>'21.5cm',
-      'page-height'=>'33cm',
+      'format'=>[215,330]
     ];
-
     $filename = $data['title'].'.pdf';
 
-    $pdf = PDF::loadView('arsip::pegawai.print-single',$data)
-    ->setOptions($params);
+    $pdf = PDF::loadView('arsip::pegawai.print-single',$data,[],$params);
     return $pdf->stream($filename);
 
-    // $view = view('arsip::pegawai.print-single',$data)->render();
-    // $client = new Client;
-    // $res = $client->request('POST','http://pdf/pdf',[
-    //   'form_params'=>[
-    //     'html'=>str_replace(url('/'),'http://nginx_arsip/',$view),
-    //     'options[page-width]'=>'21.5cm',
-    //     'options[page-height]'=>'33cm',
-    //   ]
-    // ]);
-    //
-    // if ($res->getStatusCode() == 200) {
-    //   $filename = $data['title'].'.pdf';
-    //   return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
-    // }
-    // return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
   }
 
   public function exportPDF(Request $request)
@@ -356,33 +352,13 @@ class PegawaiController extends Controller
       'data'=>$pegawai
     ];
     $params = [
-      'page-width'=>'21.5cm',
-      'page-height'=>'33cm',
-      'orientation'=>'landscape',
+      'format'=>[215,330]
     ];
-
+    $params['orientation'] = 'L';
     $filename = $data['title'].'.pdf';
 
-    $pdf = PDF::loadView('arsip::pegawai.print-all',$data)
-    ->setOptions($params);
+    $pdf = PDF::loadView('arsip::pegawai.print-all',$data,[],$params);
     return $pdf->stream($filename);
-
-    // $view = view('arsip::pegawai.print-all',$data)->render();
-    // $client = new Client;
-    // $res = $client->request('POST','http://pdf/pdf',[
-    //   'form_params'=>[
-    //     'html'=>str_replace(url('/'),'http://nginx_arsip/',$view),
-    //     'options[page-width]'=>'21.5cm',
-    //     'options[page-height]'=>'33cm',
-    //     'options[orientation]'=>'Landscape',
-    //   ]
-    // ]);
-    //
-    // if ($res->getStatusCode() == 200) {
-    //   $filename = $data['title'].'.pdf';
-    //   return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
-    // }
-    // return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
   }
 
   public function resetLogin($uuid)
