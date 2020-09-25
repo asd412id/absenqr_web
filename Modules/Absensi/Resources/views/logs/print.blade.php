@@ -102,13 +102,13 @@
           $tanggal = request()->start_date==request()->end_date?$carbon->createFromFormat('Y/m/d',request()->start_date)->locale('id')->translatedFormat('l, d F Y'):$carbon->createFromFormat('Y/m/d',request()->start_date)->locale('id')->translatedFormat('d F Y').' s.d. '.$carbon->createFromFormat('Y/m/d',request()->end_date)->locale('id')->translatedFormat('d F Y');
         @endphp
         @if (!request()->user||count($users)>1)
-          <h3 class="text-center">{{ request()->title??'Rekapitulasi Absensi' }}</h3>
-          <p class="text-center">{{ $tanggal }}</p>
+          <h3 class="text-center" style="margin: 0;padding: 0">{{ request()->title??'Rekapitulasi Absensi' }}</h3>
+          <p class="text-center" style="margin: 0;padding: 0">{{ $tanggal }}</p>
           @include('absensi::logs.layouts.table')
         @else
-          <h3 class="text-center">{{ request()->title??'Rekapitulasi Absensi' }}</h3>
-          <h5 class="text-center" style="margin-bottom: 0;padding-bottom: 0">{{ \App\User::where('id',request()->user)->first()->name }}</h5>
-          <p class="text-center">{{ $tanggal }}</p>
+          <h3 class="text-center" style="margin: 0;padding: 0">{{ request()->title??'Rekapitulasi Absensi' }}</h3>
+          <h4 class="text-center" style="margin: 0;padding-bottom: 0">{{ \App\User::where('id',request()->user)->first()->name }}</h4>
+          <p class="text-center" style="margin: 0;padding: 0">{{ $tanggal }}</p>
           @include('absensi::logs.layouts.table-single')
         @endif
         @include('layouts.ttd')
