@@ -269,6 +269,7 @@ class JadwalController extends Controller
   public function destroy($uuid)
   {
     $jadwal = Jadwal::where('uuid',$uuid)->first();
+    $jadwal->user()->detach();
     if ($jadwal->delete()) {
       return redirect()->route('absensi.jadwal.index')->with('message','Data berhasil dihapus!');
     }
