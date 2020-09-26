@@ -313,6 +313,8 @@ class SiswaController extends Controller
       Storage::disk('public')->delete($siswa->foto);
     }
     $siswa->user->absenRuang()->detach();
+    $siswa->user->jadwal()->detach();
+    $siswa->user->absenDesc()->delete();
     $siswa->user->delete();
     if ($siswa->delete()) {
       return redirect()->route('siswa.index')->with('message','Data berhasil dihapus!');

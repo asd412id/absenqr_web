@@ -163,6 +163,8 @@ class RuangController extends Controller
     if ($ruang->foto) {
       Storage::disk('public')->delete($ruang->foto);
     }
+    $ruang->jadwal()->delete();
+    $ruang->absen()->delete();
     $ruang->absenUser()->detach();
     if ($ruang->delete()) {
       return redirect()->route('absensi.ruang.index')->with('message','Data berhasil dihapus!');

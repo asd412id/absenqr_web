@@ -321,6 +321,8 @@ class PegawaiController extends Controller
       Storage::disk('public')->delete($pegawai->foto);
     }
     $pegawai->user->absenRuang()->detach();
+    $pegawai->user->jadwal()->detach();
+    $pegawai->user->absenDesc()->delete();
     $pegawai->user->delete();
     if ($pegawai->delete()) {
       return redirect()->route('pegawai.index')->with('message','Data berhasil dihapus!');
