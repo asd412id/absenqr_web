@@ -2,8 +2,8 @@
 
 return [
 	'mode'                  => 'utf-8',
-	'format'                => 'A4',
-	'author'                => '',
+	'format'                => [215,330],
+	'author'                => 'asd412id',
 	'subject'               => '',
 	'keywords'              => '',
 	'creator'               => 'asd412id',
