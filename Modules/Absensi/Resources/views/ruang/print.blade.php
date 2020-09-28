@@ -49,7 +49,7 @@
       @include('layouts.kop')
       <h2 class="text-center font-weight-bold" style="margin: 0">{{ $title }}</h2>
       <div class="text-center">
-        {!! \QrCode::size('350')->generate($data->_token) !!}
+        <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(325)->generate($data->_token)) !!}" alt="">
       </div>
       @if ($data->desc)
         <h3 class="text-center" style="margin: 0">
