@@ -71,7 +71,7 @@
         text-transform: uppercase;
       }
       .table th, .table td{
-        padding: 3px 4.7px;
+        padding: 3px 4px;
         vertical-align: middle !important;
       }
       .desc{
