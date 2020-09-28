@@ -186,25 +186,8 @@ class RuangController extends Controller
 
     $filename = $data['title'].'.pdf';
 
-    $pdf = PDF::loadView('absensi::ruang.print',$data)
-    ->setOptions($params);
+    $pdf = PDF::loadView('absensi::ruang.print',$data);
     return $pdf->stream($filename);
-
-    // $view = view('absensi::ruang.print',$data)->render();
-    // $client = new Client;
-    // $res = $client->request('POST','http://pdf/pdf',[
-    //   'form_params'=>[
-    //     'html'=>str_replace(url('/'),'http://nginx_arsip/',$view),
-    //     'options[page-width]'=>'21cm',
-    //     'options[page-height]'=>'29.7cm',
-    //   ]
-    // ]);
-    //
-    // if ($res->getStatusCode() == 200) {
-    //   $filename = $data['title'].'.pdf';
-    //   return response()->attachment($res->getBody()->getContents(),$filename,'application/pdf');
-    // }
-    // return redirect()->back()->withErrors(['Tidak dapat mendownload file! Silahkan hubungi operator']);
   }
 
 }
