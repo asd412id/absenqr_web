@@ -19,11 +19,11 @@
       }
       @if (@$configs->template!='none')
         @if (@$configs->template=='atas')
-        img{
+        img.img-logo{
           width: {{ (45*$percent/100)."px !important" }}
         }
         @elseif (@$configs->template=='samping')
-        img{
+        img.img-logo{
           height: {{ (75*$percent/100)."px !important" }}
         }
         @endif

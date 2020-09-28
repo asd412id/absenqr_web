@@ -1,3 +1,7 @@
+@php
+  $configs = \App\Configs::getAll();
+  $percent = (int)str_replace('%','',request()->font_size??'100%');
+@endphp
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -9,6 +13,17 @@
         font-size: 13px;
         font-family: Arial !important;
       }
+      @if (@$configs->template!='none')
+        @if (@$configs->template=='atas')
+        img.img-logo{
+          width: {{ (45*$percent/100)."px !important" }}
+        }
+        @elseif (@$configs->template=='samping')
+        img.img-logo{
+          height: {{ (75*$percent/100)."px !important" }}
+        }
+        @endif
+      @endif
       .page{
         padding: 20px;
       }
