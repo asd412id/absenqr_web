@@ -6,11 +6,11 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>{{ $title }}</title>
+    <title>{!! $title !!}</title>
     <style>
       html,body{
         width: 100%;height: 100%;margin: 0;padding: 0;
-        /* font-size: 9pt !important; */
+        font-size: 13px !important;
         font-family: Arial !important;
       }
       @if (@$configs->template!='none')
