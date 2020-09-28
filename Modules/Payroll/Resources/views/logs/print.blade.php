@@ -1,3 +1,7 @@
+@php
+  $configs = \App\Configs::getAll();
+  $percent = (int)str_replace('%','',request()->font_size??'100%');
+@endphp
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -6,9 +10,20 @@
     <style>
       html,body{
         width: 100%;height: 100%;margin: 0;padding: 0;
-        font-size: 13px;
         font-family: Arial !important;
+        font-size: {{ (13*$percent/100).'px !important' }};
       }
+      @if (@$configs->template!='none')
+        @if (@$configs->template=='atas')
+        img.img-logo{
+          width: {{ (45*$percent/100)."px !important" }}
+        }
+        @elseif (@$configs->template=='samping')
+        img.img-logo{
+          height: {{ (75*$percent/100)."px !important" }}
+        }
+        @endif
+      @endif
       .page{
         padding: 20px;
       }
@@ -30,9 +45,6 @@
         border: solid 1px #000 !important;
         border-bottom: solid 1px #000 !important;
         border-collapse: collapse !important;
-      }
-      .table-absen th, .table-absen td{
-        font-size: {{ request()->font_size??'100%' }} !important;
       }
       .table td{
         text-align: center;
@@ -131,9 +143,6 @@
         page-break-before: auto !important;
         page-break-after: auto !important;
       }
-      .table{
-        font-size: 0.95em;
-      }
       .table th{
         text-transform: uppercase;
       }
@@ -166,9 +175,6 @@
       .slip-info th:nth-child(2){
         padding-right: 7px !important;
         padding-left: 7px !important;
-      }
-      .table-absen th, .table-absen td{
-        font-size: {{ request()->font_size??'100%' }} !important;
       }
     </style>
   </head>

@@ -86,8 +86,8 @@
               <a href="javascript:void()" data-toggle="modal" data-target="#showuser" class="btn btn-info btn-cari float-left mr-1"> User</a>
               <a href="javascript:void()" data-toggle="modal" data-target="#showjadwal" class="btn btn-success btn-cari float-left mr-1"> Jadwal</a>
               <button type="submit" class="btn btn-primary btn-cari float-left mr-1" onclick="$(this).closest('form').prop('target','_self')">Proses</button>
-              <label class="float-left mr-1" style="line-height: 2.5em;">Ukuran Font
-                <select class="form-control float-left mr-1" style="width: 80px;position: relative;top:-2px" name="font_size">
+              <label class="float-left mr-1" style="line-height: 2.5em;">Skala
+                <select class="form-control float-right ml-1" style="width: 80px;position: relative;top:-2px" name="font_size">
                   @foreach (range(1,25) as $key => $fz)
                     <option {{ request()->font_size==($fz*10).'%'||$fz==20?'selected':'' }} value="{{ ($fz*5).'%' }}">{{ ($fz*5).'%' }}</option>
                   @endforeach

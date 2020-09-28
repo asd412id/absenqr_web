@@ -11,11 +11,11 @@
       html,body{
         width: 100%;height: 100%;margin: 0;padding: 0;
         font-family: Arial !important;
-        font-size: {{ (13*$percent/100).'px !important' }} !important;
+        font-size: {{ (13*$percent/100).'px !important' }};
       }
       .status-color{
-        width: {{ (30*$percent/100).'px !important' }} !important;
-        height: {{ (30*$percent/100).'px !important' }} !important;
+        width: {{ (30*$percent/100).'px !important' }};
+        height: {{ (30*$percent/100).'px !important' }};
       }
       @if (@$configs->template!='none')
         @if (@$configs->template=='atas')

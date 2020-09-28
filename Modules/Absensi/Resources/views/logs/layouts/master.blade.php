@@ -87,7 +87,7 @@
                 <input type="submit" name="download_pdf" value="Download" class="btn btn-danger float-right ml-1" style="position: relative" onclick="$(this).closest('form').prop('target','_blank')">
               @endif
               <button type="submit" class="btn btn-primary btn-cari float-right ml-1" onclick="$(this).closest('form').prop('target','_self')">Proses</button>
-              <label class="float-right ml-1" style="line-height: 2.5em;">Ukuran Font
+              <label class="float-right ml-1" style="line-height: 2.5em;">Skala
                 <select class="form-control float-right ml-1" style="width: 80px;position: relative;top:-2px" name="font_size">
                   @foreach (range(1,25) as $key => $fz)
                     <option {{ request()->font_size==($fz*10).'%'||$fz==20?'selected':'' }} value="{{ ($fz*5).'%' }}">{{ ($fz*5).'%' }}</option>
