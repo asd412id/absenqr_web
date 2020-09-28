@@ -44,8 +44,8 @@
         </table>
       @endif
     </td>
-    <td style="width: 30%;white-space: nowrap !important">
-      <table style="margin-top: 25px;float: right !important;page-break-inside: avoid !important;white-space: nowrap;">
+    <td style="text-align: right;white-space: nowrap !important">
+      <table style="margin-top: 25px;float: right !important;page-break-inside: avoid !important;white-space: nowrap;text-align: left">
         <tr>
           <td style="height: 30px;">{{ @$config->kota??'Sinjai' }}, {{ \Carbon\Carbon::parse(@request()->end_date)->locale('id')->translatedFormat('d F Y') }}</td>
         </tr>
