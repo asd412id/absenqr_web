@@ -1,3 +1,7 @@
+@php
+  $configs = \App\Configs::getAll();
+  $percent = (int)str_replace('%','',request()->font_size??'100%');
+@endphp
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -6,9 +10,24 @@
     <style>
       html,body{
         width: 100%;height: 100%;margin: 0;padding: 0;
-        font-size: 13px;
         font-family: Arial !important;
+        font-size: {{ (13*$percent/100).'px !important' }} !important;
       }
+      .status-color{
+        width: {{ (30*$percent/100).'px !important' }} !important;
+        height: {{ (30*$percent/100).'px !important' }} !important;
+      }
+      @if (@$configs->template!='none')
+        @if (@$configs->template=='atas')
+        img{
+          width: {{ (45*$percent/100)."px !important" }}
+        }
+        @elseif (@$configs->template=='samping')
+        img{
+          height: {{ (75*$percent/100)."px !important" }}
+        }
+        @endif
+      @endif
       .page{
         padding: 0 20px;
       }
@@ -30,9 +49,6 @@
         border: solid 1px #000 !important;
         border-bottom: solid 1px #000;
         border-collapse: collapse;
-      }
-      .table-absen th, .table-absen td{
-        font-size: {{ request()->font_size??'100%' }} !important;
       }
       .table td{
         text-align: center;

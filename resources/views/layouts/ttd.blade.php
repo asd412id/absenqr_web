@@ -10,19 +10,19 @@
             <td class="font-weight-bold" colspan="2">Keterangan Warna Absen:</td>
           </tr>
           <tr>
-            <td style="display: inline-block;margin: 1px;padding: 17px;border: solid 1px #000"></td>
-            <td style="padding-left: 10px">Kehadiran Tepat Waktu</td>
+            <td style="display: inline-block;margin: 1px;border: solid 1px #000"></td>
+            <td class="status-color" style="padding-left: 10px">Kehadiran Tepat Waktu</td>
           </tr>
           <tr>
-             <td class="bg-warning" style="display: inline-block;margin: 1px;padding: 17px;border: solid 1px #000"></td>
+             <td class="status-color bg-warning" style="display: inline-block;margin: 1px;border: solid 1px #000"></td>
             <td style="padding-left: 10px">Terlambat / Pulang Cepat</td>
           </tr>
           <tr>
-             <td class="bg-success" style="display: inline-block;margin: 1px;padding: 17px;border: solid 1px #000"></td>
+             <td class="status-color bg-success" style="display: inline-block;margin: 1px;border: solid 1px #000"></td>
             <td style="padding-left: 10px">Sakit / Izin / Keterangan</td>
           </tr>
           <tr>
-             <td class="bg-danger" style="display: inline-block;margin: 1px;padding: 17px;border: solid 1px #000"></td>
+             <td class="status-color bg-danger" style="display: inline-block;margin: 1px;border: solid 1px #000"></td>
             <td style="padding-left: 10px">Tidak Hadir</td>
           </tr>
         </table>
@@ -32,13 +32,13 @@
             <td style="font-weight: bold;padding-left: 0" colspan="2">Keterangan Absen:</td>
           </tr>
           <tr>
-            <td style="text-align: center;margin: 1px;width: 30px;height: 30px;border: solid 1px #000">
+            <td class="status-color" style="display: inline-block;text-align: center;margin: 1px;border: solid 1px #000">
               &#10004;
             </td>
             <td style="padding-left: 10px">Hadir</td>
           </tr>
           <tr>
-            <td class="bg-warning" style="text-align: center;margin: 1px;width: 30px;height: 30px;border: solid 1px #000"></td>
+            <td class="status-color bg-warning" style="display: inline-block;text-align: center;margin: 1px;border: solid 1px #000"></td>
             <td style="padding-left: 10px">Sakit / Izin / Cuti</td>
           </tr>
         </table>

@@ -1,20 +1,20 @@
-<table style="width: 100%">
+<table style="margin: 0 auto">
   <tr>
-    <td width="100" style="vertical-align: bottom !important;text-align: left">
+    <td style="vertical-align: bottom !important;text-align: center;padding: 0 5px">
       @if (@$configs->logo1)
-      <img src="{{ @$configs->logo1?asset('uploaded/'.@$configs->logo1):url('assets/img/sinjai.png') }}" alt="" height="75" style="display: inline">
+      <img class="img-logo" src="{{ @$configs->logo1?asset('uploaded/'.@$configs->logo1):url('assets/img/sinjai.png') }}" alt="" style="display: inline">
       @endif
     </td>
     <td align="center">
       <div style="display: inline-block;word-break: break-all">
-        <h4 class="font-weight-bold" style="text-align: center;margin: 0">{!! nl2br(@$configs->kop??"PEMERINTAH KABUPATEN SINJAI\nDINAS PENDIDIKAN") !!}</h4>
-        <h2 class="font-weight-bold" style="text-align: center;margin: 0;text-transform: uppercase !important">{{ @$configs->nama_instansi??'UPTD SMP NEGERI 39 SINJAI' }}</h2>
-        <p style="text-align: center;margin-bottom: 0;margin-top: 5px;font-size: 0.9em"><em>{!! nl2br(@$configs->alamat) !!}</em></p>
+        <h4 class="font-weight-bold" style="text-align: center;margin: 0;padding: 0">{!! nl2br(@$configs->kop??"PEMERINTAH KABUPATEN SINJAI\nDINAS PENDIDIKAN") !!}</h4>
+        <h2 class="font-weight-bold" style="text-align: center;margin: 0;padding: 0;text-transform: uppercase !important">{{ @$configs->nama_instansi??'UPTD SMP NEGERI 39 SINJAI' }}</h2>
+        <p style="text-align: center;margin: 0;padding: 0;font-size: 0.9em"><em>{!! nl2br(@$configs->alamat) !!}</em></p>
       </div>
     </td>
-    <td width="100" style="vertical-align: bottom !important;text-align: right">
+    <td style="vertical-align: bottom !important;text-align: center;padding: 0 5px">
       @if (@$configs->logo2)
-        <img src="{{ @$configs->logo2?asset('uploaded/'.@$configs->logo2):url('assets/img/sinjai.png') }}" alt="" height="75" style="display: inline">
+        <img class="img-logo" src="{{ @$configs->logo2?asset('uploaded/'.@$configs->logo2):url('assets/img/sinjai.png') }}" alt="" style="display: inline">
       @endif
     </td>
   </tr>
