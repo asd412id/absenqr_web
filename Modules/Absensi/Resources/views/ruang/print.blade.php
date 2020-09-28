@@ -49,7 +49,7 @@
       @include('layouts.kop')
       <h2 class="text-center font-weight-bold" style="margin: 0">{{ $title }}</h2>
       <div class="text-center">
-        {!! str_replace('<?xml version="1.0" encoding="UTF-8"?>','',\QrCode::size('350')->generate($data->_token)) !!}
+        {!! str_replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>",'',\QrCode::size('350')->generate($data->_token)) !!}
       </div>
       @if ($data->desc)
         <h3 class="text-center" style="margin: 0">
