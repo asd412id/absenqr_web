@@ -10,7 +10,7 @@
         <thead>
           <tr>
             <th rowspan="2">NO.</th>
-            <th width="300" rowspan="2">NAMA / {{ $data['role']=='pegawai'?'NIP':'NIS' }}</th>
+            <th rowspan="2">NAMA / {{ $data['role']=='pegawai'?'NIP':'NIS' }}</th>
             @if ($data['role']=='pegawai')
               <th rowspan="2">STATUS</th>
               <th rowspan="2">JABATAN</th>
@@ -19,7 +19,7 @@
             @endif
             <th rowspan="2">ABSEN</th>
             <th colspan="{{ count($duser[$first]) }}">TANGGAL</th>
-            <th rowspan="2">PERSENTASI</th>
+            <th rowspan="2">%</th>
           </tr>
           <tr>
             @foreach ($duser[$first] as $tanggal => $d)
