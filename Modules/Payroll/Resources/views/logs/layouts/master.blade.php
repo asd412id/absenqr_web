@@ -172,27 +172,31 @@
 @section('footer')
 <script src="{{ url('assets/vendor/jquery.datetimepicker/jquery.datetimepicker.full.min.js') }}" charset="utf-8"></script>
 <script type="text/javascript">
+  function formatDate(date){
+     var parts = date.split("/");
+     return new Date(parts[0], parts[1] - 1, parts[2]);
+  }
   $(function(){
-   $('#start_date').datetimepicker({
-    format:'Y/m/d',
-    onShow:function( ct ){
-      let end_date = $('#end_date').val();
-      this.setOptions({
-        maxDate:end_date?end_date:false
-      })
-    },
-    timepicker:false
-   });
-   $('#end_date').datetimepicker({
-    format:'Y/m/d',
-    onShow:function( ct ){
-      let start_date = $('#start_date').val();
-      this.setOptions({
-        minDate:start_date?start_date:false
-      })
-    },
-    timepicker:false
-   });
+    $('#start_date').datetimepicker({
+      format:'Y/m/d',
+      timepicker:false
+    }).on('change',function(){
+      let start_date = formatDate($('#start_date').val());
+      let end_date = formatDate($('#end_date').val());
+      if (start_date > end_date) {
+        $('#end_date').val($('#start_date').val());
+      }
+    });
+    $('#end_date').datetimepicker({
+      format:'Y/m/d',
+      timepicker:false
+    }).on('change',function(){
+      let start_date = formatDate($('#start_date').val());
+      let end_date = formatDate($('#end_date').val());
+      if (start_date > end_date) {
+        $('#start_date').val($('#end_date').val());
+      }
+    });
   });
   @if (session()->has('message'))
     showSuccessToast('{{ session()->get('message') }}')
