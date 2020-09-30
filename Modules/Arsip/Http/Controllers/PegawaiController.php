@@ -339,7 +339,7 @@ class PegawaiController extends Controller
   {
     $pegawai = Pegawai::where('uuid',$uuid)->first();
     $data = [
-      'title'=>($pegawai->nip?$pegawai->nip.' - ':'').$pegawai->nama,
+      'title'=>($pegawai->nuptk?$pegawai->nuptk.' - ':'').$pegawai->nama,
       'data'=>$pegawai
     ];
     $params = [
