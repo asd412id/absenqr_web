@@ -7,7 +7,7 @@
   <i class="fas fa-user-tie bg-green"></i>
 @endsection
 @section('head_title',$title)
-@section('head_desc',($data->nip?$data->nip.' - ':'').$data->nama)
+@section('head_desc',($data->nuptk?$data->nuptk.' - ':'').$data->nama)
 @section('breadcrumb')
   <li class="breadcrumb-item"><a href="{{ route('pegawai.index') }}">Data Guru & Pegawai</a></li>
   <li class="breadcrumb-item active" aria-current="page">{{ $data->nama }}</li>
