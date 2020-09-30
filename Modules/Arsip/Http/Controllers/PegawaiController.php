@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
 use Modules\Arsip\Entities\Pegawai;
+use App\User;
 
 use DataTables;
 use Validator;
@@ -25,32 +26,36 @@ class PegawaiController extends Controller
   public function index()
   {
     if (request()->ajax()) {
-      $data = Pegawai::orderBy('nama','asc');
+      $data = User::orderBy('urutan','asc')
+      ->where('role','pegawai')
+      ->orderBy('name','asc')
+      ->with('pegawai')
+      ->whereHas('pegawai');
       return DataTables::of($data)
       ->addColumn('jk',function($row){
-        return $row->jenis_kelamin==1?'Laki - Laki':'Perempuan';
+        return $row->pegawai->jenis_kelamin==1?'Laki - Laki':'Perempuan';
       })
       ->addColumn('skep',function($row){
-        return strtoupper($row->status_kepegawaian);
+        return strtoupper($row->pegawai->status_kepegawaian);
       })
       ->addColumn('activate_key',function($row){
-        $data = $row->user->activate_key??'-';
+        $data = $row->activate_key??'-';
         return $data;
       })
       ->addColumn('action', function($row){
 
         $btn = '<div class="table-actions">';
 
-        $btn .= '<a href="'.route('pegawai.export.single.pdf',['uuid'=>$row->uuid]).'" class="text-danger" target="_blank" title="Ekspor PDF"><i class="fas fa-file-pdf"></i></a>';
+        $btn .= '<a href="'.route('pegawai.export.single.pdf',['uuid'=>$row->pegawai->uuid]).'" class="text-danger" target="_blank" title="Ekspor PDF"><i class="fas fa-file-pdf"></i></a>';
 
-        $btn .= '<a href="'.route('pegawai.show',['uuid'=>$row->uuid]).'" class="text-success" title="Detail"><i class="ik ik-info"></i></a>';
+        $btn .= '<a href="'.route('pegawai.show',['uuid'=>$row->pegawai->uuid]).'" class="text-success" title="Detail"><i class="ik ik-info"></i></a>';
 
         if (\Auth::user()->role == 'admin') {
-          $btn .= ' <a href="'.route('pegawai.reset.login',['uuid'=>$row->uuid]).'" class="text-warning confirm" data-text="Reset login '.$row->nama.'?" title="Reset Login"><i class="ik ik-refresh-cw"></i></a>';
+          $btn .= ' <a href="'.route('pegawai.reset.login',['uuid'=>$row->pegawai->uuid]).'" class="text-warning confirm" data-text="Reset login '.$row->pegawai->nama.'?" title="Reset Login"><i class="ik ik-refresh-cw"></i></a>';
 
-          $btn .= ' <a href="'.route('pegawai.edit',['uuid'=>$row->uuid]).'" class="text-primary" title="Ubah"><i class="ik ik-edit"></i></a>';
+          $btn .= ' <a href="'.route('pegawai.edit',['uuid'=>$row->pegawai->uuid]).'" class="text-primary" title="Ubah"><i class="ik ik-edit"></i></a>';
 
-          $btn .= ' <a href="'.route('pegawai.destroy',['uuid'=>$row->uuid]).'" class="text-danger confirm" data-text="Hapus data '.$row->nama.'?" title="Hapus"><i class="ik ik-trash-2"></i></a>';
+          $btn .= ' <a href="'.route('pegawai.destroy',['uuid'=>$row->pegawai->uuid]).'" class="text-danger confirm" data-text="Hapus data '.$row->pegawai->nama.'?" title="Hapus"><i class="ik ik-trash-2"></i></a>';
         }
 
         $btn .= '</div>';
@@ -352,14 +357,19 @@ class PegawaiController extends Controller
     $role = '%'.request()->q.'%';
     $rows = request()->rows;
 
-    $pegawai = Pegawai::when(request()->q!='all',function($q) use($role){
-      $q->where('nip','like',$role)
-      ->orWhere('nama','like',$role)
-      ->orWhere('status_kepegawaian','like',$role)
-      ->orWhere('jabatan','like',$role)
-      ->orWhere('pangkat_golongan','like',$role);
-    })
-    ->orderBy('nama','asc')->paginate($rows, ['*'], 'page');
+    $pegawai = User::orderBy('urutan','asc')
+    ->where('role','pegawai')
+    ->orderBy('name','asc')
+    ->whereHas('pegawai',function($q) use($role){
+      $q->when(request()->q!='all',function($q) use($role){
+        $q->where('nip','like',$role)
+        ->orWhere('nama','like',$role)
+        ->orWhere('status_kepegawaian','like',$role)
+        ->orWhere('jabatan','like',$role)
+        ->orWhere('pangkat_golongan','like',$role);
+      });
+    })->with('pegawai')
+    ->paginate($rows, ['*'], 'page');
 
     $data = [
       'title'=>'Daftar Pegawai UPTD SMPN 39 Sinjai',

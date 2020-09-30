@@ -221,15 +221,15 @@ if ($("#table-pegawai").length>0) {
     responsive: true,
     ajax: location.href,
     columns: [
-      {data: 'nip', name: 'nip'},
-      {data: 'nama', name: 'nama'},
+      {data: 'pegawai.nuptk', name: 'pegawai.nuptk'},
+      {data: 'pegawai.nama', name: 'pegawai.nama'},
       {data: 'jk', name: 'jk'},
       {data: 'skep', name: 'skep'},
-      {data: 'jabatan', name: 'jabatan'},
+      {data: 'pegawai.jabatan', name: 'pegawai.jabatan'},
       {data: 'activate_key', name: 'activate_key'},
       {data: 'action', name: 'action', orderable: false, searchable: false},
-      {data: 'pangkat_golongan', name: 'pangkat_golongan', orderable: false, visible: false},
-      {data: 'status_kepegawaian', name: 'status_kepegawaian', orderable: false, visible: false}
+      {data: 'pegawai.pangkat_golongan', name: 'pegawai.pangkat_golongan', orderable: false, visible: false},
+      {data: 'pegawai.status_kepegawaian', name: 'pegawai.status_kepegawaian', orderable: false, visible: false}
     ],
     "language": language,
     'drawCallback': function(settings){

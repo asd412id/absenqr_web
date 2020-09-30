@@ -127,13 +127,13 @@
         <tbody>
           @foreach ($data as $key => $v)
             <tr>
-              <td align="left">{{ $v->nuptk }}</td>
-              <td align="left">{{ $v->nip }}</td>
-              <td align="left">{{ $v->nama }}</td>
-              <td align="left">{{ $v->tempat_lahir??'-' }}, {{ $v->tanggal_lahir??'-' }}</td>
-              <td>{{ $v->jenis_kelamin==1?'Laki - Laki':'Perempuan' }}</td>
-              <td>{{ strtoupper($v->status_kepegawaian) }}</td>
-              <td>{{ $v->jabatan }}</td>
+              <td align="left">{{ $v->pegawai->nuptk }}</td>
+              <td align="left">{{ $v->pegawai->nip }}</td>
+              <td align="left">{{ $v->pegawai->nama }}</td>
+              <td align="left">{{ $v->pegawai->tempat_lahir??'-' }}, {{ $v->pegawai->tanggal_lahir??'-' }}</td>
+              <td>{{ $v->pegawai->jenis_kelamin==1?'Laki - Laki':'Perempuan' }}</td>
+              <td>{{ strtoupper($v->pegawai->status_kepegawaian) }}</td>
+              <td>{{ $v->pegawai->jabatan }}</td>
             </tr>
           @endforeach
         </tbody>

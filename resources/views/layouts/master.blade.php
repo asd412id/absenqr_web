@@ -92,6 +92,6 @@
 <script src="{{ asset('assets/vendor/select2/select2.full.min.js') }}" charset="utf-8"></script>
 <script src="{{ url('assets') }}/js/theme.js"></script>
 <script src="{{ asset('assets') }}/js/modernizr-2.8.3.min.js"></script>
-<script src="{{ url('assets/js/script.js') }}" charset="utf-8"></script>
+<script src="{{ url('assets/js/script.js?v=1.0') }}" charset="utf-8"></script>
 @yield('footer')
 </html>

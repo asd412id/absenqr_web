@@ -23,7 +23,7 @@
         <div class="dt-responsive">
           <table class="table table-hover table-striped nowrap" id="table-pegawai">
             <thead>
-              <th>NIP</th>
+              <th>NUPTK</th>
               <th>Nama</th>
               <th>Jenis Kelamin</th>
               <th>Status Kepegawaian</th>

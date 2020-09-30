@@ -32,7 +32,7 @@
               <tr>
                 <td>Jenis Kelamin</td>
                 <td>:</td>
-                <td>{{ $data->jenis_kelamin===1?'Laki - Laki':'Perempuan' }}</td>
+                <td>{{ $data->jenis_kelamin==1?'Laki - Laki':'Perempuan' }}</td>
               </tr>
               <tr>
                 <td>Agama</td>
