@@ -74,7 +74,6 @@
       }
       .table th, .table td{
         padding: 3px 7px;
-        vertical-align: middle !important;
       }
       .desc{
         max-width: 225px;
