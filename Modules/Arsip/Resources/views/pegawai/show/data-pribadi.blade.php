@@ -54,6 +54,11 @@
                 <td>:</td>
                 <td>{{ $data->telp??'-' }}</td>
               </tr>
+              <tr>
+                <td>Kegemaran/Hobi</td>
+                <td>:</td>
+                <td>{{ $data->kegemaran??'-' }}</td>
+              </tr>
             </table>
           </div>
           <div class="col-md-6">
@@ -69,14 +74,19 @@
                 <td>{{ $data->jabatan??'-' }}</td>
               </tr>
               <tr>
+                <td>NUPTK</td>
+                <td>:</td>
+                <td>{{ $data->nuptk??'-' }}</td>
+              </tr>
+              <tr>
                 <td>Status Kepegawaian</td>
                 <td>:</td>
                 <td>{{ strtoupper($data->status_kepegawaian)??'-' }}</td>
               </tr>
               <tr>
-                <td>NUPTK</td>
+                <td>Pangkat, Gol/Ruang</td>
                 <td>:</td>
-                <td>{{ $data->nuptk??'-' }}</td>
+                <td>{{ $data->pangkat_golongan??'-' }}</td>
               </tr>
               <tr>
                 <td>NIP</td>
@@ -92,11 +102,6 @@
                 <td>Mulai Masuk</td>
                 <td>:</td>
                 <td>{{ $data->mulai_masuk?date('d-m-Y',strtotime($data->mulai_masuk)):'-' }}</td>
-              </tr>
-              <tr>
-                <td>Kegemaran/Hobi</td>
-                <td>:</td>
-                <td>{{ $data->kegemaran??'-' }}</td>
               </tr>
             </table>
           </div>

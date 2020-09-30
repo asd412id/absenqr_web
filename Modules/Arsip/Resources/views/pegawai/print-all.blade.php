@@ -120,7 +120,8 @@
             <th>NAMA</th>
             <th>TEMPAT, TANGGAL LAHIR</th>
             <th>JENIS KELAMIN</th>
-            <th>STATUS KEPEGAWAIAN</th>
+            <th>STATUS</th>
+            <th>PANGKAT, GOL/RUANG</th>
             <th>JABATAN</th>
           </tr>
         </thead>
@@ -133,6 +134,7 @@
               <td align="left">{{ $v->pegawai->tempat_lahir??'-' }}, {{ $v->pegawai->tanggal_lahir??'-' }}</td>
               <td>{{ $v->pegawai->jenis_kelamin==1?'Laki - Laki':'Perempuan' }}</td>
               <td>{{ strtoupper($v->pegawai->status_kepegawaian) }}</td>
+              <td>{{ $v->pegawai->pangkat_golongan }}</td>
               <td>{{ $v->pegawai->jabatan }}</td>
             </tr>
           @endforeach

@@ -125,30 +125,30 @@
       </div>
       <div class="col-md-6">
         <div class="form-group">
-          <label for="pangkat_golongan">Pangkat/Golongan</label>
+          <label for="pangkat_golongan">Pangkat, Gol/Ruang</label>
           @php
           $pg = [
-            'I/a',
-            'I/b',
-            'I/c',
-            'I/d',
-            'II/a',
-            'II/b',
-            'II/c',
-            'II/d',
-            'III/a',
-            'III/b',
-            'III/c',
-            'III/d',
-            'IV/a',
-            'IV/b',
-            'IV/c',
-            'IV/d',
-            'IV/e',
+            'Juru Muda, I/a',
+            'Juru Muda Tingkat I, I/b',
+            'Juru, I/c',
+            'Juru Tingkat I, I/d',
+            'Pengatur Muda, II/a',
+            'Pengatur Muda Tingkat I, II/b',
+            'Pengatur, II/c',
+            'Pengatur Tingkat I, II/d',
+            'Penata Muda, III/a',
+            'Penata Muda Tingkat I, III/b',
+            'Penata, III/c',
+            'Penata Tingkat I, III/d',
+            'Pembina, IV/a',
+            'Pembina Tingkat I, IV/b',
+            'Pembina Utama Muda, IV/c',
+            'Pembina Utama Madya, IV/d',
+            'Pembina Utama, IV/e',
           ];
           @endphp
           <select class="form-control" id="pangkat_golongan" name="pangkat_golongan">
-            <option value="">Pangkat/Golongan</option>
+            <option value="">Pangkat, Gol/Ruang</option>
             @foreach ($pg as $key => $p)
               <option {{ old('pangkat_golongan')==$p?'selected':'' }} value="{{ $p }}">{{ $p }}</option>
             @endforeach

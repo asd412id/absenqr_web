@@ -114,7 +114,7 @@
       <table class="table table-bordered mt-2">
         <tr>
           <td colspan="3" style="font-weight:bold">DATA PRIBADI</td>
-          <td rowspan="16" width="150" class="text-center" style="vertical-align: top">
+          <td rowspan="17" width="150" class="text-center" style="vertical-align: top">
             <img src="{{ $data->foto?asset('uploaded/'.$data->foto):url('assets/img/avatar.png') }}" alt="" class="img-fluid rounded d-inline" width="150">
           </td>
         </tr>
@@ -154,9 +154,19 @@
           <td>{{ $data->telp??'-' }}</td>
         </tr>
         <tr>
+          <td>Kegemaran/Hobi</td>
+          <td>:</td>
+          <td>{{ $data->kegemaran??'-' }}</td>
+        </tr>
+        <tr>
           <td>Pendidikan Terakhir</td>
           <td>:</td>
           <td>{{ $data->pendidikan_akhir??'-' }}</td>
+        </tr>
+        <tr>
+          <td>NUPTK</td>
+          <td>:</td>
+          <td>{{ $data->nuptk??'-' }}</td>
         </tr>
         <tr>
           <td>Jabatan</td>
@@ -169,9 +179,9 @@
           <td>{{ strtoupper($data->status_kepegawaian)??'-' }}</td>
         </tr>
         <tr>
-          <td>NUPTK</td>
+          <td>Pangkat, Gol/Ruang</td>
           <td>:</td>
-          <td>{{ $data->nuptk??'-' }}</td>
+          <td>{{ $data->pangkat_golongan??'-' }}</td>
         </tr>
         <tr>
           <td>NIP</td>
@@ -187,11 +197,6 @@
           <td>Mulai Masuk</td>
           <td>:</td>
           <td>{{ $data->mulai_masuk??'-' }}</td>
-        </tr>
-        <tr>
-          <td>Kegemaran/Hobi</td>
-          <td>:</td>
-          <td>{{ $data->kegemaran??'-' }}</td>
         </tr>
       </table>
       <table class="table table-bordered" style="margin-top: 15px">
