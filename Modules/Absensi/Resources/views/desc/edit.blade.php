@@ -180,25 +180,31 @@
 
   initJadwal();
 
-  $('#time').datetimepicker({
-   format:'Y/m/d',
-   onShow:function( ct ){
-     let _time_end = $('#time_end').val();
-     this.setOptions({
-       maxDate:_time_end?_time_end:false
-     })
-   },
-   timepicker:false
-  });
-  $('#time_end').datetimepicker({
-   format:'Y/m/d',
-   onShow:function( ct ){
-     let _time = $('#time').val();
-     this.setOptions({
-       minDate:_time?_time:false
-     })
-   },
-   timepicker:false
+  function formatDate(date){
+     var parts = date.split("/");
+     return new Date(parts[0], parts[1] - 1, parts[2]);
+  }
+  $(function(){
+    $('#time').datetimepicker({
+      format:'Y/m/d',
+      timepicker:false
+    }).on('change',function(){
+      let time = formatDate($('#time').val());
+      let time_end = formatDate($('#time_end').val());
+      if (time > time_end) {
+        $('#time_end').val($('#time').val());
+      }
+    });
+    $('#time_end').datetimepicker({
+      format:'Y/m/d',
+      timepicker:false
+    }).on('change',function(){
+      let time = formatDate($('#time').val());
+      let time_end = formatDate($('#time_end').val());
+      if (time > time_end) {
+        $('#time').val($('#time_end').val());
+      }
+    });
   });
 
   @if ($errors->any())

@@ -62,25 +62,31 @@
 @section('footer')
 <script src="{{ url('assets/vendor/jquery.datetimepicker/jquery.datetimepicker.full.min.js') }}" charset="utf-8"></script>
 <script type="text/javascript">
-  $('#start').datetimepicker({
-   format:'Y/m/d',
-   onShow:function( ct ){
-     let end = $('#end').val();
-     this.setOptions({
-       maxDate:end?end:false
-     })
-   },
-   timepicker:false
-  });
-  $('#end').datetimepicker({
-   format:'Y/m/d',
-   onShow:function( ct ){
-     let start = $('#start').val();
-     this.setOptions({
-       minDate:start?start:false
-     })
-   },
-   timepicker:false
+  function formatDate(date){
+     var parts = date.split("/");
+     return new Date(parts[0], parts[1] - 1, parts[2]);
+  }
+  $(function(){
+    $('#start').datetimepicker({
+      format:'Y/m/d',
+      timepicker:false
+    }).on('change',function(){
+      let start = formatDate($('#start').val());
+      let end = formatDate($('#end').val());
+      if (start > end) {
+        $('#end').val($('#start').val());
+      }
+    });
+    $('#end').datetimepicker({
+      format:'Y/m/d',
+      timepicker:false
+    }).on('change',function(){
+      let start = formatDate($('#start').val());
+      let end = formatDate($('#end').val());
+      if (start > end) {
+        $('#start').val($('#end').val());
+      }
+    });
   });
 
   @if ($errors->any())
