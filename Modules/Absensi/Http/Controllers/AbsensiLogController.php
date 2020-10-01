@@ -316,9 +316,9 @@ class AbsensiLogController extends Controller
   {
     $logs = [];
     foreach ($users as $key => $u) {
-      $count = 0;
-      $total = 0;
       foreach ($dates as $key1 => $d) {
+        $logs[$u->uuid][$d->format('Y')][$d->locale('id')->translatedFormat('F')]['count'] = $logs[$u->uuid][$d->format('Y')][$d->locale('id')->translatedFormat('F')]['count']??0;
+        $logs[$u->uuid][$d->format('Y')][$d->locale('id')->translatedFormat('F')]['total'] = $logs[$u->uuid][$d->format('Y')][$d->locale('id')->translatedFormat('F')]['total']??0;
         $nday = $d->format('N');
 
         $jadwal = $u->jadwal()
@@ -351,7 +351,7 @@ class AbsensiLogController extends Controller
 
         foreach ($jadwal as $key2 => $j) {
 
-          $total++;
+          $logs[$u->uuid][$d->format('Y')][$d->locale('id')->translatedFormat('F')]['total']++;
 
           $desc = $u->absenDesc()
           ->where('time','<=',$d->startOfDay()->format('Y-m-d H:i:s'))
@@ -386,7 +386,7 @@ class AbsensiLogController extends Controller
 
           if ($cin) {
             $colorCin = null;
-            $count += 0.5;
+            $logs[$u->uuid][$d->format('Y')][$d->locale('id')->translatedFormat('F')]['count'] += 0.5;
             $signCin = "&#10004;";
           }elseif ($desc) {
             $colorCin = 'bg-warning';
@@ -394,7 +394,7 @@ class AbsensiLogController extends Controller
 
           if ($cout) {
             $colorCout = null;
-            $count += 0.5;
+            $logs[$u->uuid][$d->format('Y')][$d->locale('id')->translatedFormat('F')]['count'] += 0.5;
             $signCout = "&#10004;";
           }elseif ($desc) {
             $colorCout = 'bg-warning';
@@ -408,10 +408,10 @@ class AbsensiLogController extends Controller
           ];
           $logs['rekap'][$d->format('Y')][$d->locale('id')->translatedFormat('F')][$u->uuid][$d->format('d')] = $data;
         }
+        $count = $logs[$u->uuid][$d->format('Y')][$d->locale('id')->translatedFormat('F')]['count'];
+        $total = $logs[$u->uuid][$d->format('Y')][$d->locale('id')->translatedFormat('F')]['total'];
+        $logs[$u->uuid][$d->format('Y')][$d->locale('id')->translatedFormat('F')]['persentasi'] = $total>0?round($count/$total*100):0;
       }
-      $logs[$u->uuid]['count'] = $count;
-      $logs[$u->uuid]['total'] = $total;
-      $logs[$u->uuid]['persentasi'] = $total>0?round($count/$total*100):0;
     }
     $logs['role'] = $r->role;
     return $logs;

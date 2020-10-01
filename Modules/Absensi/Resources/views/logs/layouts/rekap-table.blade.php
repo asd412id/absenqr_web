@@ -46,7 +46,7 @@
               @foreach ($dd as $kd => $d)
                 <td class="{{ $d['colorCin']??'bg-success' }}">{!! $d['signCin'] !!}</td>
               @endforeach
-              <td rowspan="2">{{ $data[$u->uuid]['persentasi'].'%' }}</td>
+              <td rowspan="2">{{ $data[$u->uuid][$tahun][$bulan]['persentasi'].'%' }}</td>
             </tr>
             <tr>
               <td class="bg-danger">Pulang</td>
