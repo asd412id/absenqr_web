@@ -98,6 +98,11 @@
               {{ @$config->act_key ? '' : 'disabled' }} placeholder="Kode Aktivasi">
           </div>
           <div class="form-group">
+            <label>Bunyikan Alarm Sebelum Waktu Jadwal (Menit Sebelumnya)</label>
+            <input type="number" class="form-control" name="config[minute_alarm]"
+              value="{{ @$config->minute_alarm ?? 5 }}" placeholder="Contoh: 5">
+          </div>
+          <div class="form-group">
             <label>Koordinat Sekolah (Lat, Long)</label>
             <input type="text" class="form-control" name="config[coordinate]" value="{{ @$config->coordinate }}"
               placeholder="Contoh: -5.3112405,120.0734089">

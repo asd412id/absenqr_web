@@ -57,28 +57,6 @@ class MobileAbsenController extends Controller
         $time = $now->format('H:i');
         $hari = $now->format('N');
 
-        $getJadwal = $user->jadwal()
-            ->where('hari', 'like', "%$hari%")
-            ->where('cin', '>', $time)
-            ->get();
-
-        $jd = [];
-        if (count($getJadwal)) {
-            foreach ($getJadwal as $j) {
-                $time5 = Carbon::createFromFormat("H:i", $j->cin)->subMinutes(5)->format("H:i:00");
-                array_push($jd, [
-                    'id' => $j->id,
-                    'uuid' => $j->uuid,
-                    'ruang' => $j->get_ruang->nama_ruang . ' (5 menit lagi)',
-                    'name' => $j->nama_jadwal . ' - ' . $j->cin,
-                    'date' => Carbon::now()->format("Y-m-d"),
-                    'start_cin' => Carbon::createFromFormat("Y-m-d H:i:s", $now->format("Y-m-d ") . $time5)->timestamp * 1000,
-                    'cin' => $j->cin,
-                    'cout' => $j->cout,
-                ]);
-            }
-        }
-
         if (@$this->configs->coordinate) {
             $coordinate = explode(",", @$this->configs->coordinate);
             $lat2 = trim(@$coordinate[0]);
@@ -88,7 +66,6 @@ class MobileAbsenController extends Controller
             if (count($coordinate) && $radius && !$this->withinRadius($lat1, $lng1, $lat2, $lng2, $radius)) {
                 return response()->json([
                     'status' => 'error',
-                    'jadwal' => $jd,
                     'message' => 'Anda berada di luar lokasi absensi!',
                 ], 403);
             }
@@ -97,7 +74,6 @@ class MobileAbsenController extends Controller
         if (!$ruang) {
             return response()->json([
                 'status' => 'error',
-                'jadwal' => $jd,
                 'message' => 'QR Code tidak terdaftar!',
             ], 404);
         }
@@ -120,7 +96,6 @@ class MobileAbsenController extends Controller
         if (!$jadwal) {
             return response()->json([
                 'status' => 'error',
-                'jadwal' => $jd,
                 'message' => 'Jadwal tidak tersedia!',
             ], 404);
         }
@@ -132,7 +107,6 @@ class MobileAbsenController extends Controller
             'status' => 'success',
             'message' => 'Absen Berhasil',
             'ruang' => $ruang->nama_ruang,
-            'jadwal' => $jd,
             'time' => $absen->created_at->format('H:i')
         ], 202);
     }

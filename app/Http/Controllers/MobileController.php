@@ -23,7 +23,7 @@ class MobileController extends BaseController
         $this->configs = Configs::getAll();
     }
 
-    public function checkServer(Request $r)
+    public function checkServer()
     {
         $data = [
             'status' => 'connected',
