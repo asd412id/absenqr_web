@@ -37,7 +37,7 @@ Route::middleware('api')->prefix('v1')->group(function () {
 
                 if (count($getJadwal)) {
                     foreach ($getJadwal as $j) {
-                        $time5 = Carbon::createFromFormat('H:i', $j->cin)->subMinutes(@$this->configs->minute_alarm ?? 5)->format("Y-m-d H:i:00");
+                        $time5 = Carbon::createFromFormat('H:i', $j->cin)->subMinutes(@$this->configs->minute_alarm ?? 5)->format("Y-m-d H:i:s");
                         array_push($jd, [
                             'id' => $j->id,
                             'uuid' => $j->uuid,
