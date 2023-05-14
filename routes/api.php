@@ -1,5 +1,6 @@
 <?php
 
+use App\Configs;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,8 @@ Route::middleware('api')->prefix('v1')->group(function () {
 
         Route::middleware('mobile.auth')->group(function () {
             Route::get('/user', function () {
-                $now = Carbon::now()->addMinutes(@$this->configs->minute_alarm ?? 5);
+                $configs = Configs::getAll();
+                $now = Carbon::now()->addMinutes(@$configs->minute_alarm ?? 5);
                 $time = $now->format('H:i');
                 $hari = $now->format('N');
 
@@ -37,11 +39,11 @@ Route::middleware('api')->prefix('v1')->group(function () {
 
                 if (count($getJadwal)) {
                     foreach ($getJadwal as $j) {
-                        $time5 = Carbon::createFromFormat('H:i', $j->cin)->subMinutes(@$this->configs->minute_alarm ?? 5)->format("Y-m-d H:i:s");
+                        $time5 = Carbon::createFromFormat('H:i', $j->cin)->subMinutes(@$configs->minute_alarm ?? 5)->format("Y-m-d H:i:s");
                         array_push($jd, [
                             'id' => $j->id,
                             'uuid' => $j->uuid,
-                            'ruang' => $j->get_ruang->nama_ruang . ' (' . (@$this->configs->minute_alarm ?? 5) . ' menit lagi)',
+                            'ruang' => $j->get_ruang->nama_ruang . ' (' . (@$configs->minute_alarm ?? 5) . ' menit lagi)',
                             'name' => $j->nama_jadwal . ' - ' . $j->cin,
                             'date' => Carbon::now()->format("Y-m-d"),
                             'start_cin' => $time5,
