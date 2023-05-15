@@ -159,10 +159,10 @@ class JadwalUserController extends Controller
           $import->alias = $col[3];
           $import->cin = $col[4];
           $import->start_cin = $cin->copy()->subMinutes(30)->format("H:i");
-          $import->end_cin = $cin->copy()->addMinutes(90)->format("H:i");
+          $import->end_cin = $cin->copy()->addMinutes(30)->format("H:i");
           $import->cout = $col[5];
           $import->start_cout = $cout->copy()->subMinutes(30)->format("H:i");
-          $import->end_cout = $cout->copy()->addMinutes(90)->format("H:i");
+          $import->end_cout = $cout->copy()->addMinutes(30)->format("H:i");
           $import->early = intval($col[6]) ?? 0;
           $import->late = intval($col[7]) ?? 0;
           $import->menit_per_jam = intval($col[8]) ?? 60;
@@ -174,7 +174,7 @@ class JadwalUserController extends Controller
         }
 
         $old = $user->jadwal->pluck('id')->toArray();
-        array_merge($jids, $old);
+        $jids = array_merge($jids, $old);
         $jids = array_unique($jids);
 
         $user->jadwal()->sync($jids);
