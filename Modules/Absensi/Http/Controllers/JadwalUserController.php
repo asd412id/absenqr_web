@@ -173,6 +173,8 @@ class JadwalUserController extends Controller
           array_push($jids, $import->id);
         }
 
+        $old = $user->jadwal->pluck('id')->toArray();
+        array_merge($jids, $old);
         $jids = array_unique($jids);
 
         $user->jadwal()->sync($jids);
