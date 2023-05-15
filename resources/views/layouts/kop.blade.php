@@ -1,6 +1,6 @@
-@if (@$configs->logo)
+@if (@$configs->kop)
   <div style="text-align: center;margin-bottom: 5px">
-    <img class="img-logo" src="{{ asset('uploaded/' . @$configs->logo) }}" alt=""
+    <img class="img-logo" src="{{ asset('uploaded/' . @$configs->kop) }}" alt=""
       style="display: inline;width: 17cm">
   </div>
   <div
