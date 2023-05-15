@@ -36,8 +36,8 @@ class MainController extends BaseController
 
     public function sysConfUpdate(Request $r)
     {
-        $filepathLogo1 = null;
-        $filepathLogo2 = null;
+        $filepathLogo = null;
+        $filepathKop = null;
         $filepathLoginBG = null;
 
         if ($r->hasFile('login_bg')) {
@@ -51,9 +51,9 @@ class MainController extends BaseController
                 return redirect()->back()->withErrors('File Background Login harus berekstensi jpg, jpeg, atau png')->withInput();
             }
 
-            $getLogo1 = Configs::where('config', 'login_bg')->first();
-            if ($getLogo1) {
-                Storage::disk('public')->delete($getLogo1->value);
+            $getLogo = Configs::where('config', 'login_bg')->first();
+            if ($getLogo) {
+                Storage::disk('public')->delete($getLogo->value);
             }
 
             $filepathLoginBG = $login_bg->store('file_configs', 'public');
@@ -64,51 +64,51 @@ class MainController extends BaseController
             Configs::updateOrCreate(['config' => 'login_bg'], $data);
         }
 
-        if ($r->hasFile('logo1')) {
-            $logo1 = $r->file('logo1');
+        if ($r->hasFile('logo')) {
+            $logo = $r->file('logo');
             $allowed_ext = ['jpg', 'jpeg', 'png'];
-            $peta_ext = $logo1->getClientOriginalExtension();
+            $peta_ext = $logo->getClientOriginalExtension();
 
-            if ($logo1->getSize() > (1024 * 1000)) {
+            if ($logo->getSize() > (1024 * 1000)) {
                 return redirect()->back()->withErrors('Ukuran File Logo 1 tidak boleh lebih dari 1MB')->withInput();
             } elseif (!in_array(strtolower($peta_ext), $allowed_ext)) {
                 return redirect()->back()->withErrors('File Logo 1 harus berekstensi jpg, jpeg, atau png')->withInput();
             }
 
-            $getLogo1 = Configs::where('config', 'logo1')->first();
-            if ($getLogo1) {
-                Storage::disk('public')->delete($getLogo1->value);
+            $getLogo = Configs::where('config', 'logo')->first();
+            if ($getLogo) {
+                Storage::disk('public')->delete($getLogo->value);
             }
 
-            $filepathLogo1 = $logo1->store('file_configs', 'public');
+            $filepathLogo = $logo->store('file_configs', 'public');
             $data = [
-                'config' => 'logo1',
-                'value' => $filepathLogo1
+                'config' => 'logo',
+                'value' => $filepathLogo
             ];
-            Configs::updateOrCreate(['config' => 'logo1'], $data);
+            Configs::updateOrCreate(['config' => 'logo'], $data);
         }
 
-        if ($r->hasFile('logo2')) {
-            $logo2 = $r->file('logo2');
+        if ($r->hasFile('kop')) {
+            $kop = $r->file('kop');
             $allowed_ext = ['jpg', 'jpeg', 'png'];
-            $peta_ext = $logo2->getClientOriginalExtension();
+            $peta_ext = $kop->getClientOriginalExtension();
 
-            if ($logo2->getSize() > (1024 * 1000)) {
+            if ($kop->getSize() > (1024 * 1000)) {
                 return redirect()->back()->withErrors('Ukuran File Logo 2 tidak boleh lebih dari 1MB')->withInput();
             } elseif (!in_array(strtolower($peta_ext), $allowed_ext)) {
                 return redirect()->back()->withErrors('File Logo 2 harus berekstensi jpg, jpeg, atau png')->withInput();
             }
-            $getLogo2 = Configs::where('config', 'logo2')->first();
-            if ($getLogo2) {
-                Storage::disk('public')->delete($getLogo2->value);
+            $getkop = Configs::where('config', 'kop')->first();
+            if ($getkop) {
+                Storage::disk('public')->delete($getkop->value);
             }
 
-            $filepathLogo2 = $logo2->store('file_configs', 'public');
+            $filepathKop = $kop->store('file_configs', 'public');
             $data = [
-                'config' => 'logo2',
-                'value' => $filepathLogo2
+                'config' => 'kop',
+                'value' => $filepathKop
             ];
-            Configs::updateOrCreate(['config' => 'logo2'], $data);
+            Configs::updateOrCreate(['config' => 'kop'], $data);
         }
 
         $insert = null;
@@ -138,10 +138,8 @@ class MainController extends BaseController
     public function login()
     {
         $configs = $this->configs;
-        if (@$configs->logo1) {
-            $logo = asset('uploaded/' . @$configs->logo1);
-        } elseif (@$configs->logo2) {
-            $logo = asset('uploaded/' . @$configs->logo2);
+        if (@$configs->logo) {
+            $logo = asset('uploaded/' . @$configs->logo);
         } else {
             $logo = url('assets/img/sinjai.png');
         }

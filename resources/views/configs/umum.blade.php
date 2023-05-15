@@ -50,7 +50,7 @@
             <label>Logo</label>
             @if (@$config->logo)
               <a href="{{ route('configs.delete.img', ['img' => 'logo']) }}" class="btn-link text-danger confirm"
-                data-text="Hapus Logo 1?">Hapus</a>
+                data-text="Hapus Logo?">Hapus</a>
               <div class="clearfix"></div>
               <img src="{{ asset('uploaded/' . @$config->logo) }}" alt="" class="img-fluid rounded"
                 width="150" height="225">
@@ -69,7 +69,7 @@
             <label>KOP Dokumen</label>
             @if (@$config->kop)
               <a href="{{ route('configs.delete.img', ['img' => 'kop']) }}" class="btn-link text-danger confirm"
-                data-text="Hapus Logo 2?">Hapus</a>
+                data-text="Hapus KOP?">Hapus</a>
               <div class="clearfix"></div>
               <img src="{{ asset('uploaded/' . @$config->kop) }}" alt="" class="img-fluid rounded"
                 width="150" height="225">
@@ -78,7 +78,7 @@
             <input type="file" name="kop" class="file-upload-default" accept=".jpeg,.jpg,.png">
             <div class="input-group col-xs-12">
               <input type="text" class="form-control file-upload-info" disabled=""
-                placeholder="Upload logo jika ingin mengubah logo lama">
+                placeholder="Upload KOP dokumen jika ingin mengubah KOP lama">
               <span class="input-group-append">
                 <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
               </span>
