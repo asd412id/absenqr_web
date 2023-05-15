@@ -179,7 +179,7 @@ class JadwalUserController extends Controller
 
 
         if ($jids) {
-          return redirect()->back()->with('message', 'Data berhasil diimpor.');
+          return redirect()->route('absensi.jadwal.user.index', ['uuid' => $uuid])->with('message', 'Data berhasil diimpor.');
         } else {
           return redirect()->back()->with('message', 'Kesalahan saat mengimpor data atau format file tidak benar!');
         }
