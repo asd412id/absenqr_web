@@ -21,71 +21,71 @@ use PDF;
 class SiswaController extends Controller
 {
   /**
-  * Display a listing of the resource.
-  * @return Response
-  */
+   * Display a listing of the resource.
+   * @return Response
+   */
   public function index()
   {
     if (request()->ajax()) {
-      $data = Siswa::orderBy('nama_lengkap','asc');
+      $data = Siswa::orderBy('nama_lengkap', 'asc');
       return DataTables::of($data)
-      ->addColumn('jk',function($row){
-        return $row->jenis_kelamin==1?'Laki - Laki':'Perempuan';
-      })
-      ->addColumn('ttl',function($row){
-        $ttl = $row->tempat_lahir??'-';
-        $ttl .= ', ';
-        $ttl .= $row->tanggal_lahir;
-        return $ttl;
-      })
-      ->addColumn('activate_key',function($row){
-        $data = $row->user->activate_key??'-';
-        return $data;
-      })
-      ->addColumn('action', function($row){
+        ->addColumn('jk', function ($row) {
+          return $row->jenis_kelamin == 1 ? 'Laki - Laki' : 'Perempuan';
+        })
+        ->addColumn('ttl', function ($row) {
+          $ttl = $row->tempat_lahir ?? '-';
+          $ttl .= ', ';
+          $ttl .= $row->tanggal_lahir;
+          return $ttl;
+        })
+        ->addColumn('activate_key', function ($row) {
+          $data = $row->user->activate_key ?? '-';
+          return $data;
+        })
+        ->addColumn('action', function ($row) {
 
-        $btn = '<div class="table-actions">';
+          $btn = '<div class="table-actions">';
 
-        $btn .= '<a href="'.route('siswa.export.single.pdf',['uuid'=>$row->uuid]).'" class="text-danger" target="_blank" title="Ekspor PDF"><i class="fas fa-file-pdf"></i></a>';
+          $btn .= '<a href="' . route('siswa.export.single.pdf', ['uuid' => $row->uuid]) . '" class="text-danger" target="_blank" title="Ekspor PDF"><i class="fas fa-file-pdf"></i></a>';
 
-        $btn .= '<a href="'.route('siswa.show',['uuid'=>$row->uuid]).'" class="text-success" title="Detail"><i class="ik ik-info"></i></a>';
+          $btn .= '<a href="' . route('siswa.show', ['uuid' => $row->uuid]) . '" class="text-success" title="Detail"><i class="ik ik-info"></i></a>';
 
-        if (\Auth::user()->role == 'admin') {
-          $btn .= ' <a href="'.route('siswa.reset.login',['uuid'=>$row->uuid]).'" class="text-warning confirm" data-text="Reset login '.$row->nama_lengkap.'?" title="Reset Login"><i class="ik ik-refresh-cw"></i></a>';
+          if (\Auth::user()->role == 'admin') {
+            $btn .= ' <a href="' . route('siswa.reset.login', ['uuid' => $row->uuid]) . '" class="text-warning confirm" data-text="Reset login ' . $row->nama_lengkap . '?" title="Reset Login"><i class="ik ik-refresh-cw"></i></a>';
 
-          $btn .= ' <a href="'.route('siswa.edit',['uuid'=>$row->uuid]).'" class="text-primary" title="Ubah"><i class="ik ik-edit"></i></a>';
+            $btn .= ' <a href="' . route('siswa.edit', ['uuid' => $row->uuid]) . '" class="text-primary" title="Ubah"><i class="ik ik-edit"></i></a>';
 
-          $btn .= ' <a href="'.route('siswa.destroy',['uuid'=>$row->uuid]).'" class="text-danger confirm" data-text="Hapus data '.$row->nama_lengkap.'?" title="Hapus"><i class="ik ik-trash-2"></i></a>';
-        }
+            $btn .= ' <a href="' . route('siswa.destroy', ['uuid' => $row->uuid]) . '" class="text-danger confirm" data-text="Hapus data ' . $row->nama_lengkap . '?" title="Hapus"><i class="ik ik-trash-2"></i></a>';
+          }
 
-        $btn .= '</div>';
+          $btn .= '</div>';
 
-        return $btn;
-      })
-      ->rawColumns(['action'])
-      ->make(true);
+          return $btn;
+        })
+        ->rawColumns(['action'])
+        ->make(true);
     }
 
-    $data = ['title'=>'Data Siswa'];
+    $data = ['title' => 'Data Siswa'];
 
-    return view('arsip::siswa.index',$data);
+    return view('arsip::siswa.index', $data);
   }
 
   /**
-  * Show the form for creating a new resource.
-  * @return Response
-  */
+   * Show the form for creating a new resource.
+   * @return Response
+   */
   public function create()
   {
-    $data = ['title'=>'Tambah Siswa'];
-    return view('arsip::siswa.create',$data);
+    $data = ['title' => 'Tambah Siswa'];
+    return view('arsip::siswa.create', $data);
   }
 
   /**
-  * Store a newly created resource in storage.
-  * @param Request $request
-  * @return Response
-  */
+   * Store a newly created resource in storage.
+   * @param Request $request
+   * @return Response
+   */
   public function store(Request $request)
   {
     $role = [
@@ -100,21 +100,21 @@ class SiswaController extends Controller
       'nisn.unique' => 'NISN telah digunakan!',
       'nama_lengkap.required' => 'Nama Lengkap tidak boleh kosong!',
     ];
-    Validator::make($request->all(),$role,$msgs)->validate();
+    Validator::make($request->all(), $role, $msgs)->validate();
 
     $filepath = null;
     if ($request->hasFile('foto')) {
       $foto = $request->file('foto');
-      $allowed_ext = ['jpg','jpeg','png'];
+      $allowed_ext = ['jpg', 'jpeg', 'png'];
       $peta_ext = $foto->getClientOriginalExtension();
 
-      if ($foto->getSize() > (1024*1000)) {
+      if ($foto->getSize() > (1024 * 1000)) {
         return redirect()->back()->withErrors('Ukuran File foto tidak boleh lebih dari 1MB')->withInput();
-      }elseif (!in_array(strtolower($peta_ext),$allowed_ext)) {
+      } elseif (!in_array(strtolower($peta_ext), $allowed_ext)) {
         return redirect()->back()->withErrors('File foto harus berekstensi jpg, jpeg, atau png')->withInput();
       }
 
-      $filepath = $foto->store('foto_siswa','public');
+      $filepath = $foto->store('foto_siswa', 'public');
     }
 
     $insert = new Siswa;
@@ -162,65 +162,65 @@ class SiswaController extends Controller
 
     if ($insert->save()) {
       $insert->user()->insert([
-        'uuid'=>Str::uuid(),
-        'name'=>$insert->nama_lengkap,
-        'username'=>$insert->nis,
-        'password'=>bcrypt($insert->nis),
-        'id_user'=>$insert->id,
-        'role'=>'siswa',
+        'uuid' => Str::uuid(),
+        'name' => $insert->nama_lengkap,
+        'username' => $insert->nis,
+        'password' => bcrypt($insert->nis),
+        'id_user' => $insert->id,
+        'role' => 'siswa',
       ]);
-      return redirect()->route('siswa.index')->with('message','Data berhasil disimpan!');
+      return redirect()->route('siswa.index')->with('message', 'Data berhasil disimpan!');
     }
     return redirect()->back()->withErrors(['Terjadi kesalahan! Silahkan hubungi operator.'])->withInput();
   }
 
   /**
-  * Show the specified resource.
-  * @param int $uuid
-  * @return Response
-  */
+   * Show the specified resource.
+   * @param int $uuid
+   * @return Response
+   */
   public function show($uuid)
   {
-    $siswa = Siswa::where('uuid',$uuid)->first();
+    $siswa = Siswa::where('uuid', $uuid)->first();
     if (!$siswa) {
       return redirect()->route('siswa.index');
     }
     $data = [
-      'title'=>'Detail Data Siswa',
-      'data'=>$siswa
+      'title' => 'Detail Data Siswa',
+      'data' => $siswa
     ];
-    return view('arsip::siswa.show',$data);
+    return view('arsip::siswa.show', $data);
   }
 
   /**
-  * Show the form for editing the specified resource.
-  * @param int $uuid
-  * @return Response
-  */
+   * Show the form for editing the specified resource.
+   * @param int $uuid
+   * @return Response
+   */
   public function edit($uuid)
   {
-    $siswa = Siswa::where('uuid',$uuid)->first();
+    $siswa = Siswa::where('uuid', $uuid)->first();
     if (!$siswa) {
       return redirect()->route('siswa.index');
     }
     $data = [
-      'title'=>'Ubah Data Siswa',
-      'data'=>$siswa
+      'title' => 'Ubah Data Siswa',
+      'data' => $siswa
     ];
-    return view('arsip::siswa.edit',$data);
+    return view('arsip::siswa.edit', $data);
   }
 
   /**
-  * Update the specified resource in storage.
-  * @param Request $request
-  * @param int $uuid
-  * @return Response
-  */
+   * Update the specified resource in storage.
+   * @param Request $request
+   * @param int $uuid
+   * @return Response
+   */
   public function update(Request $request, $uuid)
   {
     $role = [
-      'nis' => 'required|numeric|unique:siswa,nis,'.$uuid.',uuid',
-      'nisn' => 'unique:siswa,nisn,'.$uuid.',uuid',
+      'nis' => 'required|numeric|unique:siswa,nis,' . $uuid . ',uuid',
+      'nisn' => 'unique:siswa,nisn,' . $uuid . ',uuid',
       'nama_lengkap' => 'required',
     ];
     $msgs = [
@@ -230,25 +230,25 @@ class SiswaController extends Controller
       'nisn.unique' => 'NISN telah digunakan!',
       'nama_lengkap.required' => 'Nama Lengkap tidak boleh kosong!',
     ];
-    Validator::make($request->all(),$role,$msgs)->validate();
+    Validator::make($request->all(), $role, $msgs)->validate();
 
-    $insert = Siswa::where('uuid',$uuid)->first();
+    $insert = Siswa::where('uuid', $uuid)->first();
 
     $filepath = null;
     if ($request->hasFile('foto')) {
       $foto = $request->file('foto');
-      $allowed_ext = ['jpg','jpeg','png'];
+      $allowed_ext = ['jpg', 'jpeg', 'png'];
       $peta_ext = $foto->getClientOriginalExtension();
 
-      if ($foto->getSize() > (1024*1000)) {
+      if ($foto->getSize() > (1024 * 1000)) {
         return redirect()->back()->withErrors('Ukuran File foto tidak boleh lebih dari 1MB')->withInput();
-      }elseif (!in_array(strtolower($peta_ext),$allowed_ext)) {
+      } elseif (!in_array(strtolower($peta_ext), $allowed_ext)) {
         return redirect()->back()->withErrors('File foto harus berekstensi jpg, jpeg, atau png')->withInput();
       }
 
       Storage::disk('public')->delete($insert->foto);
 
-      $filepath = $foto->store('foto_siswa','public');
+      $filepath = $foto->store('foto_siswa', 'public');
     }
 
     $insert->nisn = $request->nisn;
@@ -294,21 +294,21 @@ class SiswaController extends Controller
 
     if ($insert->save()) {
       $insert->user->update([
-        'name'=>$insert->nama_lengkap
+        'name' => $insert->nama_lengkap
       ]);
-      return redirect()->route('siswa.index')->with('message','Data berhasil disimpan!');
+      return redirect()->route('siswa.index')->with('message', 'Data berhasil disimpan!');
     }
     return redirect()->back()->withErrors(['Terjadi kesalahan! Silahkan hubungi operator.'])->withInput();
   }
 
   /**
-  * Remove the specified resource from storage.
-  * @param int $uuid
-  * @return Response
-  */
+   * Remove the specified resource from storage.
+   * @param int $uuid
+   * @return Response
+   */
   public function destroy($uuid)
   {
-    $siswa = Siswa::where('uuid',$uuid)->first();
+    $siswa = Siswa::where('uuid', $uuid)->first();
     if ($siswa->foto) {
       Storage::disk('public')->delete($siswa->foto);
     }
@@ -317,52 +317,52 @@ class SiswaController extends Controller
     $siswa->user->absenDesc()->delete();
     $siswa->user->delete();
     if ($siswa->delete()) {
-      return redirect()->route('siswa.index')->with('message','Data berhasil dihapus!');
+      return redirect()->route('siswa.index')->with('message', 'Data berhasil dihapus!');
     }
     return redirect()->back()->withErrors(['Terjadi kesalahan! Silahkan hubungi operator.'])->withInput();
   }
   public function exportSinglePDF($uuid)
   {
-    $siswa = Siswa::where('uuid',$uuid)->first();
+    $siswa = Siswa::where('uuid', $uuid)->first();
     $data = [
-      'title'=>$siswa->nis.' - '.$siswa->nama_lengkap,
-      'data'=>$siswa
+      'title' => $siswa->nis . ' - ' . $siswa->nama_lengkap,
+      'data' => $siswa
     ];
     $params = [
-      'format'=>[215,330]
+      'format' => [215, 330]
     ];
-    $filename = $data['title'].'.pdf';
+    $filename = $data['title'] . '.pdf';
 
-    $pdf = PDF::loadView('arsip::siswa.print-single',$data,[],$params);
+    $pdf = PDF::loadView('arsip::siswa.print-single', $data, [], $params);
     return $pdf->stream($filename);
   }
 
   public function exportPDF(Request $request)
   {
-    $role = '%'.request()->q.'%';
+    $role = '%' . request()->q . '%';
     $rows = request()->rows;
 
-    $siswa = Siswa::when(request()->q!='all',function($q) use($role){
-      $q->where('nisn','like',$role)
-      ->orWhere('nis','like',$role)
-      ->orWhere('nama_lengkap','like',$role)
-      ->orWhere('tempat_lahir','like',$role)
-      ->orWhere('tanggal_lahir','like',$role)
-      ->orWhere('asal_sekolah','like',$role);
+    $siswa = Siswa::when(request()->q != 'all', function ($q) use ($role) {
+      $q->where('nisn', 'like', $role)
+        ->orWhere('nis', 'like', $role)
+        ->orWhere('nama_lengkap', 'like', $role)
+        ->orWhere('tempat_lahir', 'like', $role)
+        ->orWhere('tanggal_lahir', 'like', $role)
+        ->orWhere('asal_sekolah', 'like', $role);
     })
-    ->orderBy('nama_lengkap','asc')->paginate($rows, ['*'], 'page');
+      ->orderBy('nama_lengkap', 'asc')->paginate($rows, ['*'], 'page');
 
     $data = [
-      'title'=>'Daftar Siswa UPTD SMPN 39 Sinjai',
-      'data'=>$siswa
+      'title' => 'Daftar Siswa UPTD SMPN 39 Sinjai',
+      'data' => $siswa
     ];
     $params = [
-      'format'=>[215,330],
-      'orientation'=>'L',
+      'format' => [215, 330],
+      'orientation' => 'L',
     ];
-    $filename = $data['title'].'.pdf';
+    $filename = $data['title'] . '.pdf';
 
-    $pdf = PDF::loadView('arsip::siswa.print-all',$data,[],$params);
+    $pdf = PDF::loadView('arsip::siswa.print-all', $data, [], $params);
     return $pdf->stream($filename);
   }
 
@@ -372,32 +372,30 @@ class SiswaController extends Controller
       return redirect()->back()->withErrors('File harus diupload!');
     }
     if ($request->file('file_excel')->isValid()) {
-      $ext = ['xlsx','xls','bin','ods'];
-      if (in_array($request->file_excel->getClientOriginalExtension(),$ext)) {
+      $ext = ['xlsx', 'xls', 'bin', 'ods'];
+      if (in_array($request->file_excel->getClientOriginalExtension(), $ext)) {
         $spreadsheet = IOFactory::load($request->file_excel->path());
-        $sheet = $spreadsheet->getActiveSheet();
+        $arr = $spreadsheet->getSheetByName('Data Siswa')->toArray();
 
-        $arr = $spreadsheet->getSheet(0)->toArray();
-
-        if ($arr[9][1] != 'NIS') {
+        if ($arr[0][1] != 'NIS') {
           return redirect()->back()->withErrors('File yang diupload tidak sesuai format!');
         }
 
         if ($request->status == 'new') {
           Siswa::truncate();
-          User::where('role','siswa')->delete();
+          User::where('role', 'siswa')->delete();
           $fotos = Storage::disk('public')->allFiles('foto_siswa');
           Storage::disk('public')->delete($fotos);
         }
 
         foreach ($arr as $krow => $row) {
-          if ($krow > 10) {
-            if ($arr[$krow][1] == '') {
+          if ($krow > 1) {
+            if ($row[1] == '') {
               continue;
             }
 
             $new = false;
-            $import = Siswa::where('nis',$row[1])->first();
+            $import = Siswa::where('nis', $row[1])->first();
 
             if (!$import) {
               $import = new Siswa;
@@ -407,9 +405,9 @@ class SiswaController extends Controller
 
             $import->nis = $row[1];
             $import->nama_lengkap = $row[2];
-            $import->jenis_kelamin = $row[3]=='L'?1:2;
+            $import->jenis_kelamin = $row[3] == 'L' ? 1 : 2;
             $import->tempat_lahir = $row[4];
-            $import->tanggal_lahir = $row[5]?Carbon::createFromFormat('Y/m/d',$row[5])->format('d-m-Y'):null;
+            $import->tanggal_lahir = $row[5] ? Carbon::createFromFormat('Y/m/d', $row[5])->format('d-m-Y') : null;
             $import->asal_sekolah = $row[6];
             $import->alamat = $row[7];
             $import->nama_ayah = $row[11];
@@ -421,42 +419,39 @@ class SiswaController extends Controller
 
             if ($new) {
               $import->user()->insert([
-                'uuid'=>Str::uuid(),
-                'name'=>$import->nama_lengkap,
-                'username'=>$import->nis,
-                'password'=>bcrypt($import->nis),
-                'id_user'=>$import->id,
-                'role'=>'siswa',
+                'uuid' => Str::uuid(),
+                'name' => $import->nama_lengkap,
+                'username' => $import->nis,
+                'password' => bcrypt($import->nis),
+                'id_user' => $import->id,
+                'role' => 'siswa',
               ]);
-            }else {
+            } else {
               $import->user->update([
-                'name'=>$import->nama_lengkap,
+                'name' => $import->nama_lengkap,
               ]);
             }
-
           }
         }
 
         if ($import) {
           return redirect()->back()->with('message', 'Data berhasil diimpor.');
-        }else {
+        } else {
           return redirect()->back()->with('message', 'Kesalahan saat mengimpor data atau format file tidak benar!');
         }
-
       }
-
     }
     return redirect()->back()->withErrors('File yang diupload tidak sesuai format!');
   }
 
   public function downloadTemplateExcel()
   {
-    return response()->download(public_path('assets/files/template_excel_siswa.xlsx'));
+    return response()->download(public_path('assets/files/template_excel_siswa.xlsx'), strtoupper("Template Data Siswa") . ".xlsx");
   }
 
   public function resetLogin($uuid)
   {
-    $siswa = Siswa::where('uuid',$uuid)->first();
+    $siswa = Siswa::where('uuid', $uuid)->first();
     $siswa->user->update([
       'username' => $siswa->nis,
       'password' => bcrypt($siswa->nis),

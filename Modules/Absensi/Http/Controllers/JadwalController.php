@@ -275,4 +275,14 @@ class JadwalController extends Controller
         }
         return redirect()->back()->withErrors(['Terjadi kesalahan! Silahkan hubungi operator.'])->withInput();
     }
+
+    public function deleteAll()
+    {
+        $jadwals = Jadwal::all();
+        foreach ($jadwals as $j) {
+            $j->user()->detach();
+            $j->delete();
+        }
+        return redirect()->route('absensi.jadwal.index')->with('message', 'Data berhasil dihapus!');
+    }
 }

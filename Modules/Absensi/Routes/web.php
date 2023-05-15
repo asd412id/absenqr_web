@@ -11,70 +11,66 @@
 |
 */
 
-Route::prefix('absensi')->middleware('web','auth')->group(function() {
+Route::prefix('absensi')->middleware('web', 'auth')->group(function () {
     Route::get('/', 'AbsensiController@index')->name('absensi.index');
 
-    Route::group(['prefix'=>'ruang'], function()
-    {
-      Route::get('/', 'RuangController@index')->name('absensi.ruang.index');
-      Route::get('/tambah', 'RuangController@create')->name('absensi.ruang.create');
-      Route::post('/tambah', 'RuangController@store')->name('absensi.ruang.store');
-      Route::get('/{uuid}/ubah', 'RuangController@edit')->name('absensi.ruang.edit');
-      Route::post('/{uuid}/ubah', 'RuangController@update')->name('absensi.ruang.update');
-      Route::get('/{uuid}/hapus', 'RuangController@destroy')->name('absensi.ruang.destroy');
-      Route::get('/{uuid}/export-pdf', 'RuangController@exportPDF')->name('absensi.ruang.export.pdf');
+    Route::group(['prefix' => 'ruang'], function () {
+        Route::get('/', 'RuangController@index')->name('absensi.ruang.index');
+        Route::get('/tambah', 'RuangController@create')->name('absensi.ruang.create');
+        Route::post('/tambah', 'RuangController@store')->name('absensi.ruang.store');
+        Route::get('/{uuid}/ubah', 'RuangController@edit')->name('absensi.ruang.edit');
+        Route::post('/{uuid}/ubah', 'RuangController@update')->name('absensi.ruang.update');
+        Route::get('/{uuid}/hapus', 'RuangController@destroy')->name('absensi.ruang.destroy');
+        Route::get('/{uuid}/export-pdf', 'RuangController@exportPDF')->name('absensi.ruang.export.pdf');
     });
 
-    Route::group(['prefix'=>'jadwal'], function()
-    {
-      Route::get('/', 'JadwalController@index')->name('absensi.jadwal.index');
-      Route::get('/tambah/{uuid}', 'JadwalController@create')->name('absensi.jadwal.copy');
-      Route::get('/tambah/user/{uuid}', 'JadwalController@createByUser')->name('absensi.jadwal.byuser');
+    Route::group(['prefix' => 'jadwal'], function () {
+        Route::get('/', 'JadwalController@index')->name('absensi.jadwal.index');
+        Route::get('/tambah/{uuid}', 'JadwalController@create')->name('absensi.jadwal.copy');
+        Route::get('/tambah/user/{uuid}', 'JadwalController@createByUser')->name('absensi.jadwal.byuser');
 
-      Route::get('/tambah', 'JadwalController@create')->name('absensi.jadwal.create');
-      Route::post('/tambah', 'JadwalController@store')->name('absensi.jadwal.store');
-      Route::get('/{uuid}/ubah', 'JadwalController@edit')->name('absensi.jadwal.edit');
-      Route::post('/{uuid}/ubah', 'JadwalController@update')->name('absensi.jadwal.update');
-      Route::get('/{uuid}/hapus', 'JadwalController@destroy')->name('absensi.jadwal.destroy');
+        Route::get('/tambah', 'JadwalController@create')->name('absensi.jadwal.create');
+        Route::post('/tambah', 'JadwalController@store')->name('absensi.jadwal.store');
+        Route::delete('/delete', 'JadwalController@deleteAll')->name('absensi.jadwal.destroy.all');
+        Route::get('/{uuid}/ubah', 'JadwalController@edit')->name('absensi.jadwal.edit');
+        Route::post('/{uuid}/ubah', 'JadwalController@update')->name('absensi.jadwal.update');
+        Route::get('/{uuid}/hapus', 'JadwalController@destroy')->name('absensi.jadwal.destroy');
     });
 
-    Route::group(['prefix'=>'hari-libur'], function()
-    {
-      Route::get('/', 'HariLiburController@index')->name('absensi.libur.index');
-      Route::get('/tambah', 'HariLiburController@create')->name('absensi.libur.create');
-      Route::post('/tambah', 'HariLiburController@store')->name('absensi.libur.store');
-      Route::get('/{uuid}/ubah', 'HariLiburController@edit')->name('absensi.libur.edit');
-      Route::post('/{uuid}/ubah', 'HariLiburController@update')->name('absensi.libur.update');
-      Route::get('/{uuid}/hapus', 'HariLiburController@destroy')->name('absensi.libur.destroy');
+    Route::group(['prefix' => 'hari-libur'], function () {
+        Route::get('/', 'HariLiburController@index')->name('absensi.libur.index');
+        Route::get('/tambah', 'HariLiburController@create')->name('absensi.libur.create');
+        Route::post('/tambah', 'HariLiburController@store')->name('absensi.libur.store');
+        Route::get('/{uuid}/ubah', 'HariLiburController@edit')->name('absensi.libur.edit');
+        Route::post('/{uuid}/ubah', 'HariLiburController@update')->name('absensi.libur.update');
+        Route::get('/{uuid}/hapus', 'HariLiburController@destroy')->name('absensi.libur.destroy');
     });
 
-    Route::group(['prefix'=>'user'], function()
-    {
-      Route::get('/', 'JadwalUserController@index')->name('absensi.jadwal.user.index');
-      Route::get('/{uuid}/ubah', 'JadwalUserController@edit')->name('absensi.jadwal.user.edit');
-      Route::post('/{uuid}/ubah', 'JadwalUserController@update')->name('absensi.jadwal.user.update');
-      Route::get('/{uuid}/reset', 'JadwalUserController@reset')->name('absensi.jadwal.user.reset');
+    Route::group(['prefix' => 'user'], function () {
+        Route::get('/', 'JadwalUserController@index')->name('absensi.jadwal.user.index');
+        Route::get('/{uuid}/ubah', 'JadwalUserController@edit')->name('absensi.jadwal.user.edit');
+        Route::post('/{uuid}/ubah', 'JadwalUserController@update')->name('absensi.jadwal.user.update');
+        Route::get('/{uuid}/reset', 'JadwalUserController@reset')->name('absensi.jadwal.user.reset');
+        Route::post('/{uuid}/import', 'JadwalUserController@importExcel')->name('absensi.jadwal.user.import');
+        Route::get('/{uuid}/template', 'JadwalUserController@downloadTemplateExcel')->name('absensi.jadwal.user.template');
     });
 
-    Route::group(['prefix'=>'keterangan'], function()
-    {
-      Route::get('/', 'AbsensiDescController@index')->name('absensi.desc.index');
-      Route::get('/tambah', 'AbsensiDescController@create')->name('absensi.desc.create');
-      Route::post('/tambah', 'AbsensiDescController@store')->name('absensi.desc.store');
-      Route::get('/{uuid}/ubah', 'AbsensiDescController@edit')->name('absensi.desc.edit');
-      Route::post('/{uuid}/ubah', 'AbsensiDescController@update')->name('absensi.desc.update');
-      Route::get('/{uuid}/hapus', 'AbsensiDescController@destroy')->name('absensi.desc.destroy');
+    Route::group(['prefix' => 'keterangan'], function () {
+        Route::get('/', 'AbsensiDescController@index')->name('absensi.desc.index');
+        Route::get('/tambah', 'AbsensiDescController@create')->name('absensi.desc.create');
+        Route::post('/tambah', 'AbsensiDescController@store')->name('absensi.desc.store');
+        Route::get('/{uuid}/ubah', 'AbsensiDescController@edit')->name('absensi.desc.edit');
+        Route::post('/{uuid}/ubah', 'AbsensiDescController@update')->name('absensi.desc.update');
+        Route::get('/{uuid}/hapus', 'AbsensiDescController@destroy')->name('absensi.desc.destroy');
     });
 
-    Route::group(['prefix'=>'log'], function()
-    {
-      Route::get('/', 'AbsensiLogController@index')->name('absensi.log.index');
-      Route::post('/', 'AbsensiLogController@showLogs')->name('absensi.log.show');
+    Route::group(['prefix' => 'log'], function () {
+        Route::get('/', 'AbsensiLogController@index')->name('absensi.log.index');
+        Route::post('/', 'AbsensiLogController@showLogs')->name('absensi.log.show');
     });
 
-    Route::group(['prefix'=>'rekap'], function()
-    {
-      Route::get('/', 'AbsensiLogController@rekap')->name('absensi.log.rekap');
-      Route::post('/', 'AbsensiLogController@rekapShow')->name('absensi.log.rekap.show');
+    Route::group(['prefix' => 'rekap'], function () {
+        Route::get('/', 'AbsensiLogController@rekap')->name('absensi.log.rekap');
+        Route::post('/', 'AbsensiLogController@rekapShow')->name('absensi.log.rekap.show');
     });
 });

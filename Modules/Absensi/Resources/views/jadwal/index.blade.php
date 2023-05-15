@@ -1,8 +1,8 @@
 @extends('layouts.master')
-@section('title',$title)
+@section('title', $title)
 @section('header')
   <style media="screen">
-    .table td:nth-child(7){
+    .table td:nth-child(7) {
       white-space: normal !important;
     }
   </style>
@@ -10,51 +10,58 @@
 @section('head_icon')
   <i class="fas fa-clock bg-success"></i>
 @endsection
-@section('head_title',$title)
-@section('head_desc','Daftar Jadwal Absensi')
+@section('head_title', $title)
+@section('head_desc', 'Daftar Jadwal Absensi')
 @section('breadcrumb')
   <li class="breadcrumb-item active" aria-current="page">{{ $title }}</li>
 @endsection
 @section('content')
-<div class="row">
-  <div class="col-sm-12">
-    <div class="card">
-      <div class="card-header clearfix cd-title">
-        @if (\Auth::user()->role == 'admin')
-          <a href="{{ route('absensi.jadwal.create') }}" class="btn btn-sm mr-1 btn-primary"><i class="ik ik-plus"></i> Tambah Data</a>
-        @endif
-      </div>
-      <div class="card-body">
-        <div class="dt-responsive">
-          <table class="table table-hover table-striped nowrap" id="table-absensi-jadwal">
-            <thead>
-              <th width="10">#</th>
-              <th>Nama Jadwal</th>
-              <th>Nama Alias</th>
-              <th>Ruang</th>
-              <th>Check In</th>
-              <th>Check Out</th>
-              <th>Hari</th>
-              <th width="10"></th>
-            </thead>
-            <tbody></tbody>
-          </table>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header clearfix cd-title">
+          @if (\Auth::user()->role == 'admin')
+            <a href="{{ route('absensi.jadwal.create') }}" class="btn btn-sm mr-1 btn-primary"><i class="ik ik-plus"></i>
+              Tambah Data</a>
+            <form action="{{ route('absensi.jadwal.destroy.all') }}" onsubmit="return confirm('Hapus semua jadwal?')"
+              method="POST">
+              @csrf
+              @method('DELETE')
+              <button class="btn btn-sm btn-danger" type="submit"><i class="ik ik-trash"></i> HAPUS SEMUA</button>
+            </form>
+          @endif
+        </div>
+        <div class="card-body">
+          <div class="dt-responsive">
+            <table class="table table-hover table-striped nowrap" id="table-absensi-jadwal">
+              <thead>
+                <th width="10">#</th>
+                <th>Nama Jadwal</th>
+                <th>Nama Alias</th>
+                <th>Ruang</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Hari</th>
+                <th width="10"></th>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 @endsection
 @section('footer')
-@if (session()->has('message'))
-<script type="text/javascript">
-  showSuccessToast('{{ session()->get('message') }}')
-</script>
-@elseif ($errors->any())
-<script type="text/javascript">
-@foreach ($errors->all() as $key => $err)
-  showDangerToast('{{ $err }}')
-@endforeach
-</script>
-@endif
+  @if (session()->has('message'))
+    <script type="text/javascript">
+      showSuccessToast('{{ session()->get('message') }}')
+    </script>
+  @elseif ($errors->any())
+    <script type="text/javascript">
+      @foreach ($errors->all() as $key => $err)
+        showDangerToast('{{ $err }}')
+      @endforeach
+    </script>
+  @endif
 @endsection
