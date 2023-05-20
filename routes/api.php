@@ -57,6 +57,7 @@ Route::middleware('api')->prefix('v1')->group(function () {
                     'data' => auth()->user(),
                     'date' => $now->format('d/m/Y'),
                     'time' => $now->format('H:i'),
+                    'jadwals_today' =>  auth()->user()->jadwal()->where('hari', 'like', "%$hari%")->orderBy('cin', 'asc')->get(),
                     'jadwals' => $jd
                 ]);
             });
