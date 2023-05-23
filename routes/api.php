@@ -27,37 +27,67 @@ Route::middleware('api')->prefix('v1')->group(function () {
             Route::get('/user', function () {
                 $configs = Configs::getAll();
                 $now = Carbon::now()->addMinutes(@$configs->minute_alarm ?? 5);
-                $time = $now->format('H:i');
-                $hari = $now->format('N');
+                $time = $now->copy()->format('H:i');
+                $hari = $now->copy()->format('N');
+                $besok = $now->copy()->tomorrow()->format('N');
 
-                $getJadwal = auth()->user()->jadwal()
+                $jd = collect(auth()->user()->jadwal()
                     ->where('hari', 'like', "%$hari%")
                     ->where('cin', '>', $time)
-                    ->get();
+                    ->get())->transform(function ($j) use ($configs) {
+                    $time5 = Carbon::createFromFormat('H:i', $j->cin)->subMinutes(@$configs->minute_alarm ?? 5)->format("Y-m-d H:i:s");
+                    return [
+                        'id' => $j->id,
+                        'uuid' => $j->uuid,
+                        'ruang' => $j->get_ruang->nama_ruang . ' (' . (@$configs->minute_alarm ?? 5) . ' menit lagi)',
+                        'name' => $j->nama_jadwal . ' - ' . $j->cin,
+                        'date' => Carbon::now()->format("Y-m-d"),
+                        'start_cin' => $time5,
+                        'cin' => $j->cin,
+                        'cout' => $j->cout,
+                    ];
+                });
 
-                $jd = [];
+                $jadwalsTomorrow = collect(auth()->user()
+                    ->jadwal()
+                    ->with('get_ruang')
+                    ->has('get_ruang')
+                    ->where('hari', 'like', "%$besok%")
+                    ->orderBy('cin', 'asc')
+                    ->get())->transform(function ($j) {
+                    return [
+                        "nama_jadwal" => $j->nama_jadwal,
+                        "cin" => $j->cin,
+                        "cout" => $j->cout,
+                        "get_ruang" => [
+                            "nama_ruang" => $j->get_ruang->nama_ruang . " (Besok)"
+                        ]
+                    ];
+                });
 
-                if (count($getJadwal)) {
-                    foreach ($getJadwal as $j) {
-                        $time5 = Carbon::createFromFormat('H:i', $j->cin)->subMinutes(@$configs->minute_alarm ?? 5)->format("Y-m-d H:i:s");
-                        array_push($jd, [
-                            'id' => $j->id,
-                            'uuid' => $j->uuid,
-                            'ruang' => $j->get_ruang->nama_ruang . ' (' . (@$configs->minute_alarm ?? 5) . ' menit lagi)',
-                            'name' => $j->nama_jadwal . ' - ' . $j->cin,
-                            'date' => Carbon::now()->format("Y-m-d"),
-                            'start_cin' => $time5,
-                            'cin' => $j->cin,
-                            'cout' => $j->cout,
-                        ]);
-                    }
-                }
+                $jadwals = collect(auth()->user()
+                    ->jadwal()
+                    ->with('get_ruang')
+                    ->has('get_ruang')
+                    ->where('hari', 'like', "%$hari%")
+                    ->orderBy('cin', 'asc')
+                    ->get())->transform(function ($j) {
+                    return [
+                        "nama_jadwal" => $j->nama_jadwal,
+                        "cin" => $j->cin,
+                        "cout" => $j->cout,
+                        "get_ruang" => [
+                            "nama_ruang" => $j->get_ruang->nama_ruang
+                        ]
+                    ];
+                })->merge($jadwalsTomorrow);
+
                 return response()->json([
                     'status' => 'success',
                     'data' => auth()->user(),
                     'date' => $now->format('d/m/Y'),
                     'time' => $now->format('H:i'),
-                    'jadwals_today' =>  auth()->user()->jadwal()->with('get_ruang')->where('hari', 'like', "%$hari%")->orderBy('cin', 'asc')->get(),
+                    'jadwals_today' =>  $jadwals,
                     'jadwals' => $jd
                 ]);
             });
